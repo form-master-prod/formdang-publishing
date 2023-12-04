@@ -1,4 +1,4 @@
-name: CloudFront Deploy
+name: CloudFront Deployment
 
 on:
   push:
@@ -10,40 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
 
-    - name: Install AWS CLI
-      run: |
-        sudo apt-get install -y python3-pip
-        pip3 install awscli --upgrade --user
-        echo 'export PATH=~/.local/bin:$PATH' >> $GITHUB_ENV
-        source $GITHUB_ENV
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get install -y python3-pip
+          pip3 install --upgrade pip
+          pip3 install awscli
 
-    - name: Configure AWS credentials
-      run: |
-        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws configure set region ${{ secrets.AWS_REGION }}
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region ${{ secrets.AWS_REGION }}
 
-    - name: Upload to S3
-      run: |
-        aws s3 sync . s3://formdang-cloudfront-s3
+      - name: Upload files to S3 bucket
+        run: |
+          aws s3 sync . s3://formdang-cloudfront-s3 --exclude ".github/*" --exclude ".git/*" --exclude "node_modules/*"
 
-    - name: Get CloudFront Distribution ID
-      run: |
-        DISTRIBUTION_ID=${{ secrets.AWS_DISTRIBUTION_ID }}
-        echo "Using CloudFront Distribution ID: $DISTRIBUTION_ID"
-
-    - name: CloudFront Invalidation
-      run: |
-        INVALIDATION_ID=$(aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*" --query 'Invalidation.Id' --output text)
-        echo "CloudFront Invalidation in progress with ID: $INVALIDATION_ID"
-        sleep 30 # Adjust the sleep time based on your deployment needs
-        aws cloudfront wait invalidation-completed --distribution-id "$DISTRIBUTION_ID" --id "$INVALIDATION_ID"
-        echo "CloudFront Invalidation completed"
+      - name: Create CloudFront invalidation
+        run: |
+          DISTRIBUTION_ID=${{ secrets.AWS_DISTRIBUTION_ID }}
+          aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
