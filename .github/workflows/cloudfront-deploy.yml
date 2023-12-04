@@ -37,7 +37,7 @@ jobs:
 
     - name: Get CloudFront Distribution ID
       run: |
-        DISTRIBUTION_ID=${{ secrets.DISTRIBUTION_ID }}
+        DISTRIBUTION_ID=${{ secrets.AWS_DISTRIBUTION_ID }}
         echo "Using CloudFront Distribution ID: $DISTRIBUTION_ID"
 
     - name: CloudFront Invalidation
