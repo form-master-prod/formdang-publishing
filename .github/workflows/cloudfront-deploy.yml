@@ -3,7 +3,7 @@ name: CloudFront Deployment
 on:
   push:
     branches:
-      - maaster
+      - master
 
 jobs:
   deploy:
