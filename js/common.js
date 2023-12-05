@@ -49,16 +49,30 @@ tab_item.forEach((item, index) => {
 });
 
 //alert modal layer
-const modal_layer = document.getElementById("modal_layer");
-const openModalBtn = document.getElementById("open_modal");
-const closeModalBtn = document.getElementById("bt_close");
+var modal_layer = document.getElementById("modal_layer");
+var open_modal_btn = document.getElementsByClassName("open_modal");
+var close_modal_btn = document.getElementsByClassName("bt_close");
+var funcs = [];
 
-openModalBtn.addEventListener("click", () => {
-  modal_layer.style.display = "flex";
-  document.body.style.overflow = "hidden";
-});
+function modals(num){
+    return function(){
+        open_modal_btn[num].onclick = function(){
+            modal_layer.style.display = "flex";
+            document.body.style.overflow = "hidden";
+        };
 
-closeModalBtn.addEventListener("click", () => {
-  modal_layer.style.display = "none";
-  document.body.style.overflow = "auto";
-});
+        close_modal_btn[0].onclick = function(){
+            modal_layer.style.display = "none";
+            document.body.style.overflow = "auto";
+        };
+    }
+}
+
+
+for(var i = 0; i < open_modal_btn.length; i++){
+    funcs[i] = modals(i);
+}
+
+for(var j = 0; j < open_modal_btn.length; j++){
+    funcs[j]();
+}
