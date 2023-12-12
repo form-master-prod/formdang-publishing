@@ -1,10 +1,3 @@
-$(document).ready(() => {
-    window.localStorage.removeItem('accessToken')
-    window.localStorage.removeItem('refreshToken')
-
-})
-
-
 const login = (type) => {
     if (type == 'KKO') {
         window.location.href = "http://formdang-api.com/api/sp/public/kakao/login";
@@ -12,3 +5,9 @@ const login = (type) => {
         window.location.href = "http://formdang-api.com/api/sp/public/google/login";
     }
 }
+
+$(document).ready(() => {
+    window.localStorage.removeItem('accessToken')
+    window.localStorage.removeItem('refreshToken')
+
+})
