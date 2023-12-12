@@ -7,6 +7,7 @@
 <meta name="format-detection" content="telephone=no, address=no, email=no">
 <link href="../css/common.css" type="text/css" rel="stylesheet">
 <link href="../css/admin.css" type="text/css" rel="stylesheet">
+<script src="../js/login.js"></script>
 </head>
 <body>
 <div id="login">
@@ -16,18 +17,18 @@
 				<fieldset>
 					<legend>로그인</legend>
 					<h2 class="logo"><img src="../image/common/logo_vertical.png" alt="폼당폼당" class="w6em"></h2>
-					<div class="member-login">
-						<div class="frm-area">
-							<label for="user-id" class="skip">ID or Email</label><input type="text" name="" value="" id="user-id" class="it" placeholder="ID or Email">
-							<label for="user-pw" class="skip">Password</label><input type="password" name="" value="" id="user-pw" class="it" placeholder="Password">
-						</div>
-						<p><a href="javascript:alert('링크를 연결하세요!');" class="st-text">아이디/비밀번호 찾기</a></p>
-						<button type="submit" class="st-fill">로그인</button>
-					</div>
+<!--					<div class="member-login">-->
+<!--						<div class="frm-area">-->
+<!--							<label for="user-id" class="skip">ID or Email</label><input type="text" name="" value="" id="user-id" class="it" placeholder="ID or Email">-->
+<!--							<label for="user-pw" class="skip">Password</label><input type="password" name="" value="" id="user-pw" class="it" placeholder="Password">-->
+<!--						</div>-->
+<!--						<p><a href="javascript:alert('링크를 연결하세요!');" class="st-text">아이디/비밀번호 찾기</a></p>-->
+<!--						<button type="submit" class="st-fill">로그인</button>-->
+<!--					</div>-->
 					<div class="sns-login">
 						<p><span>or SNS Login</span></p>
-						<button type="button" class="st-fill kakao-login"><i></i> 카카오 로그인</button>
-						<button type="button" class="st-fill google-login"><i></i> 구글 로그인</button>
+						<button type="button" class="st-fill kakao-login" onclick="login('KKO')"><i></i> 카카오 로그인</button>
+						<button type="button" class="st-fill google-login" onclick="login('GOOGLE')"><i></i> 구글 로그인</button>
 					</div>
 				</fieldset>
 			</form>
