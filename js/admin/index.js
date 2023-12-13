@@ -1,3 +1,10 @@
+function isLogin() {
+    if (!window.localStorage.getItem('accessToken')) {
+        alert('로그인을 해주세요.')
+        window.location.replace('https://formdang.com/')
+    }
+}
+
 $(document).ready(() => {
     const searchParams = new URLSearchParams(location.search);
 
@@ -12,6 +19,5 @@ $(document).ready(() => {
 })
 
 $(window).load(() => {
-    console.log(window.localStorage.getItem('accessToken'))
-    console.log(window.localStorage.getItem('refreshToken'))
+    isLogin();
 })

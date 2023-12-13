@@ -1,13 +1,19 @@
+
 const login = (type) => {
     if (type == 'KKO') {
-        window.location.href = "http://formdang-api.com/api/sp/public/kakao/login";
+        window.location.replace('http://formdang-api.com/api/sp/public/kakao/login')
     } else if (type == 'GOOGLE') {
-        window.location.href = "http://formdang-api.com/api/sp/public/google/login";
+        window.location.replace('http://formdang-api.com/api/sp/public/google/login')
     }
 }
 
 $(document).ready(() => {
     window.localStorage.removeItem('accessToken')
     window.localStorage.removeItem('refreshToken')
+
+})
+
+
+$(window).load(() => {
 
 })
