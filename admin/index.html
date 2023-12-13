@@ -34,7 +34,7 @@
             <div class="modal-layer mem_info">
 				<figure><img src="../image/common/not_profile.svg" alt=""> <button type="button" onclick="alert('프로필 이미지 등록 버튼 입니다. 필요 시 사용하세요.');"><i class="ico"></i> <span class="skip">프로필 사진 등록</span></button></figure>
 				<strong>exsample님, 안녕하세요.</strong>
-				<a href="../web/index.html" class="bt-logout"><i class="ico i-logout"></i> Logout</a>
+				<a onclick="logout()" class="bt-logout"><i class="ico i-logout"></i> Logout</a>
                 <button type="button" class="bt-close"><span class="skip">닫기</span></button>
             </div>
         </div>
@@ -86,11 +86,6 @@
 								</select>
                             </div>
                         </div>
-						<script>
-							$(document).ready(function() {
-								$('.layer-sel').niceSelect();
-							});
-						</script>
                         <div class="list-wrap">
                             <ul>
                                 <li>
