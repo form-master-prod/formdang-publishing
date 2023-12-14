@@ -76,3 +76,15 @@ for(var i = 0; i < open_modal_btn.length; i++){
 for(var j = 0; j < open_modal_btn.length; j++){
     funcs[j]();
 }
+
+function getUserFromToken(token) {
+    const [, payloadBase64] = token.split('.');
+    
+    function base64Decode(base64) {
+        const padding = '='.repeat((4 - (base64.length % 4)) % 4);
+        const base64Url = (base64 + padding).replace(/\-/g, '+').replace(/_/g, '/');
+        return JSON.parse(atob(base64Url));
+    }
+    const payload = base64Decode(payloadBase64);
+    return payload.id;
+}
