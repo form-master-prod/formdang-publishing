@@ -96,5 +96,20 @@
 	</footer>
 </div>
 <script src="../js/web/index.js"></script>
+<script>
+    fetch('http://3.39.174.87:8000/api/questions')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('throw');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Data:', data);
+        })
+        .catch(error => {
+            console.error('Fetch failed:', error);
+        });
+</script>
 </body>
 </html>
