@@ -26,9 +26,8 @@ $(document).ready(() => {
         $.ajax({
             url : 'http://formdang-api.com/api/sp/form/find',
             method : 'GET',
-            headers: {'Authorization': `"Bearer ${window.localStorage.getItem("accessToken")}`},
-            xhrFields: { // CORS 문제 우회해서 헤더 넘겨주기
-                withCredentials: true
+            headers: {
+                'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
             },
             data: {
                 page: page,
