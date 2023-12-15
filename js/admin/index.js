@@ -24,7 +24,7 @@ $(document).ready(() => {
 
     form_list_api = () => {
         $.ajax({
-            url : 'http://formdang-api.com/api/sp/form/find',
+            url : 'https://formdang-api.com/api/sp/form/find',
             method : 'GET',
             headers: {
                 'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
