@@ -59,6 +59,17 @@ const multipleHTML = `
 </div>
 `;
 
+const emptyHTML = `
+<div class="not-result" id="not-result">
+    <i class="ico"></i>
+    <p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>
+    <ul>
+        <li><a onclick="addSubjectivity()" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>
+        <li><a onclick="addMultipleChoice()" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>
+        </ul>
+</div>
+`;
+
 const addSubjectivity = () => {
     formEmptyCheck();
     $("#first_content").append(subjectivityHTML);
@@ -72,8 +83,7 @@ const addMultipleChoice = () => {
 }
 
 // 컨텐츠 삭제 이벤트
-function deleteContent(event) {
-    console.log('삭제')
+const deleteContent = (event) => {
     $(event.target).closest('.frm-area').remove();
     let formDivElements = document.querySelectorAll('.form-div');
     if(formDivElements.length < 1) {
@@ -81,36 +91,13 @@ function deleteContent(event) {
     }else {
         updateNumbering();
     }
-
 }
-
-$(document).ready(() => {
-    formEmpty()
-    $(".bt-delete").on("click", deleteContent);
-})
-
-$(window).load(() => {
-    ESSENTIAL_LOGIN()
-
-})
 
 // 비어있을 때
-function formEmpty() {
-    const html = `
-            <div class="not-result" id="not-result">
-                <i class="ico"></i>
-                <p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>
-                <ul>
-                    <li><a href="javascript:void(0);" onclick="addSubjectivity()" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>
-                    <li><a href="javascript:void(0);" onclick="addMultipleChoice()" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>
-                    </ul>
-            </div>
-    `
-    $("#first_content").prepend(html)
-}
+const formEmpty = () => { $("#first_content").prepend(emptyHTML) }
 
 // 문항 생성 시 empty form 제거
-function formEmptyCheck() {
+const formEmptyCheck = () => {
     let elementToRemove = document.getElementById("not-result");
     if (elementToRemove) {
         elementToRemove.parentNode.removeChild(elementToRemove);
@@ -125,3 +112,104 @@ const updateNumbering = () => {
         numberElement.textContent = index + 1;
     });
 };
+
+const init = () => {
+    // 초기값 설정
+    let formTypeValue = $('input[name="formType"]:checked').val();
+    let logoTypeValue = $('input[name="logoType"]:checked').val();
+    let themeTypeValue = $('input[name="themeType"]:checked').val();
+
+    // 오늘 날짜를 구합니다.
+    const today = new Date();
+
+    // 종료일자를 오늘로부터 7일 뒤로 설정합니다.
+    const defaultEndDate = new Date(today);
+    defaultEndDate.setDate(defaultEndDate.getDate() + 7);
+
+    // 오늘 날짜를 'yyyy-MM-dd' 형식의 문자열로 변환합니다.
+    const formattedCurrentDate = today.toISOString().split('T')[0];
+    const formattedEndDate = defaultEndDate.toISOString().split('T')[0];
+
+    const resetDate = () => {
+        $('#startDate').val(formattedCurrentDate);
+        $('#endDate').val(formattedEndDate);
+    }
+
+    resetDate();
+
+    const isRightDate = (startDate, endDate) => {
+        if (endDate < startDate) {
+            alert('종료 날짜는 시작 날짜보다 늦게 설정해야 합니다.');
+            resetDate()
+            return false;
+        }
+        return true;
+    }
+
+    const isRightDate2 = (startDate, endDate) => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (startDate < today || endDate < today) {
+            alert('날짜는 오늘 날짜 이상으로 설정해야 합니다.');
+            resetDate()
+            return false;
+        }
+        return true;
+    }
+
+    // 폼형태
+    $('input[name="formType"]').change(() => { formTypeValue = $(this).val(); });
+
+    // 로고
+    $('input[name="logoType"]').change(() => { logoTypeValue = $(this).val(); });
+
+    // 테마
+    $('input[name="themeType"]').change(() => { themeTypeValue = $(this).val(); });
+
+    // 날짜 선택 변경 시 이벤트 처리
+    $('#startDate, #endDate').change(() => {
+        const startDate = new Date($('#startDate').val() + 'T00:00:00Z');
+        const endDate = new Date( $('#endDate').val() + 'T00:00:00Z');
+        if (!isRightDate(startDate, endDate)) return;
+        if (!isRightDate2(startDate, endDate)) return;
+    });
+
+}
+
+const extractDataFromContent = (contentElement) => {
+    const data = {};
+
+    data.subject = contentElement.querySelector('#subject').value;
+    data.que1 = contentElement.querySelector('#que1').value;
+    data.que2 = contentElement.querySelector('#que2').value;
+    data.que3 = contentElement.querySelector('#que3').value;
+    data.que4 = contentElement.querySelector('#que4').value;
+    data.que5 = contentElement.querySelector('#que5').value;
+
+    return data;
+};
+
+const registerData = () => {
+
+    const dataArr = [];
+    let formDivs = document.querySelectorAll('.inner#first_content .form-div');
+
+    formDivs.forEach(function (formDiv, index) {
+        const extractedData = extractDataFromContent(formDiv);
+        dataArr.push(extractedData);
+    });
+
+    return dataArr
+}
+
+$(document).ready(() => {
+    $(".bt-delete").on("click", deleteContent);
+    formEmpty()
+    init()
+
+})
+
+$(window).load(() => {
+    ESSENTIAL_LOGIN()
+
+})

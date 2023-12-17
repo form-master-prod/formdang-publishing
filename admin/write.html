@@ -51,28 +51,29 @@
 								<li>
 									<em>폼 형태</em>
 									<div class="frm-area">
-										<span class="ctm-radio"><input type="radio" name="" id="survey"> <label for="survey">설문조사</label></span>
-										<span class="ctm-radio"><input type="radio" name="" id="quiz"> <label for="quiz">퀴즈</label></span>
+										<span class="ctm-radio"><input type="radio" name="formType" id="survey" checked value="0"> <label for="survey">설문조사</label></span>
+										<span class="ctm-radio"><input type="radio" name="formType" id="quiz" value="1"> <label for="quiz">퀴즈</label></span>
 									</div>
 								</li>
 								<li>
 									<em>기간</em>
 									<div class="frm-area">
-										<input type="date"> <input type="date">
+										<input type="date" id="startDate"> <input type="date" id="endDate">
 									</div>
 								</li>
 								<li>
 									<em>로고</em>
 									<div class="frm-area">
-										<span class="ctm-radio-chips"><input type="radio" name="" id="not_logo"> <label for="not_logo">없음</label></span> 
-										<span class="ctm-radio-chips"><input type="radio" name="" id="my_logo"> <label for="my_logo">내 로고</label></span>
+										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="not_logo" checked value="0"> <label for="not_logo">없음</label></span>
+										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="my_logo" value="1"> <label for="my_logo">내 로고</label></span>
 									</div>
 								</li>
 								<li>
 									<em>테마</em>
 									<div class="frm-area">
-										<span class="ctm-radio-chips"><input type="radio" name="" id="basic_thema"> <label for="basic_thema">산뜻한</label></span> 
-										<span class="ctm-radio-chips"><input type="radio" name="" id="my_thema"> <label for="my_thema">내 테마</label></span>
+										<span class="ctm-radio-chips"><input type="radio" name="themeType" id="empty" checked value="0"> <label for="empty">없음</label></span>
+										<span class="ctm-radio-chips"><input type="radio" name="themeType" id="basic_thema" value="1"> <label for="basic_thema">산뜻한</label></span>
+										<span class="ctm-radio-chips"><input type="radio" name="themeType" id="my_thema" value="2"> <label for="my_thema">내 테마</label></span>
 									</div>
 								</li>
 							</ul>
@@ -99,26 +100,15 @@
 									<aside class="floating open">
 										<button type="button" class="floating-menu"><span class="skip">펼침</span></button>
 										<ul class="floating_item">
-											<li><button type="button"><i class="ico" onclick="addSubjectivity()"></i> <span class="tooltip">주관식</span></button></li>
-											<li><button type="button"><i class="ico" onclick="addMultipleChoice()"></i> <span class="tooltip">객관식</span></button></li>
+											<li onclick="addSubjectivity()"><button type="button"><i class="ico" ></i> <span class="tooltip">주관식</span></button></li>
+											<li onclick="addMultipleChoice()"><button type="button"><i class="ico"></i> <span class="tooltip">객관식</span></button></li>
 										</ul>
 									</aside>
 								</div>
-							<div class="pagenate">
-								<div class="inner">
-									<a href="javascript:alert('링크를 연결하세요!');" class="prev"><span class="skip">처음</span> <i class="ico"></i></a>
-									<a href="javascript:alert('링크를 연결하세요!');" class="current"><strong>1</strong></a>
-									<a href="javascript:alert('링크를 연결하세요!');">2</a>
-									<a href="javascript:alert('링크를 연결하세요!');">3</a>
-									<a href="javascript:alert('링크를 연결하세요!');">4</a>
-									<a href="javascript:alert('링크를 연결하세요!');">5</a>
-									<a href="javascript:alert('링크를 연결하세요!');" class="next"><span class="skip">끝</span> <i class="ico"></i></a>
-								</div>
-							</div>
 						</div>
 						<div class="bt-wrap mobile">
-							<button type="button" class="st-ico open_modal"><span>임시저장</span><i class="ico"></i></button> 
-							<button type="button" class="st-fill"><span>등록하기</span><i class="ico"></i></button>
+							<button type="button" class="st-ico open_modal" ><span>임시저장</span><i class="ico"></i></button>
+							<button type="button" class="st-fill" onclick="registerData()"><span>등록하기</span><i class="ico"></i></button>
 						</div>
 					</div>
 				</fieldset>
@@ -126,6 +116,7 @@
 		</div>
 	</div>
 </div>
+
 <div class="window_alert" id="modal_layer">
 	<div class="modal-layer">
 		<div class="inner">
