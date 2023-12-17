@@ -18,7 +18,7 @@ $(window).load(() => {
 })
 
 $(document).ready(function() {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('accessToken');
     if (token) {
         $.ajax({
             url: 'https://formdang-api.com/auth/sp/validate',
