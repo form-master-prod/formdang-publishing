@@ -25,23 +25,23 @@ const multipleHTML = `
     <ol>
       <li>
         <span class="ctm-radio"><input type="radio" name="" id="que1"> <label for="que1" class="skip">객관식 1</label></span>
-        <span class="inp"><label for="" class="skip">객관식 1 내용</label> <input type="text" name="" value="" placeholder="1. 객관식 내용을 입력하세요."></span>
+        <span class="inp"><label for="" class="skip">객관식 1 내용</label> <input type="text" id="q1" name="" value="" placeholder="1. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-radio"><input type="radio" name="" id="que2"> <label for="que2" class="skip">객관식 2</label></span>
-        <span class="inp"><label for="" class="skip">객관식 2 내용</label> <input type="text" name="" value="" placeholder="2. 객관식 내용을 입력하세요."></span>
+        <span class="inp"><label for="" class="skip">객관식 2 내용</label> <input type="text" id="q2" name="" value="" placeholder="2. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-radio"><input type="radio" name="" id="que3"> <label for="que3" class="skip">객관식 3</label></span>
-        <span class="inp"><label for="" class="skip">객관식 3 내용</label> <input type="text" name="" value="" placeholder="3. 객관식 내용을 입력하세요."></span>
+        <span class="inp"><label for="" class="skip">객관식 3 내용</label> <input type="text" id="q3" name="" value="" placeholder="3. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-radio"><input type="radio" name="" id="que4"> <label for="que4" class="skip">객관식 4</label></span>
-        <span class="inp"><label for="" class="skip">객관식 4 내용</label> <input type="text" name="" value="" placeholder="4. 객관식 내용을 입력하세요."></span>
+        <span class="inp"><label for="" class="skip">객관식 4 내용</label> <input type="text" id="q4" name="" value="" placeholder="4. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-radio"><input type="radio" name="" id="que5"> <label for="que5" class="skip">객관식 5</label></span>
-        <span class="inp"><label for="" class="skip">객관식 5 내용</label> <input type="text" name="" value="" placeholder="5. 객관식 내용을 입력하세요."></span>
+        <span class="inp"><label for="" class="skip">객관식 5 내용</label> <input type="text" id="q5" name="" value="" placeholder="5. 객관식 내용을 입력하세요."></span>
       </li>
     </ol>
   </div>
@@ -176,30 +176,49 @@ const init = () => {
 
 }
 
-const extractDataFromContent = (contentElement) => {
+const extractDataFromContent = (contentElement, index) => {
     const data = {};
 
-    data.subject = contentElement.querySelector('#subject').value;
-    data.que1 = contentElement.querySelector('#que1').value;
-    data.que2 = contentElement.querySelector('#que2').value;
-    data.que3 = contentElement.querySelector('#que3').value;
-    data.que4 = contentElement.querySelector('#que4').value;
-    data.que5 = contentElement.querySelector('#que5').value;
+    if (contentElement.classList.contains('short-answer')) {
+        data.type = 0;
+        data.order = index
+        data.title = contentElement.querySelector('#subject').value;
+        data.placeholder = contentElement.querySelector('#explain').value;
+        data.count = 1;
+    } else if (contentElement.classList.contains('multiple-choice')) {
+        data.count = 0;
+        data.type = 1;
+        data.order = index
+        data.title = contentElement.querySelector('#subject').value;
+        data.detail = JSON.stringify({
+            q1: contentElement.querySelector('#q1').value,
+            q2: contentElement.querySelector('#q2').value,
+            q3: contentElement.querySelector('#q3').value,
+            q4: contentElement.querySelector('#q4').value,
+            q5: contentElement.querySelector('#q5').value,
+        })
+        const arr = ['q1','q2','q3','q4','q5'];
+        for(let e of arr) {
+            if (contentElement.querySelector(`#${e}`).value) data.count++
+        }
+    }
 
     return data;
 };
 
 const registerData = () => {
 
-    const dataArr = [];
+    const question = [];
     let formDivs = document.querySelectorAll('.inner#first_content .form-div');
 
-    formDivs.forEach(function (formDiv, index) {
-        const extractedData = extractDataFromContent(formDiv);
-        dataArr.push(extractedData);
+    formDivs.forEach((formDiv, index) => {
+        const extractedData = extractDataFromContent(formDiv, index);
+        question.push(extractedData);
     });
 
-    return dataArr
+    console.log(question)
+
+    return question
 }
 
 $(document).ready(() => {
