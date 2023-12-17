@@ -17,10 +17,6 @@
 			<figure><img src="../image/common/not_profile.svg" alt="profile"></figure>
 			<a href="../admin/login.html">Login <i class="ico"></i></a>
 		</div>
-		<!-- <div class="user_logout"> -->
-			<!-- <figure><img src="../image/common/not_profile.svg" alt="profile"></figure> -->
-			<!-- <a href="../admin/logout.html">Logout <i class="ico"></i></a> -->
-		<!-- </div> -->
 	</header>
 	<hr>
 	<div id="container">
@@ -80,7 +76,7 @@
 	<footer id="footer">
 		<div class="inner">
 			<div class="per-info">
-				<p>폼당폼당</p>
+				<p>폼당폼당</p>
 				<ul>
 					<li><a href="javascript:alert('링크를 연결하세요!');">서비스 소개</a></li>
 					<li><a href="javascript:alert('링크를 연결하세요!');">이용약관</a></li>
@@ -97,20 +93,5 @@
 </div>
 <script src="../js/init.js"></script>
 <script src="../js/main/index.js"></script>
-<script>
-    fetch('http://3.39.174.87:8000/api/questions')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('throw');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Data:', data);
-        })
-        .catch(error => {
-            console.error('Fetch failed:', error);
-        });
-</script>
 </body>
 </html>
