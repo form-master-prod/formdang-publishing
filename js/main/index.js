@@ -24,14 +24,10 @@ $(document).ready(function() {
             url: 'https://formdang-api.com/auth/sp/validate',
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Access-Control-Allow-Origin': 'https://formdang.com',
-                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Credentials': true
+                'Authorization': `Bearer ${token}`
             },
             success: function(response) {
-                $(".user_login").remove();
+                $(".user_login").remove();  // 로그인 화면 삭제
                 let html = `<div class="user_logout">
                                 <figure><img src="../image/common/not_profile.svg" alt="profile"></figure>
                                 <a href="javascript:void(0);" onclick="LOGOUT()">Logout <i class="ico"></i></a>
