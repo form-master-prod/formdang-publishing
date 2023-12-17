@@ -45,8 +45,12 @@ const LOGOUT = () => { // 로그아웃 공통 로직
     window.location.replace(PAGE.MAIN)
 }
 
-const IsLogin = () => { // 로그인 체크 공통 로직
-    if (!window.localStorage.getItem(ACCESS_TOKEN)) {
+const IS_LOGIN = () => { // 로그인 체크 공통 로직
+    return window.localStorage.getItem(ACCESS_TOKEN)
+}
+
+const ESSENTIAL_LOGIN = () => {
+    if (!IS_LOGIN()) {
         alert('로그인을 해주세요.')
         window.location.replace(PAGE.LOGIN.MY)
     }

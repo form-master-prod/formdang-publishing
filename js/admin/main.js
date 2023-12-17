@@ -14,7 +14,7 @@ $(document).ready(() => {
 })
 
 $(window).load(() => {
-    IsLogin()
+    ESSENTIAL_LOGIN()
 
     FORM_LIST_API({
         page: 0,
