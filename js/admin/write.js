@@ -54,7 +54,7 @@ const multipleHTML = `
     <label for="file">이미지 등록하기</label> <input type="file" name="" id="file">
   </div>
   <div class="bottom-sheets">
-    <button type="button" class="bt-delete" title="삭제"><span class="skip" onclick="deleteContent(event)">삭제</span></button>
+    <button type="button" class="bt-delete" title="삭제" onclick="deleteContent(event)"><span class="skip">삭제</span></button>
   </div>
 </div>
 `;
