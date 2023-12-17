@@ -1,18 +1,7 @@
-const emptyStateHTML = `
-    <div class="not-result">
-        <i class="ico"></i>
-        <p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>
-        <ul>
-            <li><a href="javascript:alert('링크를 연결하세요!');" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>
-            <li><a href="javascript:alert('링크를 연결하세요!');" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>
-        </ul>
-    </div>
-`;
-
 const subjectivityHTML = `
-    <div class="frm-area short-answer">
+    <div class="frm-area short-answer form-div">
         <div class="inp-group">
-            <i class="number">1</i>
+            <i class="number"></i>
             <label for="subject" class="skip">질문 제목</label><input type="text" name="" id="subject" placeholder="질문 제목을 입력해주세요.">
             <label for="explain" class="skip">질문 내용</label><input type="text" name="" id="explain" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">
         </div>
@@ -29,9 +18,9 @@ const subjectivityHTML = `
 `;
 
 const multipleHTML = `
-<div class="frm-area multiple-choice">
+<div class="frm-area multiple-choice form-div">
   <div class="inp-group">
-    <i class="number">2</i>
+    <i class="number"></i>
     <label for="subject" class="skip">질문 제목</label><input type="text" name="" id="subject" placeholder="질문 제목을 입력해주세요.">
     <ol>
       <li>
@@ -71,20 +60,32 @@ const multipleHTML = `
 `;
 
 const addSubjectivity = () => {
+    formEmptyCheck();
     $("#first_content").append(subjectivityHTML);
+    updateNumbering()
 }
 
 const addMultipleChoice = () => {
+    formEmptyCheck();
     $("#first_content").append(multipleHTML);
+    updateNumbering()
 }
 
 // 컨텐츠 삭제 이벤트
 function deleteContent(event) {
     console.log('삭제')
     $(event.target).closest('.frm-area').remove();
+    let formDivElements = document.querySelectorAll('.form-div');
+    if(formDivElements.length < 1) {
+        formEmpty();
+    }else {
+        updateNumbering();
+    }
+
 }
 
 $(document).ready(() => {
+    formEmpty()
     $(".bt-delete").on("click", deleteContent);
 })
 
@@ -92,3 +93,35 @@ $(window).load(() => {
     ESSENTIAL_LOGIN()
 
 })
+
+// 비어있을 때
+function formEmpty() {
+    const html = `
+            <div class="not-result" id="not-result">
+                <i class="ico"></i>
+                <p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>
+                <ul>
+                    <li><a href="javascript:void(0);" onclick="addSubjectivity()" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>
+                    <li><a href="javascript:void(0);" onclick="addMultipleChoice()" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>
+                    </ul>
+            </div>
+    `
+    $("#first_content").prepend(html)
+}
+
+// 문항 생성 시 empty form 제거
+function formEmptyCheck() {
+    let elementToRemove = document.getElementById("not-result");
+    if (elementToRemove) {
+        elementToRemove.parentNode.removeChild(elementToRemove);
+    }
+}
+
+// 넘버링 로직
+const updateNumbering = () => {
+    let formDivs = document.querySelectorAll('.inner#first_content .form-div');
+    formDivs.forEach(function (formDiv, index) {
+        let numberElement = formDiv.querySelector('.number');
+        numberElement.textContent = index + 1;
+    });
+};
