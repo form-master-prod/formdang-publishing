@@ -12,7 +12,7 @@
 </head>
 <body>
 <div id="wrap">
-	<header id="header">
+	<header id="header"  class="admin_header">
         <div class="mob-head">
             <h1 class="logo"><a href="./"><img src="../image/common/logo_vertical.png" alt="폼당폼당" class="w4em"></a></h1>
             <nav class="gnb">
@@ -29,11 +29,11 @@
 		<div class="member-logout">
 			<div class="user_login">
 				<figure><img src="../image/common/not_profile.svg" alt="profile"></figure>
-				<span><em>exsample</em> <i class="ico"></i></span>
+				<span><em id="user_name1"></em> <i class="ico"></i></span>
 			</div>
             <div class="modal-layer mem_info">
 				<figure><img src="../image/common/not_profile.svg" alt=""> <button type="button" onclick="alert('프로필 이미지 등록 버튼 입니다. 필요 시 사용하세요.');"><i class="ico"></i> <span class="skip">프로필 사진 등록</span></button></figure>
-				<strong>exsample님, 안녕하세요.</strong>
+				<strong id="user_name2"></strong>
 				<a href="../web/index.html" class="bt-logout"><i class="ico i-logout"></i> Logout</a>
                 <button type="button" class="bt-close"><span class="skip">닫기</span></button>
             </div>
@@ -178,6 +178,8 @@
 		</div>
 	</div>
 </div>
+<script src="../js/init.js"></script>
 <script src="../js/common.js"></script>
+<script src="../js/admin/header.js"></script>
 </body>
 </html>
