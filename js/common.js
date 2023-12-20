@@ -85,6 +85,6 @@ function getUserFromToken(token) {
         const base64Url = (base64 + padding).replace(/\-/g, '+').replace(/_/g, '/');
         return JSON.parse(atob(base64Url));
     }
-    const payload = base64Decode(payloadBase64);
-    return payload.id;
+
+    return base64Decode(payloadBase64);
 }
