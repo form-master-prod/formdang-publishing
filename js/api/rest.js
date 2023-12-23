@@ -3,7 +3,7 @@ const POST = "POST";
 
 const END_POINT = {
     FIND_FORM_LIST: '/api/sp/form/find',
-    FORM_LIST_API: '/api/sp/form/submit'
+    FORM_SUBMIT_API: '/api/sp/form/submit'
 }
 
 const IS_UNAUTHORIZED = (e) => {
@@ -16,7 +16,7 @@ const IS_UNAUTHORIZED = (e) => {
 const FORM_LIST_API = (jsonData) => {
 
     return $.ajax({
-        url : `${API_SERVER_DOMAIN}${END_POINT.FORM_LIST_API}`,
+        url : `${API_SERVER_DOMAIN}${END_POINT.FIND_FORM_LIST}`,
         method : GET,
         headers: {
             'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
@@ -33,7 +33,7 @@ const FORM_LIST_API = (jsonData) => {
 const FORM_SUBMIT_API = (jsonData) => {
 
     return $.ajax({
-        url : `${API_SERVER_DOMAIN}${END_POINT.FORM_LIST_API}`,
+        url : `${API_SERVER_DOMAIN}${END_POINT.FORM_SUBMIT_API}`,
         method : POST,
         headers: {
             'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}`

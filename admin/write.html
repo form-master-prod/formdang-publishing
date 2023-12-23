@@ -100,15 +100,15 @@
 									<aside class="floating open">
 										<button type="button" class="floating-menu"><span class="skip">펼침</span></button>
 										<ul class="floating_item">
-											<li onclick="addSubjectivity()"><button type="button"><i class="ico" ></i> <span class="tooltip">주관식</span></button></li>
-											<li onclick="addMultipleChoice()"><button type="button"><i class="ico"></i> <span class="tooltip">객관식</span></button></li>
+											<li onclick="appendHtml(subjectivityHTML)"><button type="button"><i class="ico" ></i> <span class="tooltip">주관식</span></button></li>
+											<li onclick="appendHtml(multipleHTML)"><button type="button"><i class="ico"></i> <span class="tooltip">객관식</span></button></li>
 										</ul>
 									</aside>
 								</div>
 						</div>
 						<div class="bt-wrap mobile">
 							<button type="button" class="st-ico open_modal" onclick="tempRegisterData()"><span>임시저장</span><i class="ico"></i></button>
-							<button type="button" class="st-fill" onclick="registerData()"><span>등록하기</span><i class="ico"></i></button>
+							<button type="button" class="st-fill open_modal" onclick="registerData()"><span>등록하기</span><i class="ico"></i></button>
 						</div>
 					</div>
 				</fieldset>
@@ -119,16 +119,16 @@
 
 <div class="window_alert" id="modal_layer">
 	<div class="modal-layer">
-		<div class="inner">
-			<i class="ico"></i>
-			<h2 class="skip">임시 저장</h2>
-			<p>작성한 설문을 임시 저장 하시겠습니까?</p>
-		</div>
+<!--		<div class="inner">-->
+<!--			<i class="ico"></i>-->
+<!--			<h2 class="skip">임시 저장</h2>-->
+<!--			<p>작성한 설문을 임시 저장 하시겠습니까?</p>-->
+<!--		</div>-->
 		<!-- 등록하기 클릭 시 -->
-		<!-- <div class="inner">
+		<div class="inner">
 			<h2 class="skip">등록 하기</h2>
 			<p>설문을  등록하시겠습니까?</p>
-		</div> -->
+		</div>
 		<!-- // -->
 		<!-- 질문 등록 없이 등록하기 클릭 시 -->
 		<!-- <div class="inner">

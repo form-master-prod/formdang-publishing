@@ -24,30 +24,24 @@ const multipleHTML = `
     <label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">
     <ol>
       <li>
-        <span class="ctm-check">
-            <input type="checkbox" name="each" value="1">
-            <label class="skip">객관식 1</label>
-        </span>
-        <span class="inp">
-            <label class="skip">객관식 1 내용</label>
-            <input type="text" class="q1" name="q1" value="" placeholder="1. 객관식 내용을 입력하세요.">
-        </span>
+        <span class="ctm-check"><input type="checkbox" name="each" value="1"><label class="skip">객관식 1</label></span>
+        <span class="inp"><label class="skip">객관식 1 내용</label><input type="text" class="q1" name="q1" placeholder="1. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-check"><input type="checkbox" name="each" value="2"> <label class="skip">객관식 2</label></span>
-        <span class="inp"><label class="skip">객관식 2 내용</label> <input type="text" class="q2" name="q2" value="" placeholder="2. 객관식 내용을 입력하세요."></span>
+        <span class="inp"><label class="skip">객관식 2 내용</label> <input type="text" class="q2" name="q2"  placeholder="2. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-check"><input type="checkbox" name="each" value="3"> <label class="skip">객관식 3</label></span>
-        <span class="inp"><label class="skip">객관식 3 내용</label> <input type="text" class="q3" name="q3" value="" placeholder="3. 객관식 내용을 입력하세요."></span>
+        <span class="inp"><label class="skip">객관식 3 내용</label> <input type="text" class="q3" name="q3"  placeholder="3. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-check"><input type="checkbox" name="each" value="4"> <label class="skip">객관식 4</label></span>
-        <span class="inp"><label class="skip">객관식 4 내용</label> <input type="text" class="q4" name="q4" value="" placeholder="4. 객관식 내용을 입력하세요."></span>
+        <span class="inp"><label class="skip">객관식 4 내용</label> <input type="text" class="q4" name="q4" placeholder="4. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-check"><input type="checkbox" name="each" value="5"> <label class="skip">객관식 5</label></span>
-        <span class="inp"><label class="skip">객관식 5 내용</label> <input type="text" class="q5" name="q5" value="" placeholder="5. 객관식 내용을 입력하세요."></span>
+        <span class="inp"><label class="skip">객관식 5 내용</label> <input type="text" class="q5" name="q5"  placeholder="5. 객관식 내용을 입력하세요."></span>
       </li>
     </ol>
   </div>
@@ -70,183 +64,98 @@ const emptyHTML = `
     <i class="ico"></i>
     <p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>
     <ul>
-        <li><a onclick="addSubjectivity()" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>
-        <li><a onclick="addMultipleChoice()" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>
+        <li><a onclick="appendHtml(subjectivityHTML)" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>
+        <li><a onclick="appendHtml(multipleHTML)" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>
         </ul>
 </div>
 `;
 
-const addSubjectivity = () => {
+function appendHtml (html) { // 문한 컨텐츠 추가
     formEmptyCheck();
-    $("#first_content").append(subjectivityHTML);
+    $("#first_content").append(html);
     updateNumbering()
 }
 
-const addMultipleChoice = () => {
-    formEmptyCheck();
-    $("#first_content").append(multipleHTML);
-    updateNumbering()
-}
-
-// 컨텐츠 삭제 이벤트
-const deleteContent = (event) => {
+function deleteContent (event) { // 문항 컨텐츠 삭제
     $(event.target).closest('.frm-area').remove();
     let formDivElements = document.querySelectorAll('.form-div');
-    if(formDivElements.length < 1) {
-        formEmpty();
-    }else {
-        updateNumbering();
-    }
+    if (formDivElements.length < 1) $("#first_content").prepend(emptyHTML)
+    else updateNumbering();
 }
 
-// 비어있을 때
-const formEmpty = () => { $("#first_content").prepend(emptyHTML) }
-
-// 문항 생성 시 empty form 제거
-const formEmptyCheck = () => {
+function formEmptyCheck () { // empty 문항 체크
     let elementToRemove = document.getElementById("not-result");
-    if (elementToRemove) {
-        elementToRemove.parentNode.removeChild(elementToRemove);
-    }
+    if (elementToRemove) elementToRemove.parentNode.removeChild(elementToRemove);
 }
 
-let formType, logUrl, themaUrl, beginDt, endDt
-
-// 넘버링 로직
-const updateNumbering = () => {
+function updateNumbering () { // 문항 넘버링
     let formDivs = document.querySelectorAll('.inner#first_content .form-div');
     formDivs.forEach(function (formDiv, index) {
-        let numberElement = formDiv.querySelector('.number');
-        numberElement.textContent = index + 1;
+        formDiv.querySelector('.number').textContent = index + 1;
     });
 };
 
-const init = () => {
-    // 초기값 설정
-    formType = $('input[name="formType"]:checked').val();
-    logUrl = $('input[name="logoType"]:checked').val();
-    themaUrl = $('input[name="themeType"]:checked').val();
-
-    // 오늘 날짜를 구합니다.
-    const today = new Date();
-
-    // 종료일자를 오늘로부터 7일 뒤로 설정합니다.
-    const defaultEndDate = new Date(today);
-    defaultEndDate.setDate(defaultEndDate.getDate() + 7);
-
-    // 오늘 날짜를 'yyyy-MM-dd' 형식의 문자열로 변환합니다.
-    const formattedCurrentDate = today.toISOString().split('T')[0];
-    const formattedEndDate = defaultEndDate.toISOString().split('T')[0];
-
-    const resetDate = () => {
-        $('#startDate').val(formattedCurrentDate);
-        $('#endDate').val(formattedEndDate);
-        beginDt = formattedCurrentDate;
-        endDt = formattedEndDate
-    }
-
-    resetDate();
-
-    const isRightDate = (beginDt, endDt) => {
-        if (endDt < beginDt) {
-            alert('종료 날짜는 시작 날짜보다 늦게 설정해야 합니다.');
-            resetDate()
-            return false;
-        }
-        return true;
-    }
-
-    const isRightDate2 = (beginDt, endDt) => {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        if (beginDt < today || endDt < today) {
-            alert('날짜는 오늘 날짜 이상으로 설정해야 합니다.');
-            resetDate()
-            return false;
-        }
-        return true;
-    }
-
-    // 폼형태
-    $('input[name="formType"]').change(function () { formType = $(this).val(); });
-
-    // 로고
-    $('input[name="logoType"]').change(function()  { logUrl = $(this).val(); });
-
-    // 테마
-    $('input[name="themeType"]').change(function() { themaUrl = $(this).val(); });
-    
-
-    // 날짜 선택 변경 시 이벤트 처리
-    $('#startDate, #endDate').change(() => {
-        beginDt = $('#startDate').val();
-        endDt = $('#endDate').val();
-        if (!isRightDate(new Date(beginDt+ 'T00:00:00Z'), new Date( endDt + 'T00:00:00Z'))) return;
-        if (!isRightDate2(new Date(beginDt + 'T00:00:00Z'), new Date( endDt + 'T00:00:00Z'))) return;
-    });
-
-}
-
-const extractDataFromContent = (contentElement, index) => {
+function extractDataFromContent (contentElement, index) {
     if (contentElement.classList.contains('short-answer')) {
-        return new Question(0, 1, index, contentElement.querySelector('.sub_subject').value, contentElement.querySelector('.sub_explain').value, null);
+        return new Question(0, 1, index, contentElement.querySelector('.sub_subject').value, contentElement.querySelector('.sub_explain').value, null, null);
     } else if (contentElement.classList.contains('multiple-choice')) {
         let count = 0;
         const arr = ['q1', 'q2', 'q3', 'q4', 'q5'];
-        const answerArr = [];
+        const answer = [];
+        const question = [];
 
         for (let e of arr) {
             const checkbox = contentElement.querySelector(`input[name="each"][value="${arr.indexOf(e) + 1}"]`);
             const inputValue = contentElement.querySelector(`.${e}`).value;
             if (inputValue) {
                 count++;
-                if (checkbox && checkbox.checked) {
-                    answerArr.push(inputValue);
-                }
+                question.push(inputValue);
+                answer.push(checkbox.checked);
             }
         }
 
-       let _question = JSON.stringify({
-                q1: contentElement.querySelector('.q1').value,
-                q2: contentElement.querySelector('.q2').value,
-                q3: contentElement.querySelector('.q3').value,
-                q4: contentElement.querySelector('.q4').value,
-                q5: contentElement.querySelector('.q5').value
-        });
-            
-        // 답안
-        console.log(answerArr)
-
-        let sortedArr = answerArr.slice().sort();
-        for (var i = 0; i < sortedArr.length - 1; i++) {
-            if (sortedArr[i] === sortedArr[i + 1]) {
-                alert("중복 답안입니다.");
-                contentElement.querySelector('.sub_subject').focus();
-                return false;
-            }
-        }
-
-        if(answerArr.length === 0) {
-            alert("하나 이상의 답안을 체크해주세요.");
-            contentElement.querySelector('.sub_subject').focus();
-            return false;
-        }
-        return new Question(1, count, index, contentElement.querySelector('.sub_subject').value, null, _question);
+        return new Question(1, count, index, contentElement.querySelector('.sub_subject').value, null, question, answer);
     }
 };
 
-const registerData = () => {
-    const request = setReq(1)
-    console.log(request)
-    register(request)
+function resetDate () {
+    $('#startDate').val(defaultBeginDate);
+    $('#endDate').val(defaultEndDate);
+    beginDt = defaultBeginDate;
+    endDt = defaultEndDate
 }
 
-const tempRegisterData = () => {
-    const request = setReq(0)
-    register(request)
+function isBeginDtOverEndDt (beginDt, endDt) {
+    if (endDt < beginDt) {
+        alert('종료 날짜는 시작 날짜보다 늦게 설정해야 합니다.');
+        resetDate(defaultBeginDate, defaultEndDate)
+        return false;
+    }
+    return true;
 }
 
-const setReq = (status) => {
+function isPrevToday (beginDt, endDt) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (beginDt < today || endDt < today) {
+        alert('날짜는 오늘 날짜 이상으로 설정해야 합니다.');
+        resetDate(defaultBeginDate, defaultEndDate)
+        return false;
+    }
+    return true;
+}
+
+function registerData () {
+    const request = setRequestData(1)
+    if (validateRequestData(request)) register(request)
+}
+
+function tempRegisterData () {
+    const request = setRequestData(0)
+    if (validateRequestData(request)) register(request)
+}
+
+function setRequestData (status) {
     let title = document.getElementById("subject").value;
     let detail = document.getElementById("explain").value;
     let question = [];
@@ -255,12 +164,76 @@ const setReq = (status) => {
     return new Form(formType, title, detail, beginDt, endDt, logUrl, themaUrl, question, status);
 }
 
-const register = (request) => {
+function validateRequestData(request) {
+    console.log(request)
+    // 유효성 검사 처리
+    return false;
+}
+
+function register (request) {
     FORM_SUBMIT_API(request).then(res => {
         console.log(res)
         alert('등록')
     })
 }
+
+function validateCheckbox(element) {
+    let checkbox = $(element).find('input[type="checkbox"]');
+    let inputField = $(element).find('input[type="text"]');
+    let inputValue = inputField.val();
+
+    if (inputValue === "") {
+        checkbox.prop("checked", false);
+        return false;
+    }
+    return true;
+}
+
+let formType, logUrl, themaUrl, beginDt, endDt
+const today = new Date();
+const today_7 = new Date(today);
+
+today_7.setDate(today_7.getDate() + 7);
+const defaultBeginDate = today.toISOString().split('T')[0];
+const defaultEndDate = today_7.toISOString().split('T')[0];
+
+$(document).ready(() => { // 초기값 설정
+    $(".bt-delete").on("click", deleteContent);
+    $("#first_content").prepend(emptyHTML)
+
+    formType = $('input[name="formType"]:checked').val();
+    logUrl = $('input[name="logoType"]:checked').val();
+    themaUrl = $('input[name="themeType"]:checked').val();
+
+    $('input[name="formType"]').change(function () { formType = $(this).val(); }); // 폼형태
+    $('input[name="logoType"]').change(function()  { logUrl = $(this).val(); }); // 로고
+    $('input[name="themeType"]').change(function() { themaUrl = $(this).val(); }); // 테마
+    $('input[type="checkbox"]').on('click', function () {
+        if (!validateCheckbox($(this).closest('li'))) {
+            alert("객관식 내용을 입력해주세요.");
+            return false
+        }
+    });
+    $('input[type="text"]').on('input', function () {
+        validateCheckbox($(this).closest('li'));
+    });
+
+    resetDate();
+
+    $('#startDate, #endDate').change(function () { // 날짜 선택 변경 시 이벤트 처리
+        beginDt = $('#startDate').val();
+        endDt = $('#endDate').val();
+        if (!isBeginDtOverEndDt(new Date(beginDt+ 'T00:00:00Z'), new Date( endDt + 'T00:00:00Z'))) return;
+        if (!isPrevToday(new Date(beginDt + 'T00:00:00Z'), new Date( endDt + 'T00:00:00Z'))) return;
+    });
+
+})
+
+$(window).load(() => {
+    ESSENTIAL_LOGIN()
+
+})
+
 
 class Form {
     type;
@@ -300,51 +273,13 @@ class Question {
     count;
     answer;
 
-    constructor(type, count, order, title, placeholder, detail) {
+    constructor(type, count, order, title, placeholder, detail, answer) {
         this.type = type;
         this.count = count;
         this.order = order;
         this.title = title;
         this.placeholder = placeholder;
         this.detail = detail;
+        this.answer = answer;
     }
-
 }
-
-function validateCheckbox(element) {
-    var checkbox = $(element).find('input[type="checkbox"]');
-    var inputField = $(element).find('input[type="text"]');
-    var inputValue = inputField.val();
-
-    if (inputValue === "") {
-        checkbox.prop("checked", false);
-        return false;
-    }
-
-    return true;
-}
-
-
-$(document).ready(() => {
-    $(".bt-delete").on("click", deleteContent);
-    formEmpty()
-    init()
-
-    $('input[type="checkbox"]').on('click', function () {
-        var listItem = $(this).closest('li');
-        if (!validateCheckbox(listItem)) {
-            alert("객관식 내용을 입력해주세요.");
-            return false
-        }
-    });
-
-    $('input[type="text"]').on('input', function () {
-        validateCheckbox($(this).closest('li'));
-    });
-
-})
-
-$(window).load(() => {
-    ESSENTIAL_LOGIN()
-
-})
