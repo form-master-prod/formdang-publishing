@@ -24,23 +24,29 @@ const multipleHTML = `
     <label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">
     <ol>
       <li>
-        <span class="ctm-radio"><input type="radio" name="each" value="1"> <label class="skip">객관식 1</label></span>
-        <span class="inp"><label class="skip">객관식 1 내용</label> <input type="text" class="q1" name="q1" value="" placeholder="1. 객관식 내용을 입력하세요."></span>
+        <span class="ctm-check">
+            <input type="checkbox" name="each" value="1">
+            <label class="skip">객관식 1</label>
+        </span>
+        <span class="inp">
+            <label class="skip">객관식 1 내용</label>
+            <input type="text" class="q1" name="q1" value="" placeholder="1. 객관식 내용을 입력하세요.">
+        </span>
       </li>
       <li>
-        <span class="ctm-radio"><input type="radio" name="each" value="2"> <label class="skip">객관식 2</label></span>
+        <span class="ctm-check"><input type="checkbox" name="each" value="2"> <label class="skip">객관식 2</label></span>
         <span class="inp"><label class="skip">객관식 2 내용</label> <input type="text" class="q2" name="q2" value="" placeholder="2. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
-        <span class="ctm-radio"><input type="radio" name="each" value="3"> <label class="skip">객관식 3</label></span>
+        <span class="ctm-check"><input type="checkbox" name="each" value="3"> <label class="skip">객관식 3</label></span>
         <span class="inp"><label class="skip">객관식 3 내용</label> <input type="text" class="q3" name="q3" value="" placeholder="3. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
-        <span class="ctm-radio"><input type="radio" name="each" value="4"> <label class="skip">객관식 4</label></span>
+        <span class="ctm-check"><input type="checkbox" name="each" value="4"> <label class="skip">객관식 4</label></span>
         <span class="inp"><label class="skip">객관식 4 내용</label> <input type="text" class="q4" name="q4" value="" placeholder="4. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
-        <span class="ctm-radio"><input type="radio" name="each" value="5"> <label class="skip">객관식 5</label></span>
+        <span class="ctm-check"><input type="checkbox" name="each" value="5"> <label class="skip">객관식 5</label></span>
         <span class="inp"><label class="skip">객관식 5 내용</label> <input type="text" class="q5" name="q5" value="" placeholder="5. 객관식 내용을 입력하세요."></span>
       </li>
     </ol>
@@ -186,20 +192,52 @@ const extractDataFromContent = (contentElement, index) => {
         return new Question(0, 1, index, contentElement.querySelector('.sub_subject').value, contentElement.querySelector('.sub_explain').value, null);
     } else if (contentElement.classList.contains('multiple-choice')) {
         let count = 0;
-        const arr = ['q1','q2','q3','q4','q5'];
-        for(let e of arr) if (contentElement.querySelector(`.${e}`).value) count++
-        return new Question(1, count, index, contentElement.querySelector('.sub_subject').value, null, JSON.stringify({
-            q1: contentElement.querySelector('.q1').value,
-            q2: contentElement.querySelector('.q2').value,
-            q3: contentElement.querySelector('.q3').value,
-            q4: contentElement.querySelector('.q4').value,
-            q5: contentElement.querySelector('.q5').value,
-        }));
+        const arr = ['q1', 'q2', 'q3', 'q4', 'q5'];
+        const answerArr = [];
+
+        for (let e of arr) {
+            const checkbox = contentElement.querySelector(`input[name="each"][value="${arr.indexOf(e) + 1}"]`);
+            const inputValue = contentElement.querySelector(`.${e}`).value;
+            if (inputValue) {
+                count++;
+                if (checkbox && checkbox.checked) {
+                    answerArr.push(inputValue);
+                }
+            }
+        }
+
+       let _question = JSON.stringify({
+                q1: contentElement.querySelector('.q1').value,
+                q2: contentElement.querySelector('.q2').value,
+                q3: contentElement.querySelector('.q3').value,
+                q4: contentElement.querySelector('.q4').value,
+                q5: contentElement.querySelector('.q5').value
+        });
+            
+        // 답안
+        console.log(answerArr)
+
+        let sortedArr = answerArr.slice().sort();
+        for (var i = 0; i < sortedArr.length - 1; i++) {
+            if (sortedArr[i] === sortedArr[i + 1]) {
+                alert("중복 답안입니다.");
+                contentElement.querySelector('.sub_subject').focus();
+                return false;
+            }
+        }
+
+        if(answerArr.length === 0) {
+            alert("하나 이상의 답안을 체크해주세요.");
+            contentElement.querySelector('.sub_subject').focus();
+            return false;
+        }
+        return new Question(1, count, index, contentElement.querySelector('.sub_subject').value, null, _question);
     }
 };
 
 const registerData = () => {
     const request = setReq(1)
+    console.log(request)
     register(request)
 }
 
@@ -273,10 +311,36 @@ class Question {
 
 }
 
+function validateCheckbox(element) {
+    var checkbox = $(element).find('input[type="checkbox"]');
+    var inputField = $(element).find('input[type="text"]');
+    var inputValue = inputField.val();
+
+    if (inputValue === "") {
+        checkbox.prop("checked", false);
+        return false;
+    }
+
+    return true;
+}
+
+
 $(document).ready(() => {
     $(".bt-delete").on("click", deleteContent);
     formEmpty()
     init()
+
+    $('input[type="checkbox"]').on('click', function () {
+        var listItem = $(this).closest('li');
+        if (!validateCheckbox(listItem)) {
+            alert("객관식 내용을 입력해주세요.");
+            return false
+        }
+    });
+
+    $('input[type="text"]').on('input', function () {
+        validateCheckbox($(this).closest('li'));
+    });
 
 })
 
