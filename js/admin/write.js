@@ -24,23 +24,23 @@ const multipleHTML = `
     <label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">
     <ol>
       <li>
-        <span class="ctm-check"><input type="checkbox" name="each" value="1"><label class="skip">객관식 1</label></span>
+        <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="1"><label class="skip">객관식 1</label></span>
         <span class="inp"><label class="skip">객관식 1 내용</label><input type="text" class="q1" name="q1" placeholder="1. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
-        <span class="ctm-check"><input type="checkbox" name="each" value="2"> <label class="skip">객관식 2</label></span>
+        <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="2"> <label class="skip">객관식 2</label></span>
         <span class="inp"><label class="skip">객관식 2 내용</label> <input type="text" class="q2" name="q2"  placeholder="2. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
-        <span class="ctm-check"><input type="checkbox" name="each" value="3"> <label class="skip">객관식 3</label></span>
+        <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="3"> <label class="skip">객관식 3</label></span>
         <span class="inp"><label class="skip">객관식 3 내용</label> <input type="text" class="q3" name="q3"  placeholder="3. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
-        <span class="ctm-check"><input type="checkbox" name="each" value="4"> <label class="skip">객관식 4</label></span>
+        <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="4"> <label class="skip">객관식 4</label></span>
         <span class="inp"><label class="skip">객관식 4 내용</label> <input type="text" class="q4" name="q4" placeholder="4. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
-        <span class="ctm-check"><input type="checkbox" name="each" value="5"> <label class="skip">객관식 5</label></span>
+        <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="5"> <label class="skip">객관식 5</label></span>
         <span class="inp"><label class="skip">객관식 5 내용</label> <input type="text" class="q5" name="q5"  placeholder="5. 객관식 내용을 입력하세요."></span>
       </li>
     </ol>
@@ -279,6 +279,38 @@ $(document).ready(() => { // 초기값 설정
         if (!isPrevToday(new Date(beginDt + 'T00:00:00Z'), new Date( endDt + 'T00:00:00Z'))) return;
     });
 
+
+    // 객관식 항목이 빈값인데 체크한 경우
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('ctm-check')) {
+          let listItem = event.target.closest('li');
+          let inputElement = listItem.querySelector('input[type="text"]');
+          let checkbox = listItem.querySelector('input[type="checkbox"]');
+          let inputValue = inputElement.value.trim();
+          if (inputValue === '') {
+            alert("객관식 항목이 비어있습니다.");  // 모달로 변경
+            checkbox.checked = false;
+            event.preventDefault();
+            return false;
+          }
+        }
+  });
+    
+    // 체크해놓은 후 객관식 항목을 다시 빈칸 만든 경우
+    document.addEventListener('input', function(event) {
+		let inputArr = ['q1', 'q2', 'q3', 'q4', 'q5']
+		if (event.target.type === 'text' && inputArr.includes(event.target.name)) {
+		  let listItem = event.target.closest('li');
+		  if (listItem) {
+			let checkbox = listItem.querySelector('input[type="checkbox"]');
+			if (checkbox) {
+			  if (event.target.value.trim() === '') {
+				checkbox.checked = false;  // 객관식 항목이 빈칸이 되버리면 체크 해제
+			  }
+			}
+		  }
+		}
+  });
 })
 
 $(window).load(() => {
