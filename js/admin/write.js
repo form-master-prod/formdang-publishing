@@ -145,14 +145,18 @@ function isPrevToday (beginDt, endDt) {
     return true;
 }
 
-function registerData () {
-    const request = setRequestData(1)
-    if (validateRequestData(request)) register(request)
-}
-
-function tempRegisterData () {
-    const request = setRequestData(0)
-    if (validateRequestData(request)) register(request)
+async function registerData () {
+    if (doubleSubmitPrevent) return
+    doubleSubmitPrevent = true;
+    const request = setRequestData(status)
+    if (validateRequestData(request)) {
+        await register(request)
+        doubleSubmitPrevent = false
+    }
+    else {
+        closeModal()
+        doubleSubmitPrevent = false;
+    }
 }
 
 function setRequestData (status) {
@@ -167,13 +171,33 @@ function setRequestData (status) {
 function validateRequestData(request) {
     console.log(request)
     // 유효성 검사 처리
-    return false;
+    if (!request.beginDt || !request.endDt) {
+        alert('날짜기입 오류')
+        return false;
+    } else if (!request.title) {
+        alert('폼 제목 오류')
+        return false;
+    } else if (!request.detail) {
+        alert('폼 설명 누락')
+        return false;
+    } else if (!request.question || request.question.length == 0) {
+        alert('등록 질문 오류')
+        return false;
+    }
+
+    return true;
 }
 
-function register (request) {
-    FORM_SUBMIT_API(request).then(res => {
+async function register (request) {
+    closeModal()
+    await FORM_SUBMIT_API(request).then(res => {
         console.log(res)
-        alert('등록')
+        if (res || res.resultCode == '0') {
+            alert('등록 성공')
+            window.location.replace(PAGE.ADMIN_MAIN)
+        } else {
+            alert('등록 실패')
+        }
     })
 }
 
@@ -189,7 +213,35 @@ function validateCheckbox(element) {
     return true;
 }
 
-let formType, logUrl, themaUrl, beginDt, endDt
+function openModal(type) {
+    let element = document.getElementById('modal');
+    let element1 = document.getElementById("modal_title");
+    let element2 = document.getElementById("modal_content");
+    let element3 = document.getElementById("modal_ico");
+
+    if (type == 0) {
+        element1.innerText = '임시 저장';
+        element2.innerText = '작성한 설문을 임시 저장 하시겠습니까?';
+        element3.style.display = "flex";
+    } else if (type == 1) {
+        element1.innerText = '등록 하기';
+        element2.innerText = '설문을  등록하시겠습니까?';
+        element3.style.display = "none";
+    }
+    element.style.display = "flex";
+    document.body.style.overflow = "hidden";
+
+    status = type;
+}
+
+function closeModal() {
+    let element = document.getElementById('modal');
+    element.style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+let formType, logUrl, themaUrl, beginDt, endDt, status
+let doubleSubmitPrevent = false;
 const today = new Date();
 const today_7 = new Date(today);
 
