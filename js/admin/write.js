@@ -380,6 +380,14 @@ $(document).ready(() => { // 초기값 설정
 		  }
 		}
   });
+
+    var canvas = document.getElementById('img-view');
+    var ctx = canvas.getContext('2d');
+    var img = new Image();
+    img.onload = function() {
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+    img.src = 'https://formmaster-s3.s3.ap-northeast-2.amazonaws.com/logo/d5e6f7a8-9b10-c111-d2e3-4455f6778899.jpg';
 })
 
 $(window).load(() => {
