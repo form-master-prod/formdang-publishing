@@ -4,7 +4,7 @@ const POST = "POST";
 const END_POINT = {
     FIND_FORM_LIST: '/api/sp/form/find',
     FORM_SUBMIT_API: '/api/sp/form/submit',
-    UPLOAD_FILE_API: '/api/sp/file/upload',
+    UPLOAD_FILE_API: '/api/sp/public/file/upload',
 }
 
 const IS_UNAUTHORIZED = (e) => {
