@@ -19,7 +19,7 @@ const PROD_PAGE = { // 운영 페이지
 }
 
 const DEV_PAGE = { // 개발 페이지
-    MAIN: `${WEB_SERVER_DOMAIN}/formdang-publishing/web/index.html`,
+    MAIN: `${WEB_SERVER_DOMAIN}/formdang-publishing/index.html`,
     ADMIN_MAIN: `${WEB_SERVER_DOMAIN}/formdang-publishing/admin/index.html`,
     LOGIN: {
         MY: `${WEB_SERVER_DOMAIN}/formdang-publishing/admin/login.html`,
