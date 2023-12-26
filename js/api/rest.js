@@ -3,7 +3,8 @@ const POST = "POST";
 
 const END_POINT = {
     FIND_FORM_LIST: '/api/sp/form/find',
-    FORM_SUBMIT_API: '/api/sp/form/submit'
+    FORM_SUBMIT_API: '/api/sp/form/submit',
+    UPLOAD_FILE_API: '/api/sp/file/upload',
 }
 
 const IS_UNAUTHORIZED = (e) => {
@@ -40,6 +41,27 @@ const FORM_SUBMIT_API = (jsonData) => {
         },
         contentType: "application/json; charset=utf-8",
         data : JSON.stringify(jsonData),
+        success: (res) => { return res; },
+        error:function(e){
+            IS_UNAUTHORIZED(e)
+            return null;
+        }
+    });
+}
+
+const UPLOAD_FILE_API = (file) => {
+    let form = new FormData();
+    form.append("file", file);
+
+    return $.ajax({
+        url : `${API_SERVER_DOMAIN}${END_POINT.UPLOAD_FILE_API}`,
+        method : POST,
+        headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
+        },
+        processData : false,
+        contentType : false,
+        data : form,
         success: (res) => { return res; },
         error:function(e){
             IS_UNAUTHORIZED(e)

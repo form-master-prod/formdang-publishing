@@ -1,4 +1,6 @@
-const subjectivityHTML = `
+function subjectivityHTML () {
+    const id = Date.now();
+    return `
     <div class="frm-area short-answer form-div">
         <div class="inp-group">
             <i class="number"></i>
@@ -7,17 +9,24 @@ const subjectivityHTML = `
         </div>
         <div class="frm-upload">
             <!-- 이미지 등록 -->
-            <canvas id="img-view"></canvas>
+            <canvas id="img-view-n${id}" class="img-view" style="display: none"></canvas>
+            <div id="img-view-p${id}" class="img-view" >
+              <span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>
+            </div>
             <!-- //이미지 등록 -->
-            <label for="file">이미지 등록하기</label> <input type="file" name="">
+            <label for="f${id}">이미지 등록하기</label> <input type="file" name="" id="f${id}" class="file-input" onchange="previewImage('${id}')">
         </div>
         <div class="bottom-sheets">
             <button type="button" class="bt-delete" title="삭제" onclick="deleteContent(event)"><span class="skip">삭제</span></button>
         </div>
     </div>
 `;
+}
 
-const multipleHTML = `
+function multipleHTML () {
+    const id = 'f' + Date.now();
+
+    return `
 <div class="frm-area multiple-choice form-div">
   <div class="inp-group">
     <i class="number"></i>
@@ -47,25 +56,26 @@ const multipleHTML = `
   </div>
   <div class="frm-upload">
     <!-- 이미지 미등록 -->
-    <div id="img-view">
+    <canvas id="img-view-n${id}" class="img-view" style="display: none"></canvas>
+    <div  id="img-view-p${id}" class="img-view">
       <span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>
     </div>
     <!-- //이미지 미등록 -->
-    <label for="file">이미지 등록하기</label> <input type="file" name="" id="file">
+    <label for="f${id}">이미지 등록하기</label> <input type="file" name="" id="f${id}" class="file-input" onchange="previewImage('${id}')">
   </div>
   <div class="bottom-sheets">
     <button type="button" class="bt-delete" title="삭제" onclick="deleteContent(event)"><span class="skip">삭제</span></button>
   </div>
-</div>
-`;
+</div>`
+};
 
 const emptyHTML = `
 <div class="not-result" id="not-result">
     <i class="ico"></i>
     <p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>
     <ul>
-        <li><a onclick="appendHtml(subjectivityHTML)" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>
-        <li><a onclick="appendHtml(multipleHTML)" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>
+        <li><a onclick="appendHtml(subjectivityHTML())" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>
+        <li><a onclick="appendHtml(multipleHTML())" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>
         </ul>
 </div>
 `;
@@ -96,8 +106,12 @@ function updateNumbering () { // 문항 넘버링
 };
 
 function extractDataFromContent (contentElement, index) {
+    let file;
+    const fileInputs = contentElement.querySelectorAll('.file-input');
+    fileInputs.forEach((fileInput => { file = fileInput.files[0]; }));
+
     if (contentElement.classList.contains('short-answer')) {
-        return new Question(0, 1, index, contentElement.querySelector('.sub_subject').value, contentElement.querySelector('.sub_explain').value, null, null);
+        return new Question(0, 1, index, contentElement.querySelector('.sub_subject').value, contentElement.querySelector('.sub_explain').value, null, null, file);
     } else if (contentElement.classList.contains('multiple-choice')) {
         let count = 0;
         const arr = ['q1', 'q2', 'q3', 'q4', 'q5'];
@@ -113,8 +127,7 @@ function extractDataFromContent (contentElement, index) {
                 answer.push(checkbox.checked);
             }
         }
-
-        return new Question(1, count, index, contentElement.querySelector('.sub_subject').value, null, question, answer);
+        return new Question(1, count, index, contentElement.querySelector('.sub_subject').value, null, question, answer, file);
     }
 };
 
@@ -150,6 +163,7 @@ async function registerData () {
     doubleSubmitPrevent = true;
     const request = setRequestData(status)
     if (validateRequestData(request)) {
+        await uploadImage(request)
         await register(request)
         doubleSubmitPrevent = false
     }
@@ -160,12 +174,15 @@ async function registerData () {
 }
 
 function setRequestData (status) {
+    let logoFile;
+    let logo = document.getElementById("flogoFile");
     let title = document.getElementById("subject").value;
     let detail = document.getElementById("explain").value;
     let question = [];
     let formDivs = document.querySelectorAll('.inner#first_content .form-div');
     formDivs.forEach((formDiv, index) => { question.push(extractDataFromContent(formDiv, index)); });
-    return new Form(formType, title, detail, beginDt, endDt, logUrl, themaUrl, question, status);
+    logoFile = logo.files[0];
+    return new Form(formType, title, detail, beginDt, endDt, logoFile, themaUrl, question, status);
 }
 
 function validateRequestData(request) {
@@ -188,15 +205,40 @@ function validateRequestData(request) {
     return true;
 }
 
-async function register (request) {
+async function uploadImage(request) {
+    if (request.question) {
+        for (const question of request.question) {
+            if (question.file) {
+                question.imageUrl = await upload(question.file);
+            }
+            delete question.file
+        }
+    }
+
+    if (request.logoUrl) {
+        request.logoUrl = await upload(request.logoUrl);
+    }
+}
+
+async function  register (request) {
     closeModal()
     await FORM_SUBMIT_API(request).then(res => {
         console.log(res)
-        if (res || res.resultCode == '0') {
+        if (res && res.resultCode == '0') {
             alert('등록 성공')
             window.location.replace(PAGE.ADMIN_MAIN)
         } else {
             alert('등록 실패')
+        }
+    })
+}
+
+async function upload (file) {
+    return await UPLOAD_FILE_API(file).then(res => {
+        if (res && res.resultCode == '0') {
+            return res.file.path;
+        } else {
+            return null;
         }
     })
 }
@@ -238,6 +280,33 @@ function closeModal() {
     let element = document.getElementById('modal');
     element.style.display = "none";
     document.body.style.overflow = "auto";
+}
+
+function previewImage(inputId) {
+    const input = document.getElementById("f" + inputId);
+    const canvasId = 'img-view-n' + inputId;
+    const canvas = document.getElementById(canvasId);
+    const context = canvas.getContext('2d');
+    const divElement = document.getElementById('img-view-p' + inputId)
+    canvas.style.display = 'block'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
+    divElement.style.display = 'none';
+
+    const file = input.files[0];
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function () {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            };
+        };
+
+        reader.readAsDataURL(file);
+    }
 }
 
 let formType, logUrl, themaUrl, beginDt, endDt, status
@@ -316,6 +385,7 @@ $(document).ready(() => { // 초기값 설정
 $(window).load(() => {
     ESSENTIAL_LOGIN()
 
+
 })
 
 
@@ -356,8 +426,9 @@ class Question {
     detail;
     count;
     answer;
+    file;
 
-    constructor(type, count, order, title, placeholder, detail, answer) {
+    constructor(type, count, order, title, placeholder, detail, answer, file) {
         this.type = type;
         this.count = count;
         this.order = order;
@@ -365,5 +436,6 @@ class Question {
         this.placeholder = placeholder;
         this.detail = detail;
         this.answer = answer;
+        this.file = file;
     }
 }

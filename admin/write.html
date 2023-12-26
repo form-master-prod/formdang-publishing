@@ -90,8 +90,11 @@
 									<label for="explain" class="skip">폼 설명</label><input type="text" name="" id="explain" placeholder="폼 설명을 입력하세요.">
 								</div>
 								<div class="frm-upload">
-									<canvas id="img-view"></canvas>
-									<label for="file">로고(상호) 등록하기</label> <input type="file" name="" id="file">
+									<canvas id="img-view-nlogoFile" class="img-view" style="display: none"></canvas>
+									<div id="img-view-plogoFile" class="img-view">
+										<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>
+									</div>
+									<label for="flogoFile">로고(상호) 등록하기</label> <input type="file" name="" id="flogoFile" onchange="previewImage('logoFile')">
 								</div>
 							</div>
 							<div class="container" id="form_container">
@@ -100,8 +103,8 @@
 									<aside class="floating open">
 										<button type="button" class="floating-menu"><span class="skip">펼침</span></button>
 										<ul class="floating_item">
-											<li onclick="appendHtml(subjectivityHTML)"><button type="button"><i class="ico" ></i> <span class="tooltip">주관식</span></button></li>
-											<li onclick="appendHtml(multipleHTML)"><button type="button"><i class="ico"></i> <span class="tooltip">객관식</span></button></li>
+											<li onclick="appendHtml(subjectivityHTML())"><button type="button"><i class="ico" ></i> <span class="tooltip">주관식</span></button></li>
+											<li onclick="appendHtml(multipleHTML())"><button type="button"><i class="ico"></i> <span class="tooltip">객관식</span></button></li>
 										</ul>
 									</aside>
 								</div>

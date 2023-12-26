@@ -10,7 +10,7 @@ const REFRESH_TOKEN = "refreshToken";
 
 const PROD_PAGE = { // 운영 페이지
     MAIN: WEB_SERVER_DOMAIN,
-    ADMIN_MAIN: `${WEB_SERVER_DOMAIN}/formdang-publishing/admin/index.html`,
+    ADMIN_MAIN: `${WEB_SERVER_DOMAIN}/admin/index.html`,
     LOGIN: {
         MY: `${WEB_SERVER_DOMAIN}/admin/login.html`,
         KKO: `${API_SERVER_DOMAIN}/api/sp/public/kakao/login`,
