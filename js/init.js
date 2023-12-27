@@ -15,7 +15,8 @@ const PROD_PAGE = { // 운영 페이지
         MY: `${WEB_SERVER_DOMAIN}/admin/login.html`,
         KKO: `${API_SERVER_DOMAIN}/api/sp/public/kakao/login`,
         GOOGLE: `${API_SERVER_DOMAIN}/api/sp/public/google/login`
-    }
+    },
+    ADMIN_DETAIL: `${WEB_SERVER_DOMAIN}/admin/my_forms.html`
 }
 
 const DEV_PAGE = { // 개발 페이지
@@ -25,7 +26,8 @@ const DEV_PAGE = { // 개발 페이지
         MY: `${WEB_SERVER_DOMAIN}/formdang-publishing/admin/login.html`,
         KKO: `${API_SERVER_DOMAIN}/api/sp/public/kakao/login`,
         GOOGLE: `${API_SERVER_DOMAIN}/api/sp/public/google/login`
-    }
+    },
+    ADMIN_DETAIL: `${WEB_SERVER_DOMAIN}/formdang-publishing/admin/my_forms.html`
 }
 
 const PAGE = LEVEL == 'prod' ? PROD_PAGE : DEV_PAGE

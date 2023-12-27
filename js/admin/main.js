@@ -1,7 +1,7 @@
 const formCardHtml = function (data) {
     return `
         <li>
-            <a href="javascript:alert('링크를 연결하세요!');">
+            <a href="${PAGE.ADMIN_DETAIL + '?fid=' + data.fid}">
                 <i class="ico ${data.type == 0 ? "i-survey-line" : "i-quiz-line"}">
                 <span class="skip">${data.type == 0 ? "설문" : "퀴즈"}</span></i>
                 <figure class="thumb">
