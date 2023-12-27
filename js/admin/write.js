@@ -34,23 +34,23 @@ function multipleHTML () {
     <ol>
       <li>
         <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="1"><label class="skip">객관식 1</label></span>
-        <span class="inp"><label class="skip">객관식 1 내용</label><input type="text" class="q1" name="q1" placeholder="1. 객관식 내용을 입력하세요."></span>
+        <span class="inp" style="width: 100%"><label class="skip">객관식 1 내용</label><input type="text" class="q1" name="q1" placeholder="1. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="2"> <label class="skip">객관식 2</label></span>
-        <span class="inp"><label class="skip">객관식 2 내용</label> <input type="text" class="q2" name="q2"  placeholder="2. 객관식 내용을 입력하세요."></span>
+        <span class="inp" style="width: 100%"><label class="skip">객관식 2 내용</label> <input type="text" class="q2" name="q2"  placeholder="2. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="3"> <label class="skip">객관식 3</label></span>
-        <span class="inp"><label class="skip">객관식 3 내용</label> <input type="text" class="q3" name="q3"  placeholder="3. 객관식 내용을 입력하세요."></span>
+        <span class="inp" style="width: 100%"><label class="skip">객관식 3 내용</label> <input type="text" class="q3" name="q3"  placeholder="3. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="4"> <label class="skip">객관식 4</label></span>
-        <span class="inp"><label class="skip">객관식 4 내용</label> <input type="text" class="q4" name="q4" placeholder="4. 객관식 내용을 입력하세요."></span>
+        <span class="inp" style="width: 100%"><label class="skip">객관식 4 내용</label> <input type="text" class="q4" name="q4" placeholder="4. 객관식 내용을 입력하세요."></span>
       </li>
       <li>
         <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="5"> <label class="skip">객관식 5</label></span>
-        <span class="inp"><label class="skip">객관식 5 내용</label> <input type="text" class="q5" name="q5"  placeholder="5. 객관식 내용을 입력하세요."></span>
+        <span class="inp" style="width: 100%"><label class="skip">객관식 5 내용</label> <input type="text" class="q5" name="q5"  placeholder="5. 객관식 내용을 입력하세요."></span>
       </li>
     </ol>
   </div>
