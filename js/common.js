@@ -78,13 +78,11 @@ for(var j = 0; j < open_modal_btn.length; j++){
 }
 
 function getUserFromToken(token) {
-    const [, payloadBase64] = token.split('.');
-    
-    function base64Decode(base64) {
-        const padding = '='.repeat((4 - (base64.length % 4)) % 4);
-        const base64Url = (base64 + padding).replace(/\-/g, '+').replace(/_/g, '/');
-        return JSON.parse(atob(base64Url));
-    }
+    let base64Url = token.split('.')[1];
+    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
 
-    return base64Decode(payloadBase64);
+    return JSON.parse(jsonPayload)
 }
