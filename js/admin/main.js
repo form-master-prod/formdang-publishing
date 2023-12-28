@@ -46,6 +46,17 @@ const findForms = async (page, type) => {
     })
 }
 
+const findAnalyze = async () => {
+    return await FIND_ANALYZE_API()
+        .then(res => {
+            if (res && res.resultCode == '0') {
+                return res;
+            } else {
+                return null;
+            }
+        })
+}
+
 const setForms = async (data) => {
     if (!data || !data.list || data.list.length == 0) {
         $(".list-wrap").append(formEmptyHtml())
@@ -56,7 +67,13 @@ const setForms = async (data) => {
         $(".list-wrap ul").append(formCardHtml(e))
     })
     $(".list-wrap").append("</ul>")
-    console.log(data)
+}
+
+const setAnalyze = async (data) => {
+    $("li:nth-child(1) em").text(data.inspectionCnt + "건");
+    $("li:nth-child(2) em").text(data.quizCnt + "건");
+    $("li:nth-child(3) em").text(data.inspectionRespondentCnt + "명");
+    $("li:nth-child(4) em").text(data.quizRespondentCnt + "명");
 }
 
 $(document).ready(() => {
@@ -82,5 +99,7 @@ $(window).load(() => {
     $('#type-sel').change(function () {
         findForms(0, document.getElementById('type-sel').value).then(res => setForms(res));
     })
+
+    findAnalyze().then(res => setAnalyze(res))
 
 })
