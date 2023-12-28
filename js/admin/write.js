@@ -181,12 +181,15 @@ function setRequestData (status) {
     let question = [];
     let formDivs = document.querySelectorAll('.inner#first_content .form-div');
     formDivs.forEach((formDiv, index) => { question.push(extractDataFromContent(formDiv, index)); });
-    logoFile = logo.files[0];
+    if (logo.files[0]) {
+        logoFile = logo.files[0];
+    } else {
+        logoFile = DEFAULT_LOGO_URL;
+    }
     return new Form(formType, title, detail, beginDt, endDt, logoFile, themaUrl, question, status);
 }
 
 function validateRequestData(request) {
-    console.log(request)
     // 유효성 검사 처리
     if (!request.beginDt || !request.endDt) {
         alert('날짜기입 오류')
@@ -215,7 +218,7 @@ async function uploadImage(request) {
         }
     }
 
-    if (request.logoUrl) {
+    if (request.logoUrl && request.logoUrl instanceof File) {
         request.logoUrl = await upload(request.logoUrl);
     }
 }
@@ -223,7 +226,6 @@ async function uploadImage(request) {
 async function  register (request) {
     closeModal()
     await FORM_SUBMIT_API(request).then(res => {
-        console.log(res)
         if (res && res.resultCode == '0') {
             alert('등록 성공')
             window.location.replace(PAGE.ADMIN_MAIN)
@@ -309,6 +311,30 @@ function previewImage(inputId) {
     }
 }
 
+function previewImage2(inputId) {
+    const input = document.getElementById( inputId);
+    const canvas = document.getElementById('img-view-n' + inputId);
+    const context = canvas.getContext('2d');
+    const file = input.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function () {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            };
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
+
 let formType, logUrl, themaUrl, beginDt, endDt, status
 let doubleSubmitPrevent = false;
 const today = new Date();
@@ -381,11 +407,13 @@ $(document).ready(() => { // 초기값 설정
 		}
   });
 
+    const dynamicImage = document.getElementById("defaultLogo");
+    dynamicImage.src = DEFAULT_LOGO_URL;
+
 })
 
 $(window).load(() => {
     ESSENTIAL_LOGIN()
-
 
 })
 

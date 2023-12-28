@@ -8,6 +8,8 @@ const API_SERVER_DOMAIN = window.location.host == PROD_DOMAIN ? "https://formdan
 const ACCESS_TOKEN = "accessToken";
 const REFRESH_TOKEN = "refreshToken";
 
+const DEFAULT_LOGO_URL = "https://formmaster-s3.s3.ap-northeast-2.amazonaws.com/logo/d5e6f7a8-9b10-c111-d2e3-4455f6778899.jpg";
+
 const PROD_PAGE = { // 운영 페이지
     MAIN: WEB_SERVER_DOMAIN,
     ADMIN_MAIN: `${WEB_SERVER_DOMAIN}/admin/index.html`,
