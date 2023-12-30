@@ -9,7 +9,7 @@ const redirectToAnswerStatusList = () => {
   }
 
   const newURL = `answer_status_list.html?fid=${fidValue}`;
-  window.open(newURL, '_blank');  // 새 창에서 페이지 열기
+  location.href = newURL
 };
 
 document.addEventListener('DOMContentLoaded', () => {
