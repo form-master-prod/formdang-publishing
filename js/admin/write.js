@@ -427,10 +427,13 @@ $(document).ready(() => { // 초기값 설정
     const dynamicImage = document.getElementById("defaultLogo");
     dynamicImage.src = DEFAULT_LOGO_URL;
 
+    ESSENTIAL_LOGIN();
+    USER_VALIDATE_API();
+
 })
 
 $(window).load(() => {
-    ESSENTIAL_LOGIN()
+
 
 })
 

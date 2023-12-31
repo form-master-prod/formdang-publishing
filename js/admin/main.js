@@ -88,18 +88,18 @@ $(document).ready(() => {
         else if (key == REFRESH_TOKEN) window.localStorage.setItem(key, value)
     }
 
-    findForms(0, document.getElementById('type-sel').value).then(res => setForms(res));
+    ESSENTIAL_LOGIN()
+    USER_VALIDATE_API()
 
 })
 
 $(window).load(() => {
-    ESSENTIAL_LOGIN()
 
+    findForms(0, document.getElementById('type-sel').value).then(res => setForms(res));
+    findAnalyze().then(res => setAnalyze(res));
 
     $('#type-sel').change(function () {
         findForms(0, document.getElementById('type-sel').value).then(res => setForms(res));
     })
-
-    findAnalyze().then(res => setAnalyze(res))
 
 })
