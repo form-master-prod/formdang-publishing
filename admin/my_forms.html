@@ -182,5 +182,37 @@
 <script src="../js/common.js"></script>
 <script src="../js/admin/myForm.js"></script>
 <script src="../js/admin/header.js"></script>
+<script>
+   $(document).ready(function() {
+	  FormDetail();
+  });
+
+  function FormDetail() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fidValue = urlParams.get('fid');
+      if (fidValue) {
+          $.ajax({
+              type: 'GET',
+              url: 'https://formdang-api.com/api/dj/form/detail',
+              data: {fid: fidValue},
+              headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+              },
+              success: function (response) {
+				  alert(response.proc);
+				  if(response.proc == "fail") {
+					  alert("잘못된 접근입니다.")
+					  location.replace("../admin/index.html")
+				  }
+              },
+              error: function (error) {
+				  alert("잘못된 접근입니다.")
+				  location.replace("../admin/index.html")
+                  console.error('AJAX 요청 실패:', error);
+              }
+          });
+      }
+  }
+</script>
 </body>
 </html>
