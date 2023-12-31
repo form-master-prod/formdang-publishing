@@ -40,7 +40,7 @@
         </div>
 	</header>
 	<div id="container">
-		<h2 class="sub-tit">답변보기</h2>
+		<h2 class="sub-tit">답변현황</h2>
 		<div id="contents">
 			<!-- basic -->
 <!--			<div class="tbl-wrap">-->
@@ -94,33 +94,108 @@
 <!--				</table>-->
 <!--			</div>-->
 			<!-- custom style 1 -->
-			<div class="tbl-wrap ctm-st1">
-				<table>
-					<caption>테이블</caption>
-					<colgroup><col /><col /><col /><col /></colgroup>
-					<thead>
-						<tr>
-							<th scope="col">Lorem ipsum 1</th>
-							<th scope="col">Lorem ipsum 2</th>
-							<th scope="col">Lorem ipsum 3</th>
-							<th scope="col">Lorem ipsum 4</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">Lorem ipsum</th>
-							<td>Lorem ipsum</td>
-							<td>Lorem ipsum</td>
-							<td>Lorem ipsum</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+<!--			<div class="tbl-wrap ctm-st1">-->
+<!--				<table>-->
+<!--					<caption>테이블</caption>-->
+<!--					<colgroup><col /><col /><col /><col /></colgroup>-->
+<!--					<thead>-->
+<!--						<tr>-->
+<!--							<th scope="col">Lorem ipsum 1</th>-->
+<!--							<th scope="col">Lorem ipsum 2</th>-->
+<!--							<th scope="col">Lorem ipsum 3</th>-->
+<!--							<th scope="col">Lorem ipsum 4</th>-->
+<!--						</tr>-->
+<!--					</thead>-->
+<!--					<tbody>-->
+<!--						<tr>-->
+<!--							<th scope="row">Lorem ipsum</th>-->
+<!--							<td>Lorem ipsum</td>-->
+<!--							<td>Lorem ipsum</td>-->
+<!--							<td>Lorem ipsum</td>-->
+<!--						</tr>-->
+<!--					</tbody>-->
+<!--				</table>-->
+<!--			</div>-->
+			<div class="forms-list">
+                <form action="">
+                    <fieldset>
+                        <legend>내 설문 목록</legend>
+                        <div class="frm-select">
+                            <div class="select-warp">
+								<label for="type-sel" class="skip">타입 선택</label>
+								<select name="" id="type-sel" class="layer-sel">
+									<option value="99">타입 전체보기</option>
+									<option value="0">설문조사</option>
+									<option value="1">퀴즈</option>
+								</select>
+                            </div>
+                        </div>
+                        <div class="list-wrap">
+                            <ul id="form_answer_list">
+                            </ul>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
 		</div>
 	</div>
 </div>
 <script src="../js/init.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/admin/header.js"></script>
+<script src="../js/admin/main.js"></script>
+<script>
+  $(document).ready(function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fidValue = urlParams.get('fid');
+      if (fidValue) {
+          $.ajax({
+              type: 'GET',
+              url: 'https://formdang-api.com/api/dj/answers/list',
+              data: {fid: fidValue},
+              headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+              },
+              success: function (response) {
+                  const question = response.question_count;
+                  const length = response.answer_list.length;
+                  const data = response.answer_list;
+                  if(length > 0) {
+                      let html = "";
+                      for(let i = 0; i < length; i++) {
+                          html += `
+                                <li>
+                                    <a href="javascript:alert('유저가 문제 풀은 폼으로 이동');">
+                                        <i class="ico i-answer-view"><span class="skip">상세</span></i>
+                                        <h3>${data[i].name} (${data[i].ok_flag_count} / ${question})</h3>
+                                        <p><i class="ico"></i> ${String(data[i].reg_dt).replace("T", "  ")}</p>
+                                    </a>
+                                </li>
+                          `
+                      }
+                      $("#form_answer_list").append(html);
+                  }else {
+                      let html = `
+                           <div class="container" id="form_container">
+                                <div class="inner" id="first_content">
+                                <div class="not-result" id="not-result">
+                                    <i class="ico"></i>
+                                    <p>앗 ! 아직 답변을 제출한 사람이 없어요 !<br>그룹결성을 통해 퀴즈를 풀어보세요 !</p>
+                                </div>
+                                </div>
+                            </div>
+                      `
+                      $("#form_answer_list").after(html);
+                  }
+
+              },
+              error: function (error) {
+                  console.error('AJAX 요청 실패:', error);
+              }
+          });
+      }
+  });
+
+</script>
 </body>
 </html>
