@@ -31,7 +31,7 @@ function multipleHTML () {
   <div class="inp-group">
     <i class="number"></i>
     <label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">
-    <ol>
+    <ol class="subject-valid">
       <li>
         <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="1"><label class="skip">객관식 1</label></span>
         <span class="inp" style="width: 100%"><label class="skip">객관식 1 내용</label><input type="text" class="q1" name="q1" placeholder="1. 객관식 내용을 입력하세요."></span>
@@ -190,7 +190,24 @@ function setRequestData (status) {
 }
 
 function validateRequestData(request) {
-    // 유효성 검사 처리
+    let olElements = document.querySelectorAll('.subject-valid');
+    let alertShown = false;
+
+    for (let i = 0; i < olElements.length; i++) {
+        let checkboxes = olElements[i].querySelectorAll('.ctm-check');
+        let isChecked = Array.from(checkboxes).some(function (checkbox) {
+            return checkbox.checked;
+        });
+        if (!isChecked && !alertShown) {
+            alert('하나 이상의 답안을 체크해주세요.');
+            checkboxes[0].focus();
+            alertShown = true;
+        }
+    }
+    if(alertShown) {
+        return false;
+    }
+
     if (!request.beginDt || !request.endDt) {
         alert('날짜기입 오류')
         return false;
