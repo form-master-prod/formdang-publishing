@@ -199,7 +199,6 @@
                   'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
               },
               success: function (response) {
-				  alert(response.proc);
 				  if(response.proc == "fail") {
 					  alert("잘못된 접근입니다.")
 					  location.replace("../admin/index.html")
