@@ -116,9 +116,24 @@
 <!--					</tbody>-->
 <!--				</table>-->
 <!--			</div>-->
+
+
+
 			<div class="forms-list">
                 <form action="">
                     <fieldset>
+                        <legend>정렬</legend>
+                        <div class="frm-select">
+                            <div class="select-warp">
+								<label for="type-sel" class="skip">타입 선택</label>
+								<select name="" id="type-sel" class="layer-sel">
+									<option value="">답변 제출 순</option>
+									<option value="ok_flag_up">높은 점수 순</option>
+									<option value="ok_flag_down">낮은 점수 순</option>
+									<option value="name">이름 정렬 순</option>
+								</select>
+                            </div>
+                        </div>
                         <div class="list-wrap">
                             <ul id="form_answer_list">
                             </ul>
@@ -135,13 +150,15 @@
 <!--<script src="../js/admin/main.js"></script>-->
 <script>
   $(document).ready(function() {
+	  $('.layer-sel').niceSelect();
       const urlParams = new URLSearchParams(window.location.search);
       const fidValue = urlParams.get('fid');
       if (fidValue) {
+		  let order = $("#type-sel").val();
           $.ajax({
               type: 'GET',
               url: 'https://formdang-api.com/api/dj/answers/list',
-              data: {fid: fidValue},
+              data: {fid: fidValue, order: order},
               headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
               },
@@ -162,6 +179,7 @@
                                 </li>
                           `
                       }
+					  $("#form_answer_list").empty();
                       $("#form_answer_list").append(html);
                   }else {
                       let html = `
