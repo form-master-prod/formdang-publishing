@@ -5,7 +5,8 @@ const END_POINT = {
     FIND_FORM_LIST: '/api/sp/form/find',
     FORM_SUBMIT_API: '/api/sp/form/submit',
     UPLOAD_FILE_API: '/api/sp/public/file/upload',
-    FIND_ANALYZE_API: '/api/sp/form/analyze'
+    FIND_ANALYZE_API: '/api/sp/form/analyze',
+    USER_VALIDATE_API: '/api/sp/admin/validate',
 }
 
 const IS_UNAUTHORIZED = (e) => {
@@ -96,6 +97,23 @@ const FIND_ANALYZE_API = () => {
         error:function(e){
             IS_UNAUTHORIZED(e)
             return null;
+        }
+    });
+}
+
+const USER_VALIDATE_API = () => {
+
+    return $.ajax({
+        url : `${API_SERVER_DOMAIN}${END_POINT.USER_VALIDATE_API}`,
+        method : GET,
+        headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
+        },
+        success: (res) => {
+            if (LEVEL == 'dev') console.log(res)
+        },
+        error:function(e){
+            IS_UNAUTHORIZED(e)
         }
     });
 }
