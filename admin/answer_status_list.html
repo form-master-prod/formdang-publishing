@@ -151,6 +151,16 @@
 <script>
   $(document).ready(function() {
 	  $('.layer-sel').niceSelect();
+	  answerList();
+
+	  // 정렬에 따른 리스트 리셋
+	  $('#type-sel').on('change', function() {
+		 answerList();
+	  });
+  });
+
+
+  function answerList() {
       const urlParams = new URLSearchParams(window.location.search);
       const fidValue = urlParams.get('fid');
       if (fidValue) {
@@ -201,8 +211,7 @@
               }
           });
       }
-  });
-
+  }
 </script>
 </body>
 </html>
