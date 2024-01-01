@@ -51,7 +51,7 @@ const setForms = (data) => {
     if (!data || !data.list || data.list.length == 0) {
         $(".list-wrap ul").empty();
 
-        let notResultElement = listWrapElement.querySelector('.not-result');
+        let notResultElement = document.querySelector('.not-result');
         if (!notResultElement) {
             $(".list-wrap").append(formEmptyHtml())
         }
