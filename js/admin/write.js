@@ -186,7 +186,7 @@ function setRequestData (status) {
     } else {
         logoFile = DEFAULT_LOGO_URL;
     }
-    return new Form(formType, title, detail, beginDt, endDt, logoFile, themaUrl, question, status);
+    return new Form(formType, title, detail, formatDateToyyyyMMdd(beginDt), formatDateToyyyyMMdd(endDt), logoFile, themaUrl, question, status);
 }
 
 function validateRequestData(request) {
@@ -346,29 +346,25 @@ function previewImage(inputId) {
     }
 }
 
-function previewImage2(inputId) {
-    const input = document.getElementById( inputId);
-    const canvas = document.getElementById('img-view-n' + inputId);
-    const context = canvas.getContext('2d');
-    const file = input.files[0];
+function formatDateToyyyyMMdd(inputDateString) {
+    // 문자열로부터 Date 객체 생성
+    var inputDate = new Date(inputDateString);
 
-    if (file) {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            const img = new Image();
-            img.src = e.target.result;
-
-            img.onload = function () {
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
-            };
-        };
-
-        reader.readAsDataURL(file);
+    if (isNaN(inputDate.getTime())) {
+        console.error('Invalid date string');
+        return '';
     }
-}
 
+    // 날짜 구성 요소 가져오기
+    var year = inputDate.getFullYear();
+    var month = ('0' + (inputDate.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 1을 더하고 2자리로 포맷
+    var day = ('0' + inputDate.getDate()).slice(-2); // 날짜를 2자리로 포맷
+
+    // yyyyMMdd 형식으로 조합
+    var formattedDate = year + month + day;
+
+    return formattedDate;
+}
 
 let formType, logUrl, themaUrl, beginDt, endDt, status
 let doubleSubmitPrevent = false;

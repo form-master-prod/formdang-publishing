@@ -46,18 +46,7 @@ const findForms = async (page, type, status) => {
     })
 }
 
-const findAnalyze = async () => {
-    return await FIND_ANALYZE_API()
-        .then(res => {
-            if (res && res.resultCode == '0') {
-                return res;
-            } else {
-                return null;
-            }
-        })
-}
-
-const setForms = async (data) => {
+const setForms = (data) => {
     isLast(data)
     if (!data || !data.list || data.list.length == 0) {
         $(".list-wrap ul").empty();
@@ -65,8 +54,8 @@ const setForms = async (data) => {
         return
     }
 
-    var listWrapElement = document.querySelector('.list-wrap');
-    var notResultElement = listWrapElement.querySelector('.not-result');
+    let listWrapElement = document.querySelector('.list-wrap');
+    let notResultElement = listWrapElement.querySelector('.not-result');
 
     if (notResultElement) {
         listWrapElement.removeChild(notResultElement);
@@ -85,7 +74,8 @@ const isLast = (data) => {
     }
 }
 
-const setAnalyze = async (data) => {
+const setAnalyze = (data) => {
+
     $("li:nth-child(1) em").text(data.quizCnt + "건");
     $("li:nth-child(2) em").text(data.quizRespondentCnt + "건");
     // $("li:nth-child(3) em").text(data.inspectionCnt + "명");
@@ -114,13 +104,12 @@ let page = 1, endFlag = false, type = 99, status = 99;
 $(window).load(() => {
 
 
-    findForms(0, type, status).then(res => setForms(res));
-    findAnalyze().then(res => setAnalyze(res));
+    findForms(0, type, status).then(res => { setForms(res); setAnalyze(res.analyze); });
 
     $('#type-sel').change(function () {
         $(".list-wrap ul").empty();
         type = document.getElementById('type-sel').value;
-        findForms(0, type, status).then(res => setForms(res));
+        findForms(0, type, status).then(res => { setForms(res); setAnalyze(res.analyze); });
         page = 1;
         endFlag = false;
     })
@@ -128,7 +117,7 @@ $(window).load(() => {
     $('#status-sel').change(function () {
         $(".list-wrap ul").empty();
         status = document.getElementById('status-sel').value;
-        findForms(0, type, status).then(res => setForms(res));
+        findForms(0, type, status).then(res => { setForms(res); setAnalyze(res.analyze); });
         page = 1;
         endFlag = false;
     })
@@ -150,7 +139,7 @@ $(window).load(() => {
         // 스크롤이 80%에 도달하면 특정 함수 호출
         if (scrollPercentage >= 80) {
             if (!endFlag) {
-                findForms(page++ , type, status).then(res => setForms(res));
+                findForms(page++ , type, status).then(res => { setForms(res); setAnalyze(res.analyze); });
             }
         }
     }

@@ -81,26 +81,6 @@ const UPLOAD_FILE_API = (file) => {
     });
 }
 
-
-const FIND_ANALYZE_API = () => {
-
-    return $.ajax({
-        url : `${API_SERVER_DOMAIN}${END_POINT.FIND_ANALYZE_API}`,
-        method : GET,
-        headers: {
-            'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
-        },
-        success: (res) => {
-            if (LEVEL == 'dev') console.log(res)
-            return res;
-        },
-        error:function(e){
-            IS_UNAUTHORIZED(e)
-            return null;
-        }
-    });
-}
-
 const USER_VALIDATE_API = () => {
 
     return $.ajax({
