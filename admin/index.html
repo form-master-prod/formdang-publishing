@@ -44,26 +44,26 @@
         <div id="contents">
             <ul class="report">
                 <li>
-                    <i class="ico i-survey-fill"></i>
-                    <div>
-						<p>생성된 설문조사</p>
-						<em></em>
-					</div>
-                </li>
-                <li>
                     <i class="ico i-quiz-fill"></i>
-					<div>
+                    <div>
 						<p>생성된 퀴즈</p>
 						<em></em>
 					</div>
                 </li>
-                <li>
-                    <i class="ico"></i>
-					<div>
-						<p>총 설문답변 인원</p>
-						<em></em>
-					</div>
-                </li>
+<!--                <li>-->
+<!--                    <i class="ico i-survey-fill"></i>-->
+<!--					<div>-->
+<!--						<p>생성된 설문조사</p>-->
+<!--						<em></em>-->
+<!--					</div>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <i class="ico"></i>-->
+<!--					<div>-->
+<!--						<p>총 설문답변 인원</p>-->
+<!--						<em></em>-->
+<!--					</div>-->
+<!--                </li>-->
                 <li>
                     <i class="ico"></i>
 					<div>
@@ -76,14 +76,25 @@
                 <form action="">
                     <fieldset>
                         <legend>내 설문 목록</legend>
+<!--                        <div class="frm-select">-->
+<!--                            <div class="select-warp">-->
+<!--								<label for="type-sel" class="skip">타입 선택</label>-->
+<!--								<select name="" id="type-sel" class="layer-sel">-->
+<!--									<option value="99">타입 전체보기</option>-->
+<!--									<option value="0">설문조사</option>-->
+<!--									<option value="1">퀴즈</option>-->
+<!--								</select>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="frm-select">
                             <div class="select-warp">
-								<label for="type-sel" class="skip">타입 선택</label>
-								<select name="" id="type-sel" class="layer-sel">
-									<option value="99">타입 전체보기</option>
-									<option value="0">설문조사</option>
-									<option value="1">퀴즈</option>
-								</select>
+                                <label for="status-sel" class="skip">상태 선택</label>
+                                <select name="" id="status-sel" class="layer-sel">
+                                    <option value="99">상태 전체보기</option>
+                                    <option value="0">진행 상태</option>
+                                    <option value="1">종료 상태</option>
+                                    <option value="2">임시 저장</option>
+                                </select>
                             </div>
                         </div>
                         <div class="list-wrap" >

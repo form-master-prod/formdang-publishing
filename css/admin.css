@@ -6,7 +6,7 @@
 /* icon */
 .ico {display: block; background-position: center; background-repeat: no-repeat; border-radius: 100%;}
 .i-survey-fill {background-image: url("../image/icon/fill_board.svg") !important; background-color: var(--primary-color);}
-.i-quiz-fill {background-image: url("../image/icon/fill_question.svg") !important;}
+.i-quiz-fill {background-image: url("../image/icon/fill_question.svg") !important; background-color: var(--primary-color);}
 .i-calender-fill {background-image: url("../image/icon/fill_calendar.svg") !important;}
 .i-date-fill {background-image: url("../image/icon/fill_clock.svg") !important;}
 .i-survey-line {background-image: url("../image/icon/outline_board.svg");}

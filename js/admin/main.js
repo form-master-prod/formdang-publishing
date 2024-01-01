@@ -27,15 +27,16 @@ const formEmptyHtml = function () {
     <div class="not-result">
         <i class="ico"></i>
         <p>앗 ! 등록된 폼이 없어요.<br>버튼을 클릭하여 폼을 만들어주세요.</p>
-        <a href="#" class="st-ico"><i class="ico i-form"></i> <span>폼 작성하기</span></a>
+        <a href="write.html" class="st-ico"><i class="ico i-form"></i> <span>폼 작성하기</span></a>
     </div>
 `
 }
 
-const findForms = async (page, type) => {
+const findForms = async (page, type, status) => {
     return await FORM_LIST_API({
         page: page,
-        type: type
+        type: type,
+        status: status
     }).then(res => {
         if (res && res.resultCode == '0') {
             return res;
@@ -59,25 +60,36 @@ const findAnalyze = async () => {
 const setForms = async (data) => {
     isLast(data)
     if (!data || !data.list || data.list.length == 0) {
-        $("#list-wrap-card").append(formEmptyHtml())
+        $(".list-wrap ul").empty();
+        $(".list-wrap").append(formEmptyHtml())
         return
     }
+
+    var listWrapElement = document.querySelector('.list-wrap');
+    var notResultElement = listWrapElement.querySelector('.not-result');
+
+    if (notResultElement) {
+        listWrapElement.removeChild(notResultElement);
+    }
+
     data.list.forEach(e => {
         $("#list-wrap-card").append(formCardHtml(e))
     })
 }
 
 const isLast = (data) => {
-    if (data.totalPage == data.curPage + 1) {
+    if (!data || !data.list || data.list.length == 0) {
+        endFlag = true;
+    }else if (data.totalPage == data.curPage + 1) {
         endFlag = true;
     }
 }
 
 const setAnalyze = async (data) => {
-    $("li:nth-child(1) em").text(data.inspectionCnt + "건");
-    $("li:nth-child(2) em").text(data.quizCnt + "건");
-    $("li:nth-child(3) em").text(data.inspectionRespondentCnt + "명");
-    $("li:nth-child(4) em").text(data.quizRespondentCnt + "명");
+    $("li:nth-child(1) em").text(data.quizCnt + "건");
+    $("li:nth-child(2) em").text(data.quizRespondentCnt + "건");
+    // $("li:nth-child(3) em").text(data.inspectionCnt + "명");
+    // $("li:nth-child(4) em").text(data.inspectionRespondentCnt + "명");
 }
 
 $(document).ready(() => {
@@ -97,17 +109,26 @@ $(document).ready(() => {
 
 })
 
-let page = 1, endFlag = false;
+let page = 1, endFlag = false, type = 99, status = 99;
 
 $(window).load(() => {
 
 
-    findForms(0, document.getElementById('type-sel').value).then(res => setForms(res));
+    findForms(0, type, status).then(res => setForms(res));
     findAnalyze().then(res => setAnalyze(res));
 
     $('#type-sel').change(function () {
         $(".list-wrap ul").empty();
-        findForms(0, document.getElementById('type-sel').value).then(res => setForms(res));
+        type = document.getElementById('type-sel').value;
+        findForms(0, type, status).then(res => setForms(res));
+        page = 1;
+        endFlag = false;
+    })
+
+    $('#status-sel').change(function () {
+        $(".list-wrap ul").empty();
+        status = document.getElementById('status-sel').value;
+        findForms(0, type, status).then(res => setForms(res));
         page = 1;
         endFlag = false;
     })
@@ -129,7 +150,7 @@ $(window).load(() => {
         // 스크롤이 80%에 도달하면 특정 함수 호출
         if (scrollPercentage >= 80) {
             if (!endFlag) {
-                findForms(page++ , document.getElementById('type-sel').value).then(res => setForms(res));
+                findForms(page++ , type, status).then(res => setForms(res));
             }
         }
     }
