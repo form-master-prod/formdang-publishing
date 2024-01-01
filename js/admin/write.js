@@ -222,6 +222,24 @@ function validateRequestData(request) {
         return false;
     }
 
+    for (let q of request.question) {
+        if (q.type == 0) {
+            if (!q.title) {
+                alert('주관식 타이틀 누락')
+                return false;
+            }
+        } else if (q.type == 1) {
+            if (!q.title) {
+                alert('객관식 타이틀 누락')
+                return false;
+            } else if(!q.detail || q.detail == 0) {
+                alert('객관식 내용 누락')
+                return false;
+            }
+
+        }
+    }
+
     return true;
 }
 

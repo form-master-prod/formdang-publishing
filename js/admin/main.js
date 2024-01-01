@@ -33,7 +33,6 @@ const formEmptyHtml = function () {
 }
 
 const findForms = async (page, type) => {
-    $(".list-wrap ul:first").remove();
     return await FORM_LIST_API({
         page: page,
         type: type
@@ -58,15 +57,20 @@ const findAnalyze = async () => {
 }
 
 const setForms = async (data) => {
+    isLast(data)
     if (!data || !data.list || data.list.length == 0) {
-        $(".list-wrap").append(formEmptyHtml())
+        $("#list-wrap-card").append(formEmptyHtml())
         return
     }
-    $(".list-wrap").append("<ul>")
     data.list.forEach(e => {
-        $(".list-wrap ul").append(formCardHtml(e))
+        $("#list-wrap-card").append(formCardHtml(e))
     })
-    $(".list-wrap").append("</ul>")
+}
+
+const isLast = (data) => {
+    if (data.totalPage == data.curPage + 1) {
+        endFlag = true;
+    }
 }
 
 const setAnalyze = async (data) => {
@@ -93,13 +97,45 @@ $(document).ready(() => {
 
 })
 
+let page = 1, endFlag = false;
+
 $(window).load(() => {
+
 
     findForms(0, document.getElementById('type-sel').value).then(res => setForms(res));
     findAnalyze().then(res => setAnalyze(res));
 
     $('#type-sel').change(function () {
+        $(".list-wrap ul").empty();
         findForms(0, document.getElementById('type-sel').value).then(res => setForms(res));
+        page = 1;
+        endFlag = false;
     })
+
+
+    function debounce(func, delay) {
+        let timeoutId;
+        return function () {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                func.apply(this, arguments);
+            }, delay);
+        };
+    }
+
+    function handleScroll() {
+        const scrollPercentage = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
+
+        // 스크롤이 80%에 도달하면 특정 함수 호출
+        if (scrollPercentage >= 80) {
+            if (!endFlag) {
+                findForms(page++ , document.getElementById('type-sel').value).then(res => setForms(res));
+            }
+        }
+    }
+
+    const debounceHandleScroll = debounce(handleScroll, 100);
+
+    window.addEventListener('scroll', debounceHandleScroll);
 
 })
