@@ -50,7 +50,11 @@ const setForms = (data) => {
     isLast(data)
     if (!data || !data.list || data.list.length == 0) {
         $(".list-wrap ul").empty();
-        $(".list-wrap").append(formEmptyHtml())
+
+        let notResultElement = listWrapElement.querySelector('.not-result');
+        if (!notResultElement) {
+            $(".list-wrap").append(formEmptyHtml())
+        }
         return
     }
 
