@@ -48,7 +48,7 @@ function FORM_SUBMIT_API(data) { // 폼 제출
 }
 
 function UPLOAD_FILE_API(data) { // 파일 업로드
-    if (data instanceof FormData) {
+    if (!(data instanceof FormData)) {
         return null;
     }
 
