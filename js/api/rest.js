@@ -1,99 +1,85 @@
-const GET = "GET"
-const POST = "POST";
-
+// REST 상수
+const UNAUTHORIZED_STATUS = 401; // 401 상태 오류 상수
+const GET = "GET" // GET 상수
+const POST = "POST"; // POST 상수
+const SP_API_PREFIX = "/api/sp"; // 스프링 API prefix (해당 prefix에 따라 nginx에서 revers proxy 처리)
 const END_POINT = {
-    FIND_FORM_LIST: '/api/sp/form/find',
-    FORM_SUBMIT_API: '/api/sp/form/submit',
-    UPLOAD_FILE_API: '/api/sp/public/file/upload',
-    FIND_ANALYZE_API: '/api/sp/form/analyze',
-    USER_VALIDATE_API: '/api/sp/admin/validate',
+    FIND_FORM_LIST: concatPrefix('/form/find'), // 폼 리스트 조회 uri
+    FORM_SUBMIT_API: concatPrefix('/form/submit'), // 폼 제출 uri
+    UPLOAD_FILE_API: concatPrefix('/public/file/upload'), // 파일 업로드 uri
+    USER_VALIDATE_API: concatPrefix('/admin/validate'), // 토큰 유효성 검사 uri
+}
+const JSON_CONTENT_TYPE = "application/json; charset=utf-8";
+
+function concatPrefix(uri) { return SP_API_PREFIX + uri } // 스프링 API prefix 생성 함수
+function getToken() { return { 'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}` } } // 헤더 토큰 적용 함수
+
+function FORM_LIST_API(data) { // 폼 리스트 조회
+    return $.ajax({
+        url : getApiURL(END_POINT.FIND_FORM_LIST),
+        method : GET,
+        headers: {...getToken()},
+        data: data,
+        success: function (res) {
+            if (!isProduction()) console.log(res) // 개발 환경 콘솔 처리
+            return res;
+        },
+        error:function(e){
+            return IS_UNAUTHORIZED(e);
+        }
+    });
 }
 
-const IS_UNAUTHORIZED = (e) => {
-    if (e && e.status == 401) {
-        alert('로그아웃 되었습니다. 다시 로그인해주세요.')
-        window.location.replace(PAGE.LOGIN.MY)
+function FORM_SUBMIT_API(data) { // 폼 제출
+    return $.ajax({
+        url : getApiURL(END_POINT.FORM_SUBMIT_API),
+        method : POST,
+        headers: {...getToken()},
+        contentType: JSON_CONTENT_TYPE, // json body 처리
+        data : JSON.stringify(data),
+        success: function (res) {
+            if (!isProduction()) console.log(res) // 개발 환경 콘솔 처리
+            return res;
+        },
+        error:function(e){
+            return IS_UNAUTHORIZED(e);
+        }
+    });
+}
+
+function UPLOAD_FILE_API(data) { // 파일 업로드
+    if (data instanceof FormData) {
+        return null;
     }
-}
-
-const FORM_LIST_API = (jsonData) => {
 
     return $.ajax({
-        url : `${API_SERVER_DOMAIN}${END_POINT.FIND_FORM_LIST}`,
-        method : GET,
-        headers: {
-            'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
-        },
-        data: jsonData,
-        success: (res) => {
-            if (LEVEL == 'dev') console.log(res)
-            return res;
-        },
-        error:function(e){
-            IS_UNAUTHORIZED(e)
-            return null;
-        }
-    });
-}
-
-const FORM_SUBMIT_API = (jsonData) => {
-
-    return $.ajax({
-        url : `${API_SERVER_DOMAIN}${END_POINT.FORM_SUBMIT_API}`,
+        url : getApiURL(END_POINT.UPLOAD_FILE_API),
         method : POST,
-        headers: {
-            'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
-        },
-        contentType: "application/json; charset=utf-8",
-        data : JSON.stringify(jsonData),
-        success: (res) => {
-            if (LEVEL == 'dev') console.log(res)
-            return res;
-        },
-        error:function(e){
-            IS_UNAUTHORIZED(e)
-            return null;
-        }
-    });
-}
-
-const UPLOAD_FILE_API = (file) => {
-    let form = new FormData();
-    form.append("file", file);
-
-    return $.ajax({
-        url : `${API_SERVER_DOMAIN}${END_POINT.UPLOAD_FILE_API}`,
-        method : POST,
-        headers: {
-            'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
-        },
-        processData : false,
+        headers: {...getToken()},
+        processData : false, // query string 형태 파일전송 false 처리 (파일전송처리)
         contentType : false,
-        data : form,
-        success: (res) => {
-            if (LEVEL == 'dev') console.log(res)
+        data : data,
+        success: function(res) {
+            if (!isProduction()) console.log(res) // 개발 환경 콘솔 처리
             return res;
         },
         error:function(e){
-            IS_UNAUTHORIZED(e)
-            return null;
+            return IS_UNAUTHORIZED(e);
         }
     });
 }
 
-const USER_VALIDATE_API = () => {
-
+function USER_VALIDATE_API() { // 토큰 유효성 검사
     return $.ajax({
-        url : `${API_SERVER_DOMAIN}${END_POINT.USER_VALIDATE_API}`,
+        url : getApiURL(END_POINT.USER_VALIDATE_API),
         method : GET,
-        headers: {
-            'Authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
-        },
+        headers: {...getToken()},
         success: (res) => {
-            if (LEVEL == 'dev') console.log(res)
+            if (!isProduction()) console.log(res) // 개발 환경 콘솔 처리
+            return res;
         },
         error:function(e){
-            IS_UNAUTHORIZED(e)
+            return IS_UNAUTHORIZED(e);
         }
     });
 }

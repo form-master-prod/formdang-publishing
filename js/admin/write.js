@@ -271,7 +271,9 @@ async function  register (request) {
 }
 
 async function upload (file) {
-    return await UPLOAD_FILE_API(file).then(res => {
+    let form = new FormData();
+    form.append("file", file); // 파일 formdata
+    return await UPLOAD_FILE_API(form).then(res => {
         if (res && res.resultCode == '0') {
             return res.file.path;
         } else {
@@ -442,7 +444,6 @@ $(document).ready(() => { // 초기값 설정
     dynamicImage.src = DEFAULT_LOGO_URL;
 
     ESSENTIAL_LOGIN();
-    USER_VALIDATE_API();
 
 })
 

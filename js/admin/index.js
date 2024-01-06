@@ -82,8 +82,6 @@ const setAnalyze = (data) => {
 
     $("li:nth-child(1) em").text(data.quizCnt + "건");
     $("li:nth-child(2) em").text(data.quizRespondentCnt + "건");
-    // $("li:nth-child(3) em").text(data.inspectionCnt + "명");
-    // $("li:nth-child(4) em").text(data.inspectionRespondentCnt + "명");
 }
 
 $(document).ready(() => {
@@ -99,7 +97,6 @@ $(document).ready(() => {
     }
 
     ESSENTIAL_LOGIN()
-    USER_VALIDATE_API()
 
 })
 

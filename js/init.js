@@ -1,69 +1,77 @@
-const PROD_DOMAIN = 'formdang.com';
+// URL 상수
+const PROD_DOMAIN_NAME = 'formdang.com'; // 운영 도메인명
+const PROD_WEB_URL = "https://formdang.com"; // 운영 WEB 서버 URL
+const DEV_WEB_URL = "http://localhost:63342"; // 개발 WEB 서버 URL
+const PROD_API_URL = "https://formdang-api.com"; // 운영 API 서버 URL
+const DEV_API_URL = "http://localhost:12001"; // 개발 API 서버 URL
+const DEV_PREFIX_URI = "/formdang-publishing"; // 개발 WEB 서버 prefix uri
+const PROD = "prod"; // 운영 상수
+const DEV = "dev"; // 개발 상수
 
-const LEVEL = window.location.host == PROD_DOMAIN ? "prod" : "dev";
+// 토큰 상수
+const ACCESS_TOKEN = "accessToken"; // 토큰명 상수
+const REFRESH_TOKEN = "refreshToken"; // 리프뤠시 토큰명 상수
 
-const WEB_SERVER_DOMAIN = window.location.host == PROD_DOMAIN ? "https://formdang.com" : "http://localhost:63342";
-const API_SERVER_DOMAIN = window.location.host == PROD_DOMAIN ? "https://formdang-api.com" : "http://localhost:12001";
+// 공통 상수
+const DEFAULT_LOGO_URL = "https://formmaster-s3.s3.ap-northeast-2.amazonaws.com/logo/d5e6f7a8-9b10-c111-d2e3-4455f6778899.jpg"; // 로고 이미지 상수
+const KKO = "KKO"; // 카카오 로그인 타입 상수
+const GOOGLE = "GOOGLE"; // 구글 로그인 타입 상수
 
-const ACCESS_TOKEN = "accessToken";
-const REFRESH_TOKEN = "refreshToken";
-
-const DEFAULT_LOGO_URL = "https://formmaster-s3.s3.ap-northeast-2.amazonaws.com/logo/d5e6f7a8-9b10-c111-d2e3-4455f6778899.jpg";
-
-const PROD_PAGE = { // 운영 페이지
-    MAIN: WEB_SERVER_DOMAIN,
-    ADMIN_MAIN: `${WEB_SERVER_DOMAIN}/admin/index.html`,
+const WEB_SERVER_URL = getURL(PROD_WEB_URL, DEV_WEB_URL); // 환경에 따른 WEB 서버 URL
+const API_SERVER_URL = getURL(PROD_API_URL, DEV_API_URL); // 환경에 따른 API 서버 URL
+const LEVEL = getActiveLevel(PROD, DEV); // 액티브 레벨 상수
+const PAGE  = { // 환경에 따른 페이지 URL
+    MAIN: getWebURL(""),
+    ADMIN_MAIN: getWebURL("/admin/index.html"),
+    ADMIN_DETAIL: getWebURL("/admin/my_forms.html"),
     LOGIN: {
-        MY: `${WEB_SERVER_DOMAIN}/admin/login.html`,
-        KKO: `${API_SERVER_DOMAIN}/api/sp/public/kakao/login`,
-        GOOGLE: `${API_SERVER_DOMAIN}/api/sp/public/google/login`
+        MY: getWebURL("/admin/login.html"),
+        KKO: getApiURL("/api/sp/public/kakao/login"),
+        GOOGLE: getApiURL("/api/sp/public/google/login"),
     },
-    ADMIN_DETAIL: `${WEB_SERVER_DOMAIN}/admin/my_forms.html`
 }
 
-const DEV_PAGE = { // 개발 페이지
-    MAIN: `${WEB_SERVER_DOMAIN}/formdang-publishing/index.html`,
-    ADMIN_MAIN: `${WEB_SERVER_DOMAIN}/formdang-publishing/admin/index.html`,
-    LOGIN: {
-        MY: `${WEB_SERVER_DOMAIN}/formdang-publishing/admin/login.html`,
-        KKO: `${API_SERVER_DOMAIN}/api/sp/public/kakao/login`,
-        GOOGLE: `${API_SERVER_DOMAIN}/api/sp/public/google/login`
-    },
-    ADMIN_DETAIL: `${WEB_SERVER_DOMAIN}/formdang-publishing/admin/my_forms.html`
+function isProduction() { return window.location.host == PROD_DOMAIN_NAME; }; // 운영 여부 함수
+function getURL(prod, dev) { return isProduction() ? prod : dev; }; // 환경에 따른 URL 생성 함수
+function getWebURL(uri) { return WEB_SERVER_URL + getURL(uri, DEV_PREFIX_URI + uri); }; // 환경에 따른 WEB URL 생성 함수
+function getApiURL(uri) { return API_SERVER_URL + uri; }; // 환경에 따른 API URL 생성 함수
+function getActiveLevel(prod, dev) { return isProduction() ? prod : dev; }; // 환경에 따른 액티브 환경 레벨 생성 함수
+function forwarding(url) { return window.location.replace(url); }; // 페이지 포워딩 함수
+
+function LOGIN(type) { // 로그인
+    if (type == KKO) forwarding(PAGE.LOGIN.KKO);
+    else if (type == GOOGLE) forwarding(PAGE.LOGIN.GOOGLE);
 }
 
-const PAGE = LEVEL == 'prod' ? PROD_PAGE : DEV_PAGE
-
-const LOGIN = (type) => { // 로그인
-    if (type == 'KKO') window.location.replace(PAGE.LOGIN.KKO)
-    else if (type == 'GOOGLE') window.location.replace(PAGE.LOGIN.GOOGLE)
+function REMOVE_LOGIN_INFO() { // 로그인 토큰 삭제
+    window.localStorage.removeItem(ACCESS_TOKEN);
+    window.localStorage.removeItem(REFRESH_TOKEN);
 }
 
-const REMOVE_LOGIN_INFO = () => { // 로그인 토큰 삭제
-    window.localStorage.removeItem(ACCESS_TOKEN)
-    window.localStorage.removeItem(REFRESH_TOKEN)
+function LOGOUT() { // 로그아웃 공통 로직
+    REMOVE_LOGIN_INFO();
+    forwarding(PAGE.MAIN);
 }
 
-const LOGOUT = () => { // 로그아웃 공통 로직
-    REMOVE_LOGIN_INFO()
-    window.location.replace(PAGE.MAIN)
+function LOGOUT_AUTO() { // 토큰 삭제 및 토큰 유효성 만료 자동 로그아웃
+    REMOVE_LOGIN_INFO();
+    alert('로그아웃 되었습니다. 다시 로그인해주세요.')
+    forwarding(PAGE.LOGIN.MY);
 }
 
-const IS_LOGIN = () => { // 로그인 체크 공통 로직
-    return window.localStorage.getItem(ACCESS_TOKEN)
+function IS_LOGIN() { // 로그인 체크 공통 로직
+    return window.localStorage.getItem(ACCESS_TOKEN);
 }
 
-const ESSENTIAL_LOGIN = () => {
-    if (!IS_LOGIN()) {
-        alert('로그인을 해주세요.')
-        window.location.replace(PAGE.LOGIN.MY)
+function ESSENTIAL_LOGIN() { // 로그인 필수 체크
+    if (IS_LOGIN) { // 토큰 존재
+        USER_VALIDATE_API(); // 토큰 유효성 검사
+    } else { // 토큰 미존재
+        LOGOUT_AUTO()
     }
 }
 
-$(document).ready(() => {
-
-})
-
-$(window).load(() => {
-
-})
+function IS_UNAUTHORIZED(e) { // 401 토큰 유효성 실패 상태
+    if (e && e.status == UNAUTHORIZED_STATUS) LOGOUT_AUTO() // 토큰 유효성 오류
+    else return null;
+}
