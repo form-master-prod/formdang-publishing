@@ -32,15 +32,15 @@ const PAGE  = { // 환경에 따른 페이지 URL
 }
 
 function isProduction() { return window.location.host == PROD_DOMAIN_NAME; }; // 운영 여부 함수
-function getURL(prod, dev) { return isProduction() ? prod : dev; }; // 환경에 따른 URL 생성 함수
-function getWebURL(uri) { return WEB_SERVER_URL + getURL(uri, DEV_PREFIX_URI + uri); }; // 환경에 따른 WEB URL 생성 함수
-function getApiURL(uri) { return API_SERVER_URL + uri; }; // 환경에 따른 API URL 생성 함수
-function getActiveLevel(prod, dev) { return isProduction() ? prod : dev; }; // 환경에 따른 액티브 환경 레벨 생성 함수
-function forwarding(url) { return window.location.replace(url); }; // 페이지 포워딩 함수
+function getURL(p, d) { return isProduction() ? p : d; }; // 환경에 따른 URL 생성 함수
+function getWebURL(u) { return WEB_SERVER_URL + getURL(u, DEV_PREFIX_URI + u); }; // 환경에 따른 WEB URL 생성 함수
+function getApiURL(u) { return API_SERVER_URL + u; }; // 환경에 따른 API URL 생성 함수
+function getActiveLevel(p, d) { return isProduction() ? p : d; }; // 환경에 따른 액티브 환경 레벨 생성 함수
+function forwarding(u) { return window.location.replace(u); }; // 페이지 포워딩 함수
 
-function LOGIN(type) { // 로그인
-    if (type == KKO) forwarding(PAGE.LOGIN.KKO);
-    else if (type == GOOGLE) forwarding(PAGE.LOGIN.GOOGLE);
+function LOGIN(t) { // 로그인
+    if (t == KKO) forwarding(PAGE.LOGIN.KKO);
+    else if (t == GOOGLE) forwarding(PAGE.LOGIN.GOOGLE);
 }
 
 function REMOVE_LOGIN_INFO() { // 로그인 토큰 삭제
