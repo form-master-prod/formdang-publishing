@@ -23,8 +23,8 @@ jobs:
 
       - name: Uglify JavaScript files
         run: |
-          # Uglify JavaScript files in your project folder
-          find . -name "*.js" ! -path "./node_modules/*" -exec uglifyjs {} --compress --mangle -o {}.min \; && find . -name "*.js.min" -exec mv {} {} \;
+          # Uglify JavaScript files in your project folder and overwrite them
+          find . -name "*.js" ! -path "./node_modules/*" -exec uglifyjs {} --compress --mangle -o {} \;
 
       - name: Install AWS CLI
         run: |
