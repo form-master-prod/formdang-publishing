@@ -18,6 +18,14 @@ jobs:
         with:
           node-version: 14
 
+      - name: Install UglifyJS
+        run: npm install -g uglify-js
+
+      - name: Uglify JavaScript files
+        run: |
+          # Uglify JavaScript files in your project folder
+          find . -name "*.js" ! -path "./node_modules/*" -exec uglifyjs {} --compress --mangle -o {}.min \; && find . -name "*.js.min" -exec mv {} {} \;
+
       - name: Install AWS CLI
         run: |
           sudo apt-get install -y python3-pip
@@ -29,11 +37,6 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region ${{ secrets.AWS_REGION }}
-
-      - name: Minify JavaScript files
-        run: |
-          npm install -g terser
-          find . -type f -name "*.js" -exec terser --compress --mangle --output {} {} \;
 
       - name: Delete existing files in S3 bucket
         run: |
