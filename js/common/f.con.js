@@ -65,13 +65,13 @@ function IS_LOGIN() { // 로그인 체크 공통 로직
 
 function ESSENTIAL_LOGIN() { // 로그인 필수 체크
     if (IS_LOGIN) { // 토큰 존재
-        USER_VALIDATE_API(); // 토큰 유효성 검사
+        UVA(); // 토큰 유효성 검사
     } else { // 토큰 미존재
         LOGOUT_AUTO()
     }
 }
 
 function IS_UNAUTHORIZED(e) { // 401 토큰 유효성 실패 상태
-    if (e && e.status == UNAUTHORIZED_STATUS) LOGOUT_AUTO() // 토큰 유효성 오류
+    if (e && e.status == 401) LOGOUT_AUTO() // 토큰 유효성 오류
     else return null;
 }

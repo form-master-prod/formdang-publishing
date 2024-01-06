@@ -260,7 +260,7 @@ async function uploadImage(request) {
 
 async function  register (request) {
     closeModal()
-    await FORM_SUBMIT_API(request).then(res => {
+    await FSA(request).then(res => {
         if (res && res.resultCode == '0') {
             alert('등록 성공')
             window.location.replace(PAGE.ADMIN_MAIN)
@@ -273,7 +273,7 @@ async function  register (request) {
 async function upload (file) {
     let form = new FormData();
     form.append("file", file); // 파일 formdata
-    return await UPLOAD_FILE_API(form).then(res => {
+    return await UFA(form).then(res => {
         if (res && res.resultCode == '0') {
             return res.file.path;
         } else {

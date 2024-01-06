@@ -33,7 +33,7 @@ const formEmptyHtml = function () {
 }
 
 const findForms = async (page, type, status) => {
-    return await FORM_LIST_API({
+    return await FLA({
         page: page,
         type: type,
         status: status
