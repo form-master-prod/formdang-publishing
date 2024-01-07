@@ -1,3 +1,7 @@
+const ts = 'type-sel'
+const ss = 'status-sel'
+let page = 1, endFlag = false, type = 99, status = 99;
+
 const formCardHtml = function (data) {
     return `
         <li>
@@ -32,16 +36,13 @@ const formEmptyHtml = function () {
 `
 }
 
-const findForms = async (page, type, status) => {
-    return await FLA({
-        page: page,
-        type: type,
-        status: status
-    }).then(res => {
-        if (res && res.resultCode == '0') {
-            return res;
-        } else {
-            return null;
+class R1 { page; type; status; constructor(p, t, s) { this.page = p; this.type = t; this.status = s; } }
+
+const FF = (e) => {
+    FLA(new R1(e)).then(r => {
+        if (r && r.resultCode == '0') {
+            setForms(r);
+            setAnalyze(r.analyze);
         }
     })
 }
@@ -79,74 +80,59 @@ const isLast = (data) => {
 }
 
 const setAnalyze = (data) => {
-
     $("li:nth-child(1) em").text(data.quizCnt + "건");
     $("li:nth-child(2) em").text(data.quizRespondentCnt + "건");
 }
 
+function parse (p) {
+    for (const e of p) {
+        if (e[0] == ACCESS_TOKEN) window.localStorage.setItem(e[0], e[1])
+        else if (e[0] == REFRESH_TOKEN) window.localStorage.setItem(e[0], e[1])
+    }
+}
+
+function CHI(ei) { // 변경 인터페이스
+    $(".list-wrap ul").empty();
+    status = document.getElementById(ei).value;
+    FF(new R1(0, type, status));
+    page = 1;
+    endFlag = false;
+}
+
+function debounce(func, delay) {
+    let timeoutId;
+    return function () {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(this, arguments);
+        }, delay);
+    };
+}
+
+function handleScroll() {
+    const scrollPercentage = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
+
+    // 스크롤이 80%에 도달하면 특정 함수 호출
+    if (scrollPercentage >= 80) {
+        if (!endFlag) {
+            FF(new R1(page++ , type, status));
+        }
+    }
+}
+
 $(document).ready(() => {
     $('.layer-sel').niceSelect();
-
-    const searchParams = new URLSearchParams(location.search);
-
-    for (const param of searchParams) {
-        let key = param[0];
-        let value = param[1];
-        if (key == ACCESS_TOKEN) window.localStorage.setItem(key, value)
-        else if (key == REFRESH_TOKEN) window.localStorage.setItem(key, value)
-    }
-
+    parse(new URLSearchParams(location.search));
     ESSENTIAL_LOGIN()
-
 })
-
-let page = 1, endFlag = false, type = 99, status = 99;
 
 $(window).load(() => {
 
-
-    findForms(0, type, status).then(res => { setForms(res); setAnalyze(res.analyze); });
-
-    $('#type-sel').change(function () {
-        $(".list-wrap ul").empty();
-        type = document.getElementById('type-sel').value;
-        findForms(0, type, status).then(res => { setForms(res); setAnalyze(res.analyze); });
-        page = 1;
-        endFlag = false;
-    })
-
-    $('#status-sel').change(function () {
-        $(".list-wrap ul").empty();
-        status = document.getElementById('status-sel').value;
-        findForms(0, type, status).then(res => { setForms(res); setAnalyze(res.analyze); });
-        page = 1;
-        endFlag = false;
-    })
-
-
-    function debounce(func, delay) {
-        let timeoutId;
-        return function () {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
-                func.apply(this, arguments);
-            }, delay);
-        };
-    }
-
-    function handleScroll() {
-        const scrollPercentage = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
-
-        // 스크롤이 80%에 도달하면 특정 함수 호출
-        if (scrollPercentage >= 80) {
-            if (!endFlag) {
-                findForms(page++ , type, status).then(res => { setForms(res); setAnalyze(res.analyze); });
-            }
-        }
-    }
+    FF(new R1(0, type, status));
+    $(`#${ts}`).change(function () { CHI(ts) }) // 타입 변경
+    $(`#${ss}`).change(function () { CHI(ss) }) // 상태 변경
 
     const debounceHandleScroll = debounce(handleScroll, 100);
-
     window.addEventListener('scroll', debounceHandleScroll);
 
 })
