@@ -39,7 +39,7 @@ const formEmptyHtml = function () {
 class R1 { page; type; status; constructor(p, t, s) { this.page = p; this.type = t; this.status = s; } }
 
 const FF = (e) => {
-    FLA(new R1(e)).then(r => {
+    FLA(e).then(r => {
         if (r && r.resultCode == '0') {
             setForms(r);
             setAnalyze(r.analyze);
