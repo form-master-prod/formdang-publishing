@@ -1,109 +1,127 @@
-function subjectivityHTML () {
+function subjectHtml() {
     const id = Date.now();
-    return `
-    <div class="frm-area short-answer form-div">
-        <div class="inp-group">
-            <i class="number"></i>
-            <label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">
-            <label class="skip">질문 내용</label><input type="text" name="" class="sub_explain" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">
-        </div>
-        <div class="frm-upload">
-            <!-- 이미지 등록 -->
-            <canvas id="img-view-n${id}" class="img-view" style="display: none"></canvas>
-            <div id="img-view-p${id}" class="img-view" >
-              <span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>
-            </div>
-            <!-- //이미지 등록 -->
-            <label for="f${id}">이미지 등록하기</label> <input type="file" name="" id="f${id}" class="file-input" onchange="previewImage('${id}')">
-        </div>
-        <div class="bottom-sheets">
-            <button type="button" class="bt-delete" title="삭제" onclick="deleteContent(event)"><span class="skip">삭제</span></button>
-        </div>
-    </div>
-`;
+    let html = '';
+    html.concat(`<div class="frm-area short-answer form-div">`)
+        html.concat(`<div class="inp-group"><i class="number"></i>`)
+            html.concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
+            html.concat(`<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
+        html.concat(`</div>`)
+        html.concat(imageHtml(id)) // 이미지 등록 html 함수화
+        html.concat(`<div class="bottom-sheets">`)
+            html.concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
+        html.concat(`</div>`)
+    html.concat(`</div>`)
+    return html;
 }
 
-function multipleHTML () {
-    const id = 'f' + Date.now();
-
-    return `
-<div class="frm-area multiple-choice form-div">
-  <div class="inp-group">
-    <i class="number"></i>
-    <label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">
-    <ol class="subject-valid">
-      <li>
-        <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="1"><label class="skip">객관식 1</label></span>
-        <span class="inp" style="width: 100%"><label class="skip">객관식 1 내용</label><input type="text" class="q1" name="q1" placeholder="1. 객관식 내용을 입력하세요."></span>
-      </li>
-      <li>
-        <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="2"> <label class="skip">객관식 2</label></span>
-        <span class="inp" style="width: 100%"><label class="skip">객관식 2 내용</label> <input type="text" class="q2" name="q2"  placeholder="2. 객관식 내용을 입력하세요."></span>
-      </li>
-      <li>
-        <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="3"> <label class="skip">객관식 3</label></span>
-        <span class="inp" style="width: 100%"><label class="skip">객관식 3 내용</label> <input type="text" class="q3" name="q3"  placeholder="3. 객관식 내용을 입력하세요."></span>
-      </li>
-      <li>
-        <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="4"> <label class="skip">객관식 4</label></span>
-        <span class="inp" style="width: 100%"><label class="skip">객관식 4 내용</label> <input type="text" class="q4" name="q4" placeholder="4. 객관식 내용을 입력하세요."></span>
-      </li>
-      <li>
-        <span class="ctm-check-span"><input type="checkbox" class="ctm-check" name="each" value="5"> <label class="skip">객관식 5</label></span>
-        <span class="inp" style="width: 100%"><label class="skip">객관식 5 내용</label> <input type="text" class="q5" name="q5"  placeholder="5. 객관식 내용을 입력하세요."></span>
-      </li>
-    </ol>
-  </div>
-  <div class="frm-upload">
-    <!-- 이미지 미등록 -->
-    <canvas id="img-view-n${id}" class="img-view" style="display: none"></canvas>
-    <div  id="img-view-p${id}" class="img-view">
-      <span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>
-    </div>
-    <!-- //이미지 미등록 -->
-    <label for="f${id}">이미지 등록하기</label> <input type="file" name="" id="f${id}" class="file-input" onchange="previewImage('${id}')">
-  </div>
-  <div class="bottom-sheets">
-    <button type="button" class="bt-delete" title="삭제" onclick="deleteContent(event)"><span class="skip">삭제</span></button>
-  </div>
-</div>`
-};
-
-const emptyHTML = `
-<div class="not-result" id="not-result">
-    <i class="ico"></i>
-    <p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>
-    <ul>
-        <li><a onclick="appendHtml(subjectivityHTML())" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>
-        <li><a onclick="appendHtml(multipleHTML())" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>
-        </ul>
-</div>
-`;
-
-function appendHtml (html) { // 문한 컨텐츠 추가
-    formEmptyCheck();
-    $("#first_content").append(html);
-    updateNumbering()
+function multipleHtml() {
+    const id = Date.now();
+    let html = ''
+    html.concat(`<div class="frm-area multiple-choice form-div">`)
+        html.concat(`<div class="inp-group"><i class="number"></i>`)
+            html.concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
+            html.concat(`<ol class="subject-valid">`)
+            for (let i=1; i <=5 ; i++) { // 1~5문항 loop 생성
+                const id = 'q' + i;
+                html.concat(`<li>`)
+                    html.concat(`<span class="ctm-check-span">`)
+                    html.concat(`<input type="checkbox" class="ctm-check" name="each" value="${i}"><label class="skip">객관식 ${i}</label>`)
+                    html.concat(`</span>`)
+                    html.concat(`<span class="inp" style="width: 100%">`)
+                    html.concat(`<label class="skip">객관식 ${i} 내용</label><input type="text" class="${id}" name="${id}" placeholder="${i}. 객관식 내용을 입력하세요.">`)
+                    html.concat(`</span>`)
+                html.concat(`</li>`)
+            }
+           html.concat(`</ol>`)
+        html.concat(`</div>`)
+        html.concat(imageHtml(id)) // 이미지 등록 html 함수화
+        html.concat(`<div class="bottom-sheets">`)
+            html.concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
+        html.concat(`</div>`)
+    html.concat(`</div>`)
+    return html;
 }
 
-function deleteContent (event) { // 문항 컨텐츠 삭제
-    $(event.target).closest('.frm-area').remove();
-    let formDivElements = document.querySelectorAll('.form-div');
-    if (formDivElements.length < 1) $("#first_content").prepend(emptyHTML)
-    else updateNumbering();
+function imageHtml(id) {
+    let html = ''
+    html.concat(`<div class="frm-upload">`)
+        html.concat(`<canvas id="img-view-n${id}" class="img-view" style="display: none"></canvas>`) // 이미지 등록
+        html.concat(`<div id="img-view-p${id}" class="img-view">`)
+            html.concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>`)
+        html.concat(`</div>`)
+        html.concat(`<label for="f${id}">이미지 등록하기</label> <input type="file" name="" id="f${id}" class="file-input" onchange="previewImage('${id}')">`)
+    html.concat(`</div>`)
+    return html;
 }
 
-function formEmptyCheck () { // empty 문항 체크
-    let elementToRemove = document.getElementById("not-result");
-    if (elementToRemove) elementToRemove.parentNode.removeChild(elementToRemove);
+function emptyHtml() {
+    let html = ''
+    html.concat(`<div class="not-result" id="not-result">`)
+        html.concat(`<i class="ico"></i><p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>`)
+        html.concat(`<ul>`)
+            html.concat(`<li><a onclick="appendQuestion(subjectHtml())" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>`)
+            html.concat(`<li><a onclick="appendQuestion(multipleHtml())" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>`)
+        html.concat(`</ul>`)
+    html.concat(`</div>`)
+    return html;
+}
+
+function appendQuestion (html) { // 문한 컨텐츠 추가
+    removeEmptyHtml(); // empty html 제거
+    $("#first_content").append(html); // 문항 html append
+    updateNumbering() // 넘버링 업데이트
+}
+
+function deleteQuestion (event) { // 문항 컨텐츠 삭제
+    $(event.target).closest('.frm-area').remove(); // 삭제
+    appendEmptyHtml(); // empty html 처리
+}
+
+function appendEmptyHtml() { // empty html 처리
+    let formDivElements = document.querySelectorAll('.form-div'); // 문항 class
+    if (formDivElements.length < 1) $("#first_content").prepend(emptyHtml()); // 문항이 없는 경우 empty html append 처리
+    else updateNumbering(); // 넘버링 업데이트
+}
+
+function removeEmptyHtml () { // empty 문항 제거
+    let notResultElement = document.getElementById("not-result");
+    if (notResultElement) notResultElement.parentNode.removeChild(notResultElement); // empty html 있는 경우 삭제
 }
 
 function updateNumbering () { // 문항 넘버링
-    let formDivs = document.querySelectorAll('.inner#first_content .form-div');
-    formDivs.forEach(function (formDiv, index) {
-        formDiv.querySelector('.number').textContent = index + 1;
+    let questions = document.querySelectorAll('.inner#first_content .form-div');
+    questions.forEach(function (e, i) {
+        e.querySelector('.number').textContent = i + 1;
     });
 };
+
+function previewImage(inputId) {
+    const input = document.getElementById("f" + inputId);
+    const canvasId = 'img-view-n' + inputId;
+    const canvas = document.getElementById(canvasId);
+    const context = canvas.getContext('2d');
+    const divElement = document.getElementById('img-view-p' + inputId)
+    canvas.style.display = 'block'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
+    divElement.style.display = 'none';
+
+    const file = input.files[0];
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function () {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            };
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
 
 function extractDataFromContent (contentElement, index) {
     let file;
@@ -321,33 +339,6 @@ function closeModal() {
     document.body.style.overflow = "auto";
 }
 
-function previewImage(inputId) {
-    const input = document.getElementById("f" + inputId);
-    const canvasId = 'img-view-n' + inputId;
-    const canvas = document.getElementById(canvasId);
-    const context = canvas.getContext('2d');
-    const divElement = document.getElementById('img-view-p' + inputId)
-    canvas.style.display = 'block'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
-    divElement.style.display = 'none';
-
-    const file = input.files[0];
-    if (file) {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            const img = new Image();
-            img.src = e.target.result;
-
-            img.onload = function () {
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
-            };
-        };
-
-        reader.readAsDataURL(file);
-    }
-}
-
 function formatDateToyyyyMMdd(inputDateString) {
     // 문자열로부터 Date 객체 생성
     var inputDate = new Date(inputDateString);
@@ -378,8 +369,8 @@ const defaultBeginDate = today.toISOString().split('T')[0];
 const defaultEndDate = today_7.toISOString().split('T')[0];
 
 $(document).ready(() => { // 초기값 설정
-    $(".bt-delete").on("click", deleteContent);
-    $("#first_content").prepend(emptyHTML)
+    $(".bt-delete").on("click", deleteQuestion);
+    appendEmptyHtml();
 
     formType = $('input[name="formType"]:checked').val();
     logUrl = $('input[name="logoType"]:checked').val();

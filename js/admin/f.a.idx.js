@@ -18,13 +18,14 @@ function generateCard(e) { // 카드 생성전 개별 값 세팅
 function cardHtml (h, c, s, i, t, r) { // 설문 카드 HTML
     let html = '';
     html.concat(`<li>`)
-    html.concat(`<a href="${h}">`)
-    html.concat(`<i class="ico ${c}">`)
-    html.concat(`<span class="skip">${s}</span></i>`)
-    html.concat(`<figure class="thumb">${i}</figure>`)
-    html.concat(`<h3>${t}</h3>`)
-    html.concat(`<p><i class="ico"></i>${r}</p>`)
-    html.concat(`</a></li>`)
+        html.concat(`<a href="${h}">`)
+        html.concat(`<i class="ico ${c}">`)
+        html.concat(`<span class="skip">${s}</span></i>`)
+        html.concat(`<figure class="thumb">${i}</figure>`)
+        html.concat(`<h3>${t}</h3>`)
+        html.concat(`<p><i class="ico"></i>${r}</p>`)
+        html.concat(`</a>`)
+    html.concat(`</li>`)
     return html;
 }
 
@@ -38,9 +39,9 @@ function imgHtml (i) { // 로고 이미지 HTML
 function emptyHtml() { // 등록 폼이 없는경우 빈 html 처리
     let html = ''
     html.concat(`<div class="not-result">`)
-    html.concat(`<i class="ico"></i>`)
-    html.concat(`<p>앗 ! 등록된 폼이 없어요.<br>버튼을 클릭하여 폼을 만들어주세요.</p>`)
-    html.concat(`<a href="write.html" class="st-ico"><i class="ico i-form"></i> <span>폼 작성하기</span></a>`)
+        html.concat(`<i class="ico"></i>`)
+        html.concat(`<p>앗 ! 등록된 폼이 없어요.<br>버튼을 클릭하여 폼을 만들어주세요.</p>`)
+        html.concat(`<a href="write.html" class="st-ico"><i class="ico i-form"></i> <span>폼 작성하기</span></a>`)
     html.concat(`</div>`)
     return html;
 }
