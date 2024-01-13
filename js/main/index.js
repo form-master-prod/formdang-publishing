@@ -23,7 +23,7 @@ $(document).ready(function() {
         $(".user_login").remove();  // 로그인 화면 삭제
         let html = `<div class="user_logout">
                         <figure><img src="../image/common/not_profile.svg" alt="profile"></figure>
-                        <a href="javascript:void(0);" onclick="LOGOUT()">Logout <i class="ico"></i></a>
+                        <a href="javascript:void(0);" onclick="logout()">Logout <i class="ico"></i></a>
                     </div>`;
         $("#header").append(html);
 
