@@ -39,7 +39,7 @@ const formEmptyHtml = function () {
 class R1 { page; type; status; constructor(p, t, s) { this.page = p; this.type = t; this.status = s; } }
 
 const FF = (e) => {
-    FLA(e).then(r => {
+    fla(e).then(r => {
         if (r && r.resultCode == '0') {
             setForms(r);
             setAnalyze(r.analyze);
@@ -123,7 +123,7 @@ function handleScroll() {
 $(document).ready(() => {
     $('.layer-sel').niceSelect();
     parse(new URLSearchParams(location.search));
-    ESSENTIAL_LOGIN()
+    essentialLogin()
 })
 
 $(window).load(() => {

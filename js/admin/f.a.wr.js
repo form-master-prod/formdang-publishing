@@ -260,7 +260,7 @@ async function uploadImage(request) {
 
 async function  register (request) {
     closeModal()
-    await FSA(request).then(res => {
+    await fsa(request).then(res => {
         if (res && res.resultCode == '0') {
             alert('등록 성공')
             window.location.replace(PAGE.ADMIN_MAIN)
@@ -273,7 +273,7 @@ async function  register (request) {
 async function upload (file) {
     let form = new FormData();
     form.append("file", file); // 파일 formdata
-    return await UFA(form).then(res => {
+    return await ufa(form).then(res => {
         if (res && res.resultCode == '0') {
             return res.file.path;
         } else {
@@ -443,7 +443,7 @@ $(document).ready(() => { // 초기값 설정
     const dynamicImage = document.getElementById("defaultLogo");
     dynamicImage.src = DEFAULT_LOGO_URL;
 
-    ESSENTIAL_LOGIN();
+    essentialLogin();
 
 })
 

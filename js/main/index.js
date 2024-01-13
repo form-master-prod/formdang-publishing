@@ -1,7 +1,7 @@
 
 
 const navigation = (url) => {
-    if (IS_LOGIN()) window.location.href = url;
+    if (isLogin()) window.location.href = url;
     else window.location.href = PAGE.LOGIN.MY;
 }
 

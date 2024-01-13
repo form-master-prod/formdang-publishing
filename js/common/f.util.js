@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    let token = IS_LOGIN()
+    let token = isLogin()
     let html = ""
     if(token) {
         let payload = getUserFromToken(token)  // 닉네임으로 교체 예정
