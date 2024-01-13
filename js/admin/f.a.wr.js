@@ -3,8 +3,6 @@ let doubleSubmitPrevent = false, modal_type = 'R';
 const today = new Date();
 const today_7 = new Date(today);
 today_7.setDate(today_7.getDate() + 7);
-const defaultBeginDate = today.toISOString().split('T')[0];
-const defaultEndDate = today_7.toISOString().split('T')[0];
 
 class Form {
     type; title; detail; beginDt; endDt; questionCount; status; maxRespondent; logoUrl; themaUrl; question;
@@ -244,11 +242,14 @@ function isPrevToday (beginDt, endDt) { // 오늘 날짜 이후 설정
 }
 
 function resetDate () { // 날짜 리셋 처리
-    $('#startDate').val(defaultBeginDate);
-    $('#endDate').val(defaultEndDate);
-    beginDt = defaultBeginDate;
-    endDt = defaultEndDate
+    const bDt = formatDateyyyyMMddWithHyphen(today)
+    const eDt = formatDateyyyyMMddWithHyphen(today_7)
+    $('#startDate').val(bDt);
+    $('#endDate').val(eDt);
+    beginDt = bDt;
+    endDt = eDt
 }
+
 
 function validateCheckbox(element) { // 이성이 등록
     let checkbox = $(element).find('input[type="checkbox"]');
@@ -402,12 +403,16 @@ async function uploadImage(request) { // 이미지 업로드 처리
 
 async function register(request) { // 폼 등록
     await fsa(request).then(res => {
+        console.log(res)
         if (res && res.resultCode == '0') {
             openPopUp("등록 성공", "등록에 성공했습니다. 메인 페이지로 이동합니다.", "none", '확인', false, 'S') // 팝업 오픈
         } else {
             openPopUp("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
         }
     })
+        .catch(e => {
+            openPopUp("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+        })
 }
 
 $(document).ready(() => { // 초기 설정

@@ -20,3 +20,10 @@ function formatDateToyyyyMMdd(date) {
     const day = ('0' + inputDate.getDate()).slice(-2); // 날짜를 2자리로 포맷
     return year + month + day;
 }
+
+function formatDateyyyyMMddWithHyphen(date){
+    let year = date.getFullYear();
+    let month = ("0" + (1 + date.getMonth())).slice(-2);
+    let day = ("0" + date.getDate()).slice(-2);
+    return year + '-' + month + '-' + day;
+}
