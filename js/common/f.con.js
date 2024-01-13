@@ -74,3 +74,15 @@ function isUnAuthorized(e) { // 401 토큰 유효성 실패 상태
     if (e && e.status == 401) logoutAuto() // 토큰 유효성 오류
     else return null;
 }
+
+function upload (file) { // 파일 업로드 공통 API
+    let form = new FormData();
+    form.append("file", file); // 파일
+    return ufa(form).then(res => {
+        if (res && res.resultCode == '0') {
+            return res.file.path;
+        } else {
+            return null;
+        }
+    })
+}

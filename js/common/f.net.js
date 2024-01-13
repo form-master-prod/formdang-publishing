@@ -18,7 +18,7 @@ function fsa(d) { // 폼 제출
 
 function ufa(d) { // 파일 업로드
     if (!(d instanceof FormData)) return null;
-    return ajaxForm(getApiURL(ccatPfx('/public/file/upload'), d, P, gt(), false, false))
+    return ajaxForm(getApiURL(ccatPfx('/public/file/upload')), d, P, gt(), false, false);
 }
 
 function uva() { // 토큰 유효성 검사

@@ -78,8 +78,8 @@
 <!--								</li>-->
 							</ul>
 							<div class="bt-wrap">
-								<button type="button" class="st-ico" onclick="openModal(0)"><span>임시저장</span><i class="ico"></i></button>
-								<button type="button" class="st-fill" onclick="openModal(1)"><span>등록하기</span><i class="ico"></i></button>
+								<button type="button" class="st-ico" onclick="openPopUpWithUser(0)"><span>임시저장</span><i class="ico"></i></button>
+								<button type="button" class="st-fill" onclick="openPopUpWithUser(1)"><span>등록하기</span><i class="ico"></i></button>
 							</div>
 						</div>
 						<div class="wr-wrap">
@@ -90,11 +90,11 @@
 									<label for="explain" class="skip">폼 설명</label><input type="text" name="" id="explain" placeholder="폼 설명을 입력하세요.">
 								</div>
 								<div class="frm-upload">
-									<canvas id="img-view-nlogoFile" class="img-view" style="display: none"></canvas>
-									<div id="img-view-plogoFile" class="img-view">
-										<span class="not-img"><img id="defaultLogo" src="" alt=""></span>
+									<canvas id="img-canvas-logo" class="img-view" style="display: none"></canvas>
+									<div id="img-div-logo" class="img-view">
+										<span class="not-img"><img id="img-default-logo" src="" alt=""></span>
 									</div>
-									<label for="flogoFile">로고(상호) 변경하기</label> <input type="file" name="" id="flogoFile" onchange="previewImage('logoFile')">
+									<label for="img-logo">로고(상호) 변경하기</label> <input type="file" name="" id="img-logo" onchange="previewImg('logo')">
 								</div>
 							</div>
 							<div class="container" id="form_container">
@@ -110,8 +110,8 @@
 								</div>
 						</div>
 						<div class="bt-wrap mobile">
-							<button type="button" class="st-ico" onclick="openModal(0)"><span>임시저장</span><i class="ico"></i></button>
-							<button type="button" class="st-fill" onclick="openModal( 1)"><span>등록하기</span><i class="ico"></i></button>
+							<button type="button" class="st-ico" onclick="openPopUpWithUser(0)"><span>임시저장</span><i class="ico"></i></button>
+							<button type="button" class="st-fill" onclick="openPopUpWithUser(1)"><span>등록하기</span><i class="ico"></i></button>
 						</div>
 					</div>
 				</fieldset>
@@ -119,23 +119,6 @@
 		</div>
 	</div>
 </div>
-
-<div class="window_alert" id="modal">
-	<div class="modal-layer">
-		<div class="inner">
-			<i class="ico" id="modal_ico"></i>
-			<h2 class="skip" id="modal_title"></h2>
-			<p id="modal_content"></p>
-		</div>
-		<div class="bt-wrap">
-			<button type="button" class="st-ico" onclick="closeModal()"><span>취소</span></button>
-			<button type="button" class="st-fill" onclick="registerData()">
-				<span>예</span>
-			</button>
-		</div>
-	</div>
-</div>
-
 
 <script src="../js/common.js"></script>
 <script src="../js/common/f.con.js"></script>
