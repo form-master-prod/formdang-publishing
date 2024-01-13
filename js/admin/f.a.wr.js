@@ -1,68 +1,74 @@
 function subjectHtml() {
     const id = Date.now();
     let html = '';
+    html =
     html.concat(`<div class="frm-area short-answer form-div">`)
-        html.concat(`<div class="inp-group"><i class="number"></i>`)
-            html.concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
-            html.concat(`<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
-        html.concat(`</div>`)
-        html.concat(imageHtml(id)) // 이미지 등록 html 함수화
-        html.concat(`<div class="bottom-sheets">`)
-            html.concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
-        html.concat(`</div>`)
-    html.concat(`</div>`)
+            .concat(`<div class="inp-group"><i class="number"></i>`)
+                .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
+                .concat(`<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
+            .concat(`</div>`)
+            .concat(imageHtml(id)) // 이미지 등록 html 함수화
+            .concat(`<div class="bottom-sheets">`)
+                .concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
+            .concat(`</div>`)
+        .concat(`</div>`)
     return html;
 }
 
 function multipleHtml() {
     const id = Date.now();
     let html = ''
-    html.concat(`<div class="frm-area multiple-choice form-div">`)
-        html.concat(`<div class="inp-group"><i class="number"></i>`)
-            html.concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
-            html.concat(`<ol class="subject-valid">`)
+    html =
+        html.concat(`<div class="frm-area multiple-choice form-div">`)
+            .concat(`<div class="inp-group"><i class="number"></i>`)
+                .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
+                .concat(`<ol class="subject-valid">`);
             for (let i=1; i <=5 ; i++) { // 1~5문항 loop 생성
                 const id = 'q' + i;
-                html.concat(`<li>`)
-                    html.concat(`<span class="ctm-check-span">`)
-                    html.concat(`<input type="checkbox" class="ctm-check" name="each" value="${i}"><label class="skip">객관식 ${i}</label>`)
-                    html.concat(`</span>`)
-                    html.concat(`<span class="inp" style="width: 100%">`)
-                    html.concat(`<label class="skip">객관식 ${i} 내용</label><input type="text" class="${id}" name="${id}" placeholder="${i}. 객관식 내용을 입력하세요.">`)
-                    html.concat(`</span>`)
-                html.concat(`</li>`)
+                html =
+                    html.concat(`<li>`)
+                            .concat(`<span class="ctm-check-span">`)
+                            .concat(`<input type="checkbox" class="ctm-check" name="each" value="${i}"><label class="skip">객관식 ${i}</label>`)
+                            .concat(`</span>`)
+                            .concat(`<span class="inp" style="width: 100%">`)
+                            .concat(`<label class="skip">객관식 ${i} 내용</label><input type="text" class="${id}" name="${id}" placeholder="${i}. 객관식 내용을 입력하세요.">`)
+                            .concat(`</span>`)
+                        .concat(`</li>`)
             }
-           html.concat(`</ol>`)
-        html.concat(`</div>`)
-        html.concat(imageHtml(id)) // 이미지 등록 html 함수화
-        html.concat(`<div class="bottom-sheets">`)
-            html.concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
-        html.concat(`</div>`)
-    html.concat(`</div>`)
+    html =
+        html.concat(`</ol>`)
+            .concat(`</div>`)
+            .concat(imageHtml(id)) // 이미지 등록 html 함수화
+            .concat(`<div class="bottom-sheets">`)
+                .concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
+            .concat(`</div>`)
+     .concat(`</div>`)
     return html;
 }
 
 function imageHtml(id) {
     let html = ''
-    html.concat(`<div class="frm-upload">`)
-        html.concat(`<canvas id="img-view-n${id}" class="img-view" style="display: none"></canvas>`) // 이미지 등록
-        html.concat(`<div id="img-view-p${id}" class="img-view">`)
-            html.concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>`)
-        html.concat(`</div>`)
-        html.concat(`<label for="f${id}">이미지 등록하기</label> <input type="file" name="" id="f${id}" class="file-input" onchange="previewImage('${id}')">`)
-    html.concat(`</div>`)
+    html =
+        html.concat(`<div class="frm-upload">`)
+                .concat(`<canvas id="img-view-n${id}" class="img-view" style="display: none"></canvas>`) // 이미지 등록
+                .concat(`<div id="img-view-p${id}" class="img-view">`)
+                    .concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>`)
+                .concat(`</div>`)
+                .concat(`<label for="f${id}">이미지 등록하기</label> <input type="file" name="" id="f${id}" class="file-input" onchange="previewImage('${id}')">`)
+            .concat(`</div>`)
     return html;
 }
 
 function emptyHtml() {
     let html = ''
-    html.concat(`<div class="not-result" id="not-result">`)
-        html.concat(`<i class="ico"></i><p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>`)
-        html.concat(`<ul>`)
-            html.concat(`<li><a onclick="appendQuestion(subjectHtml())" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>`)
-            html.concat(`<li><a onclick="appendQuestion(multipleHtml())" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>`)
-        html.concat(`</ul>`)
-    html.concat(`</div>`)
+    html =
+        html.concat(`<div class="not-result" id="not-result">`)
+            .concat(`<i class="ico"></i><p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>`)
+            .concat(`<ul>`)
+                .concat(`<li><a onclick="appendQuestion(subjectHtml())" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>`)
+                .concat(`<li><a onclick="appendQuestion(multipleHtml())" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>`)
+            .concat(`</ul>`)
+        .concat(`</div>`)
     return html;
 }
 

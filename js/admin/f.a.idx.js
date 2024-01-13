@@ -17,32 +17,34 @@ function generateCard(e) { // 카드 생성전 개별 값 세팅
 
 function cardHtml (h, c, s, i, t, r) { // 설문 카드 HTML
     let html = '';
-    html.concat(`<li>`)
-        html.concat(`<a href="${h}">`)
-        html.concat(`<i class="ico ${c}">`)
-        html.concat(`<span class="skip">${s}</span></i>`)
-        html.concat(`<figure class="thumb">${i}</figure>`)
-        html.concat(`<h3>${t}</h3>`)
-        html.concat(`<p><i class="ico"></i>${r}</p>`)
-        html.concat(`</a>`)
-    html.concat(`</li>`)
+    html =
+        html.concat(`<li>`)
+                .concat(`<a href="${h}">`)
+                .concat(`<i class="ico ${c}">`)
+                .concat(`<span class="skip">${s}</span></i>`)
+                .concat(`<figure class="thumb">${i}</figure>`)
+                .concat(`<h3>${t}</h3>`)
+                .concat(`<p><i class="ico"></i>${r}</p>`)
+                .concat(`</a>`)
+            .concat(`</li>`)
     return html;
 }
 
 function imgHtml (i) { // 로고 이미지 HTML
     let html = '';
-    if (i) html.concat(`<img src="${i}" alt="">`) // 로고 이미지가 있는경우
-    else html.concat(`<span class="not-img"><img src="${ri}" alt=""></span>`) // 로고 이미지가 없는 경우
+    if (i) html = html.concat(`<img src="${i}" alt="">`) // 로고 이미지가 있는경우
+    else html = html.concat(`<span class="not-img"><img src="${ri}" alt=""></span>`) // 로고 이미지가 없는 경우
     return html;
 }
 
 function emptyHtml() { // 등록 폼이 없는경우 빈 html 처리
     let html = ''
-    html.concat(`<div class="not-result">`)
-        html.concat(`<i class="ico"></i>`)
-        html.concat(`<p>앗 ! 등록된 폼이 없어요.<br>버튼을 클릭하여 폼을 만들어주세요.</p>`)
-        html.concat(`<a href="write.html" class="st-ico"><i class="ico i-form"></i> <span>폼 작성하기</span></a>`)
-    html.concat(`</div>`)
+    html =
+        html.concat(`<div class="not-result">`)
+                .concat(`<i class="ico"></i>`)
+                .concat(`<p>앗 ! 등록된 폼이 없어요.<br>버튼을 클릭하여 폼을 만들어주세요.</p>`)
+                .concat(`<a href="write.html" class="st-ico"><i class="ico i-form"></i> <span>폼 작성하기</span></a>`)
+            .concat(`</div>`)
     return html;
 }
 
