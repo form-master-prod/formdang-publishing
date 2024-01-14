@@ -9,23 +9,27 @@ function ccatPfx(u) { return SP_PFX + u } // 스프링 API prefix 생성 함수
 function gt() { return { 'Authorization': `Bearer ${window.localStorage.getItem(ACCESS_TOKEN)}` } } // 헤더 토큰 적용 함수
 
 function fla(d) { // 폼 리스트 조회
-    return ajaxForm(getApiURL(ccatPfx('/form/find')), d, G, gt(), DF_CT, true)
+    return ajaxForm(getApiURL(ccatPfx('/form/find')), d, G, gt(), DF_CT, true , true)
 }
 
 function fsa(d) { // 폼 제출
-    return ajaxForm(getApiURL(ccatPfx('/form/submit')), JSON.stringify(d), P, gt(), J_CT, false)
+    return ajaxForm(getApiURL(ccatPfx('/form/submit')), JSON.stringify(d), P, gt(), J_CT, false, true)
 }
 
 function ufa(d) { // 파일 업로드
     if (!(d instanceof FormData)) return null;
-    return ajaxForm(getApiURL(ccatPfx('/public/file/upload')), d, P, gt(), false, false);
+    return ajaxForm(getApiURL(ccatPfx('/public/file/upload')), d, P, gt(), false, false, true);
 }
 
 function uva() { // 토큰 유효성 검사
-    return ajaxForm(getApiURL(ccatPfx('/admin/validate')), {}, G, gt(), DF_CT, true)
+    return ajaxForm(getApiURL(ccatPfx('/admin/validate')), {}, G, gt(), DF_CT, true, true)
 }
 
-async function ajaxForm(u, d, m, h, c, p) {
+function uva2() { // 토큰 유효성 검사
+    return ajaxForm(getApiURL(ccatPfx('/admin/validate')), {}, G, gt(), DF_CT, true, false)
+}
+
+async function ajaxForm(u, d, m, h, c, p, f) {
     return await $.ajax({
         url : u,
         data: d,
@@ -38,7 +42,12 @@ async function ajaxForm(u, d, m, h, c, p) {
             return r;
         },
         error:function(e){
-            return isUnAuthorized(e);
+            if (!isProduction()) console.log(e) // 개발 환경 콘솔 처리
+            if (f) {
+                return isUnAuthorized(e);
+            } else {
+                return null;
+            }
         }
     });
 }
