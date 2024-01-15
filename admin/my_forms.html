@@ -127,7 +127,7 @@
 						<li>
 							<em>웹훅 URL</em>
 							<div class="frm-area">
-								<label for="url" class="skip">URL</label><input type="url" name="" value="" placeholder="URL을 입력하세요." id="url" class="it">
+								<label for="url" class="skip">URL</label><input type="url" name="" value="" placeholder="URL을 입력하세요." class="it">
 							</div>
 						</li>
 						<li>
@@ -143,7 +143,7 @@
 						<li>
 							<em>설문기간</em>
 							<div class="frm-area">
-								<label for="survey_date" class="skip">설문기간</label><input type="text" name="" value="2023-10-11 ~ 2023-11-15" placeholder="설문기간" id="survey_date" class="it" disabled>
+								<label for="survey_date" class="skip">설문기간</label><input type="text" name="" value="" placeholder="설문기간" id="survey_date" class="it" disabled>
 							</div>
 						</li>
 						<li>
@@ -156,7 +156,7 @@
 						<li>
 							<em>설문종료</em>
 							<div class="frm-area">
-								<a href="javascript:alert('링크를 연결하세요!');" id="open_modal" class="st-fill"><span>종료</span></a>
+								<a class="st-fill" onclick="formClose()"><span>종료</span></a>
 								<p>설문 조사를 강제 종료 하고 싶으시다면 종료를 눌러주세요.</p>
 							</div>
 						</li>
@@ -199,7 +199,11 @@
                   'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
               },
               success: function (response) {
-				  if(response.proc == "fail") {
+				  if(response.proc == "success") {
+					  console.log(response.url)
+					  $("#url").val(response.url);
+					  $("#survey_date").val(`${response.start} ~ ${response.end}`);
+				  }else {
 					  alert("잘못된 접근입니다.")
 					  location.replace("../admin/index.html")
 				  }
@@ -212,6 +216,35 @@
           });
       }
   }
+
+  function formClose() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fidValue = urlParams.get('fid');
+      if (fidValue) {
+          $.ajax({
+              type: 'GET',
+              url: 'https://formdang-api.com/api/dj/form/close',
+              data: {fid: fidValue},
+              headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+              },
+              success: function (response) {
+				  if(response.proc == "success") {
+					  console.log(response.proc)
+				  }else {
+					  alert("잘못된 접근입니다.")
+					  location.replace("../admin/index.html")
+				  }
+              },
+              error: function (error) {
+				  alert("잘못된 접근입니다.")
+				  location.replace("../admin/index.html")
+                  console.error('AJAX 요청 실패:', error);
+              }
+          });
+      }
+  }
+
 </script>
 </body>
 </html>
