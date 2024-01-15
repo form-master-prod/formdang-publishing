@@ -18,14 +18,6 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install UglifyJS
-        run: npm install -g uglify-js
-
-      - name: Uglify JavaScript files
-        run: |
-          # Uglify JavaScript files in your project folder and overwrite them
-          find . -name "*.js" ! -path "./node_modules/*" -exec uglifyjs {} --compress --mangle -o {} \;
-
       - name: Install AWS CLI
         run: |
           sudo apt-get install -y python3-pip
