@@ -108,7 +108,7 @@
 						<li>
 							<em>QR코드</em>
 							<div class="frm-area">
-								<a href="javascript:alert('링크를 연결하세요!');" target="_blank" class="st-fill"><span>다운로드</span> <i class="ico i-download"></i></a>
+								<a href="javascript:void(0);" id="downloadBtn" class="st-fill"><span>다운로드</span> <i class="ico i-download"></i></a>
 								<p>설문 및 퀴즈 QR코드를 다운로드 받으실 수 있습니다.</p>
 							</div>
 						</li>
@@ -178,6 +178,7 @@
 		</div>
 	</div>
 </div>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 <script src="../js/common/f.con.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/admin/myForm.js"></script>
@@ -185,6 +186,11 @@
 <script>
    $(document).ready(function() {
 	  FormDetail();
+
+
+	  $("#downloadBtn").on("click", function () {
+           downloadQRCode($("#url").val());
+      });
   });
 
   function FormDetail() {
@@ -244,7 +250,23 @@
           });
       }
   }
+	// QR 코드 다운로드 함수
+   function downloadQRCode(url) {
+		// QR 코드 생성
+		var qrcode = new QRCode(document.createElement("div"), {
+			text: url,
+			width: 256,
+			height: 256
+		});
 
+		var image = qrcode._el.firstChild.toDataURL("image/png");
+		var link = document.createElement("a");
+		link.href = image;
+		link.download = "formdang-form-qr-code.png";
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+   }
 </script>
 </body>
 </html>
