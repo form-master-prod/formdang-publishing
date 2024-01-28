@@ -18,7 +18,7 @@ function generateCard(e) { // 카드 생성전 개별 값 세팅
     const i = imgHtml(e.logoUrl) // 로고 이미지 HTML
     const t = e.title; // 제목
     const r = e.regDt; // 등록일
-    const ef = e.endFlag == 1 ? 'disalbed-item' : ''; // 삭제 여부 ( 0: 미삭제, 1: 삭제)
+    const ef = e.delFlag == 1 ? 'disalbed-item' : ''; // 삭제 여부 ( 0: 미삭제, 1: 삭제)
     return cardHtml(h, c, s, i, t, r, ef);
 }
 
