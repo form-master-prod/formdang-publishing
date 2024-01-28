@@ -27,3 +27,13 @@ function formatDateyyyyMMddWithHyphen(date){
     let day = ("0" + date.getDate()).slice(-2);
     return year + '-' + month + '-' + day;
 }
+
+function isFirstPageBar(curPage, pageNum) {
+    if (parseInt(curPage / pageNum) == 0) return true
+    else return false;
+}
+
+function isEndPageBar(curPage, totalPage, pageNum) {
+    if (parseInt(curPage / pageNum) == parseInt((totalPage - 1) / pageNum)) return true
+    else return false;
+}

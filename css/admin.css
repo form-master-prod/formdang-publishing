@@ -318,6 +318,11 @@ body {background-color: var(--bg-blue);}
 .forms-list .list-wrap ul li a h3 {width: 100%; height: 3.25em; margin: 1.5em 0 2.5em; font-weight: 500; line-height: 1.5; overflow: hidden; white-space: normal; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; word-break: keep-all;}
 .forms-list .list-wrap ul li p {display: flex; padding: .25em .5em; align-items: center; gap: .5em; background-color: #F4F6FB; border-radius: .5em; position: absolute; bottom: 1.5em; right: 1.5em; font: 500 .875rem var(--eng-font); color: var(--text-color1); letter-spacing: 0;}
 .forms-list .list-wrap ul li p .ico {width: 1.25em; height: 1.25em; background-image:url("../image/icon/outline_clock.svg"); background-size: cover;}
+.forms-list .list-wrap ul li.disalbed-item {opacity: .75;}
+.forms-list .list-wrap ul li.disalbed-item a {pointer-events: none;} /* not click */
+.forms-list .list-wrap ul li.disalbed-item .thumb .not-img {background-color: #f5f5f5;}
+.forms-list .list-wrap ul li.disalbed-item .thumb img {filter: grayscale(100%);}
+.forms-list .list-wrap ul li.disalbed-item a h3 {color: var(--text-color1);}
 @media screen and (max-width: 1194px) {
 	.forms-list .list-wrap ul {grid-template-columns: repeat(3, 1fr); gap: 4em 2em;}
 }
@@ -401,7 +406,7 @@ body {background-color: var(--bg-blue);}
 .forms-write-wrap .wr-wrap .frm-area .inp-group i {width: 2em; height: 2em;}
 .forms-write-wrap .wr-wrap .frm-area .inp-group input[type="text"] {width: 100%; padding: 1em 0; outline: none; border-bottom: 1px solid var(--line-color);}
 .forms-write-wrap .wr-wrap .frm-area .frm-upload {width: 10em;}
-.forms-write-wrap .wr-wrap .frm-area .bottom-sheets {width: 100%; height: auto; padding: .5em 0; margin-top: 1em; border-top: 1px solid var(--line-color); display: flex; justify-content: flex-end;}
+.forms-write-wrap .wr-wrap .frm-area .bottom-sheets {width: 100%; height: auto; padding: .5em 0; margin-top: 1em; border-top: 1px solid var(--line-color);}
 .forms-write-wrap .wr-wrap .frm-area .bottom-sheets .bt-delete {width: 1.5em; height: 1.5em; background: url("../image/icon/outline_trash_blue.svg") center / cover no-repeat;}
 /* forms : write : form area : subject */
 .forms-write-wrap .wr-wrap .subject {flex-wrap: nowrap;}
