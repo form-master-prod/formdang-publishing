@@ -120,22 +120,23 @@
 
 
 
-			<div class="forms-list">
+		<div class="forms-list answer-status">
                 <form action="">
                     <fieldset>
-                        <legend>정렬</legend>
+                        <!-- 수정 -->
+                        <legend>답변 현황 목록</legend>
                         <div class="frm-select">
                             <div class="select-warp">
-								<label for="type-sel" class="skip">타입 선택</label>
-								<select name="" id="type-sel" class="layer-sel">
-									<option value="">답변 제출 순</option>
-									<option value="ok_flag_up">높은 점수 순</option>
-									<option value="ok_flag_down">낮은 점수 순</option>
-									<option value="name">이름 정렬 순</option>
-								</select>
+				<label for="type-sel" class="skip">타입 선택</label>
+				<select name="" id="type-sel" class="layer-sel">
+					<option value="">답변 제출 순</option>
+					<option value="ok_flag_up">높은 점수 순</option>
+					<option value="ok_flag_down">낮은 점수 순</option>
+					<option value="name">이름 정렬 순</option>
+				</select>
                             </div>
                         </div>
-                        <div class="list-wrap">
+                        <div class="list-wrap status-list">
                             <ul id="form_answer_list">
                             </ul>
                         </div>
@@ -192,7 +193,7 @@
                                 </li>
                           `
                       }
-					  $("#form_answer_list").empty();
+		      $("#form_answer_list").empty();
                       $("#form_answer_list").append(html);
                   }else {
                       let html = `
