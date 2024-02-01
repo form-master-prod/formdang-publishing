@@ -7,9 +7,9 @@ const que_arr = ['', 'ㄱ.', 'ㄴ.', 'ㄷ.', 'ㄹ.', 'ㅁ.']
 
 class Form {
     type; title; detail; beginDt; endDt; questionCount; status; maxRespondent; logoUrl; themaUrl; question;
-    constructor(type, title, detail, beginDt, endDt, logUrl, themaUrl, question, status) {
+    constructor(type, title, detail, beginDt, endDt, logUrl, themaUrl, question, status, maxRespondent) {
         this.type = type; this.title= title; this.detail = detail; this.beginDt = beginDt; this.endDt = endDt; this.logoUrl = logUrl; this.themaUrl = themaUrl; this.question = question;
-        this.questionCount = question ? question.length : 0; this.maxRespondent = 0; this.status = status
+        this.questionCount = question ? question.length : 0; this.maxRespondent = maxRespondent; this.status = status
     }
 }
 
@@ -29,7 +29,9 @@ function subjectHtml() {
                 .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
                 .concat(`<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
                 .concat(`<ol id="answer_wrap" class="frm-answer">`)
-                    .concat(`<li><label for="answer0" class="skip">질문 1의 정답</label><input type="text" name="answer[]" id="answer0" placeholder="해당 주관식의 정답을 입력해주세요."> <button type="button" class="bt-add" onclick="addAnswer('질문1', 'answer', 'answer[]')"><span class="skip">추가</span></button></li>`)
+                    .concat(`<li class="add_item"><label for="answer0" class="skip">질문 1의 정답</label><input type="text" name="answer[]" id="answer0" placeholder="해당 주관식의 정답을 입력해주세요.">`)
+                        .concat(`<button type="button" class="bt-add" onclick="addAnswer(event)">`)
+                    .concat(`<span class="skip">추가</span></button></li>`)
                 .concat(`</ol>`)
             .concat(`</div>`)
             .concat(imageHtml(id)) // 이미지 등록 html 함수화
@@ -381,10 +383,11 @@ function generateData(s) { // 데이터 세팅
     let logo = document.getElementById("img-logo"); // 로고 element
     let title = document.getElementById("subject").value; // 타이틀
     let detail = document.getElementById("explain").value; // 폼 설명
+    let maxRespondent = document.getElementById("num-answer-sel").value;
     let file = logo.files[0] ? logo.files[0] : DEFAULT_LOGO_URL; // 로고 파일
     let arr = document.querySelectorAll('.inner#first_content .form-div');
     arr.forEach((question, idx) => { questions.push(extractData(question, idx)); }); // 질문 리스트 추출
-    return new Form(formType, title, detail, formatDateToyyyyMMdd(beginDt), formatDateToyyyyMMdd(endDt), file, themaUrl, questions, s);
+    return new Form(formType, title, detail, formatDateToyyyyMMdd(beginDt), formatDateToyyyyMMdd(endDt), file, themaUrl, questions, s, maxRespondent);
 }
 
 function extractData (question, idx) { // 질문 리스트 데이터 추출
@@ -501,19 +504,22 @@ top_button.addEventListener('click', function(e){
     window.scrollTo({top: 0, behavior: 'smooth'});
 });
 
-// 정답란 추가 삭제
-const answerMaxCount = 10;
-function addAnswer( question, id , name ) {
-    const answerHtml = document.getElementById("answer_wrap");
-    const savenum   = answerHtml.getAttribute( 'data-num' )?answerHtml.getAttribute( 'data-num' ):answerHtml.querySelectorAll( '.add_item' ).length;
-    const numbering   = parseInt( savenum ) + 1;
-    if( answerHtml.querySelectorAll( '.add_item' ).length > answerMaxCount ){
-        alert('최대 '+answerMaxCount+'개까지 생성 가능합니다.');
+function addAnswer(event) {
+    const answerMaxCount = 4;
+    const answerHtml = $(event.target).closest('#answer_wrap')[0];
+    if( answerHtml.querySelectorAll('.add_item' ).length > answerMaxCount ){
+        openPopUp("답안 설정", `최대 ${answerMaxCount + 1}개까지 생성 가능합니다.`, "flex", '닫기', false, 'C') // 팝업 오픈
         return false;
     }
-    answerHtml.setAttribute( 'data-num', numbering );
-    answerHtml.innerHTML += '<li class="add_item"><label for="'+id+numbering+'" class="skip">' +question+ '의 정답</label><input type="text" name="'+name+'" id="'+id+numbering+'" placeholder="해당 주관식의 정답을 입력해주세요."> <button type="button" class="bt-remove" onclick="removeAnswer( this )"><span class="skip">삭제</span></button></li>';
+
+    let html = ''
+    html = html.concat(`<li class="add_item"><label class="skip"></label>`)
+        .concat(`<input type="text" placeholder="해당 주관식의 정답을 입력해주세요.">`)
+        .concat(`<button type="button" class="bt-remove" onclick="removeAnswer(event)">`)
+        .concat(`<span class="skip">삭제</span></button></li>`)
+    $(answerHtml).append(html)
 }
-function removeAnswer( el ){
-    el.parentNode.remove()
+
+function removeAnswer(event){
+    $(event.target).closest('.add_item').remove()
 }
