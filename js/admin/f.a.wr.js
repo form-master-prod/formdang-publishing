@@ -3,6 +3,7 @@ let doubleSubmitPrevent = false, modal_type = 'R';
 const today = new Date();
 const today_7 = new Date(today);
 today_7.setDate(today_7.getDate() + 7);
+const que_arr = ['', 'ㄱ.', 'ㄴ.', 'ㄷ.', 'ㄹ.', 'ㅁ.']
 
 class Form {
     type; title; detail; beginDt; endDt; questionCount; status; maxRespondent; logoUrl; themaUrl; question;
@@ -23,10 +24,13 @@ function subjectHtml() {
     const id = Date.now();
     let html = '';
     html =
-    html.concat(`<div class="frm-area short-answer form-div">`)
+    html.concat(`<div class="frm-area short-answer form-div q-1">`)
             .concat(`<div class="inp-group"><i class="number"></i>`)
                 .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
                 .concat(`<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
+                .concat(`<ol id="answer_wrap" class="frm-answer">`)
+                    .concat(`<li><label for="answer0" class="skip">질문 1의 정답</label><input type="text" name="answer[]" id="answer0" placeholder="해당 주관식의 정답을 입력해주세요."> <button type="button" class="bt-add" onclick="addAnswer('질문1', 'answer', 'answer[]')"><span class="skip">추가</span></button></li>`)
+                .concat(`</ol>`)
             .concat(`</div>`)
             .concat(imageHtml(id)) // 이미지 등록 html 함수화
             .concat(`<div class="bottom-sheets">`)
@@ -40,7 +44,7 @@ function multipleHtml() {
     const id = Date.now();
     let html = ''
     html =
-        html.concat(`<div class="frm-area multiple-choice form-div">`)
+        html.concat(`<div class="frm-area multiple-choice form-div q-2">`)
             .concat(`<div class="inp-group"><i class="number"></i>`)
                 .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
                 .concat(`<ol class="subject-valid">`);
@@ -48,8 +52,8 @@ function multipleHtml() {
                 const id = 'q' + i;
                 html =
                     html.concat(`<li>`)
-                            .concat(`<span class="ctm-check-span">`)
-                            .concat(`<input type="checkbox" class="ctm-check" name="each" value="${i}"><label class="skip">객관식 ${i}</label>`)
+                            .concat(`<span class="ctm-chk">`)
+                            .concat(`<input type="checkbox" name="each" value="${i}"><label class="skip">객관식 ${i}</label>`)
                             .concat(`</span>`)
                             .concat(`<span class="inp" style="width: 100%">`)
                             .concat(`<label class="skip">객관식 ${i} 내용</label><input type="text" class="${id}" name="${id}" placeholder="${i}. 객관식 내용을 입력하세요.">`)
@@ -66,6 +70,58 @@ function multipleHtml() {
      .concat(`</div>`)
     return html;
 }
+
+function lookHtml() {
+    const id = Date.now();
+    let html = ''
+    html =
+        html.concat(`<div class="frm-area multiple-choice form-div q-3">`)
+            .concat(`<div class="inp-group"><i class="number"></i>`)
+                .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
+
+    html =
+        html.concat(`<div class="que-viewitem">`)
+                .concat(`<p>보기</p>`)
+                .concat(`<ol>`)
+
+        for (let i=1; i <=5 ; i++) {
+            html =
+                html.concat(`<li>`)
+                    .concat(`<label for="">${que_arr[i]}</label>`)
+                    .concat(`<input type="text" name="" placeholder="보기 내용을 입력하세요.">`)
+                    .concat(`</li>`)
+        }
+
+    html =
+        html.concat(`</ol>`)
+        .concat(`</div>`)
+
+    html =
+        html.concat(`<ol class="subject-valid">`);
+            for (let i=1; i <=5 ; i++) { // 1~5문항 loop 생성
+                const id = 'q' + i;
+                html =
+                    html.concat(`<li>`)
+                        .concat(`<span class="ctm-chk">`)
+                        .concat(`<input type="checkbox" name="each" value="${i}"><label class="skip">객관식 ${i}</label>`)
+                        .concat(`</span>`)
+                        .concat(`<span class="inp" style="width: 100%">`)
+                        .concat(`<label class="skip">객관식 ${i} 내용</label><input type="text" class="${id}" name="${id}" placeholder="${i}. 객관식 내용을 입력하세요.">`)
+                        .concat(`</span>`)
+                        .concat(`</li>`)
+            }
+
+    html =
+        html.concat(`</ol>`)
+            .concat(`</div>`)
+            .concat(imageHtml(id)) // 이미지 등록 html 함수화
+            .concat(`<div class="bottom-sheets">`)
+                .concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
+            .concat(`</div>`)
+        .concat(`</div>`)
+    return html;
+}
+
 
 function imageHtml(id) {
     let html = ''
@@ -88,6 +144,7 @@ function emptyHtml() {
             .concat(`<ul>`)
                 .concat(`<li><a onclick="appendQuestion(subjectHtml())" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>`)
                 .concat(`<li><a onclick="appendQuestion(multipleHtml())" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>`)
+                .concat(`<li><a onclick="appendQuestion(lookHtml())" class="st-ico"><i class="ico i-view-que"></i> <span>보기 문항</span></a></li>`)
             .concat(`</ul>`)
         .concat(`</div>`)
     return html;
@@ -333,9 +390,9 @@ function generateData(s) { // 데이터 세팅
 function extractData (question, idx) { // 질문 리스트 데이터 추출
     let file;
     question.querySelectorAll('.file-input').forEach((e => { file = e.files[0]; }));
-    if (question.classList.contains('short-answer')) { // 주관식 처리
+    if (question.classList.contains('q-1')) { // 주관식 처리
         return new Question(0, 1, idx, question.querySelector('.sub_subject').value, question.querySelector('.sub_explain').value, null, null, file);
-    } else if (question.classList.contains('multiple-choice')) { // 객관식 처리
+    } else if (question.classList.contains('q-2')) { // 객관식 처리
         let count = 0; // 질문 개수
         const arr = ['q1', 'q2', 'q3', 'q4', 'q5']; // 인자 class 리스트
         const details = []; // 질문 리스트
@@ -424,6 +481,7 @@ $(document).ready(() => { // 초기 설정
     formType = $('input[name="formType"]:checked').val(); // 초기 타입 설정
     logUrl = $('input[name="logoType"]:checked').val(); // 초기 로고 타입 설정
     themaUrl = $('input[name="themeType"]:checked').val(); // 테마 타입 설정
+    $('.layer-sel').niceSelect(); // 퍼블 추가 내역
 })
 
 $(window).load(() => {
@@ -436,3 +494,26 @@ $(window).load(() => {
     document.addEventListener('click', function(event) { validateMultipleChoiceSetting(event) }); // 이성이 등록
     document.addEventListener('input', function(event) { validateMultipleChoiceEmpty(event) }); // 이성이 등록
 })
+
+let top_button = document.querySelector('.bt-top');
+top_button.addEventListener('click', function(e){
+    e.preventDefault();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+});
+
+// 정답란 추가 삭제
+const answerMaxCount = 10;
+function addAnswer( question, id , name ) {
+    const answerHtml = document.getElementById("answer_wrap");
+    const savenum   = answerHtml.getAttribute( 'data-num' )?answerHtml.getAttribute( 'data-num' ):answerHtml.querySelectorAll( '.add_item' ).length;
+    const numbering   = parseInt( savenum ) + 1;
+    if( answerHtml.querySelectorAll( '.add_item' ).length > answerMaxCount ){
+        alert('최대 '+answerMaxCount+'개까지 생성 가능합니다.');
+        return false;
+    }
+    answerHtml.setAttribute( 'data-num', numbering );
+    answerHtml.innerHTML += '<li class="add_item"><label for="'+id+numbering+'" class="skip">' +question+ '의 정답</label><input type="text" name="'+name+'" id="'+id+numbering+'" placeholder="해당 주관식의 정답을 입력해주세요."> <button type="button" class="bt-remove" onclick="removeAnswer( this )"><span class="skip">삭제</span></button></li>';
+}
+function removeAnswer( el ){
+    el.parentNode.remove()
+}
