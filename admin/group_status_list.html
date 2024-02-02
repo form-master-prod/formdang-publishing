@@ -42,14 +42,14 @@
         </div>
     </header>
 	<div id="container">
-		<h2 class="sub-tit">폼당폼당  6학년 1반 <a href="group_write.html" class="bt-modify" title="그룹 이름 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a></h2>
+		<h2 class="sub-tit" id="group_name"></h2>
 		<div id="contents" class="group-wrap">
             <ul class="report">
                 <li>
                     <i class="ico i-user-fill"></i>
                     <div>
 						<p>내 활동 닉네임</p>
-						<em>김OO</em>
+						<em id="group_activity_name"></em>
 					</div>
                     <a href="group_write.html" class="bt-modify" title="닉네임 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>
                 </li>
@@ -153,5 +153,37 @@
 <script src="../js/common/f.con.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/common/f.util.js"></script>
+<script>
+$(document).ready(function() {
+    $('.layer-sel').niceSelect();
+    group_my_info();
+});
+function group_my_info() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const gidValue = urlParams.get('gid');
+    const group_session = urlParams.get('group_session');
+    if (gidValue && group_session) {
+        $.ajax({
+            type: 'GET',
+            url: 'https://formdang-api.com/api/dj/group/detail',
+            data: {gid: gidValue, group_session: group_session},
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+            },
+            success: function (response) {
+                $("#group_activity_name").text(response.name);
+                $("#group_name").append(`${response.group_name} <a href="group_write.html" class="bt-modify" title="그룹 이름 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
+
+            },
+            error: function (error) {
+                console.error('AJAX 요청 실패:', error);
+            }
+        });
+    }else {
+        alert("유효하지 않은 그룹입니다.");
+        location.replace("index.html");
+    }
+}
+</script>
 </body>
 </html>
