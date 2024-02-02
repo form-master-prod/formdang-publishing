@@ -66,26 +66,26 @@
                                 <div class="inp-group">
                                     <label for="grp_pw"><em>필수</em> 활동테마</label>
                                     <select name="" id="type-sel" class="layer-sel">
-					<option value="">테마를 선택해주세요.</option>
+					                    <option value="">테마를 선택해주세요.</option>
                                         <option value="쪽지시험">쪽지시험</option>
-					<option value="스터디">스터디</option>
-					<option value="오답노트">오답노트</option>
-					<option value="과제/퀴즈">과제/퀴즈</option>
-					<option value="학교/학원">학교/학원</option>
-					<option value="기타">기타</option>
+                                        <option value="스터디">스터디</option>
+                                        <option value="오답노트">오답노트</option>
+                                        <option value="과제/퀴즈">과제/퀴즈</option>
+                                        <option value="학교/학원">학교/학원</option>
+                                        <option value="기타">기타</option>
                                     </select>
                                 </div>
                                 <p>활동테마를 선택하세요.</p>
                             </div>
                             <div class="frm-area">
                                 <div class="inp-group">
-                                    <label for="grp_name"><em>필수</em> 한 줄 소개</label><input type="text" name="" class="it" id="grp_name">
+                                    <label for="grp_name"><em>필수</em> 한 줄 소개</label><input type="text" name="" class="it" id="grp_intro">
                                 </div>
                                 <p>한 줄 소개를 입력하세요.</p>
                             </div>
                         </div>
                         <div class="bt-group">
-                            <button type="submit" class="st-fill"><span>저장하기</span> <i class="ico"></i></button>
+                            <button id="create-btn" onclick="groupCreate()" class="st-fill"><span>저장하기</span> <i class="ico"></i></button>
                         </div>
                     </fieldset>
                 </form>
@@ -100,6 +100,81 @@
 $(document).ready(function() {
     $('.layer-sel').niceSelect();
 });
+
+function groupCreate() {
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const gidValue = urlParams.get('gid');
+      const group_session = urlParams.get('group_session');
+      const group_name = $("#grp_name").val()
+      const pw = $("#grp_pw").val()
+      const group_intro = $("#grp_intro").val()
+      const category = $("#type-sel").val()
+
+	  if ([null, undefined, ''].includes(group_name)) {
+			alert("그룹 이름을 작성해주세요.");
+			return false;
+      }
+
+	  if ([null, undefined, ''].includes(pw)) {
+			alert("그룹 패스워드를 작성해주세요.");
+			return false;
+      }
+
+	  if ([null, undefined, ''].includes(group_intro)) {
+			alert("그룹 소개를 작성해주세요.");
+			return false;
+      }
+
+	  if ([null, undefined, ''].includes(category)) {
+			alert("활동테마를 선택해주세요.");
+			return false;
+      }
+      doubleSubmit("#create-btn")
+      if (gidValue && group_session) {
+          $.ajax({
+              type: 'POST',
+              url: 'https://formdang-api.com/api/dj/group/create',
+              data: {gid: gidValue, group_session: group_session, pw:pw, name:group_name, intro:group_intro, category:category},
+              headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+              },
+              success: function (response) {
+                    if(response.proc == "success") {
+                        alert("그룹 생성 성공");
+                        location.replace("group_list.html")
+                    }else {
+                        alert('그룹 생성 실패');
+                        doubleSubmit("#create-btn")
+                        return false;
+                    }
+              },
+              error: function (error) {
+                  doubleSubmit("#create-btn")
+                  console.error('AJAX 요청 실패:', error);
+              }
+          });
+      }else {
+          doubleSubmit("#create-btn")
+      }
+}
+
+function doubleSubmit(elementSelector) {
+    const $element = $(elementSelector);
+    const currentPointerEvents = $element.css('pointer-events');
+
+    if (currentPointerEvents !== 'none') {
+        $element.css({
+            'pointer-events': 'none',
+            'opacity': '0.5'
+        });
+    } else {
+        $element.css({
+            'pointer-events': 'auto',
+            'opacity': '1.0'
+        });
+    }
+}
 </script>
 </body>
 </html>
