@@ -14,39 +14,57 @@ class Form {
 }
 
 class Question {
-    type; order; title; placeholder; imageUrl; detail; count; answer; file;
-    constructor(type, count, order, title, placeholder, detail, answer, file) {
-        this.type = type; this.count = count; this.order = order; this.title = title; this.placeholder = placeholder; this.detail = detail; this.answer = answer; this.file = file;
+    type; order; title; placeholder; imageUrl; detail; exampleDetail; count; answer; file;
+    constructor(type, count, order, title, placeholder, detail, exampleDetail, answer, file) {
+        this.type = type; this.count = count; this.order = order; this.title = title; this.placeholder = placeholder; this.detail = detail; this.exampleDetail = exampleDetail; this.answer = answer; this.file = file;
     }
+}
+
+function shortHtml() {
+    const id = Date.now();
+    let html = '';
+    html =
+        html.concat(`<div class="frm-area short-answer form-div q-1">`)
+            .concat(`<div class="inp-group"><i class="number"></i>`)
+            .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
+            .concat(`<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
+            .concat(`<ol id="answer_wrap" class="frm-answer">`)
+            .concat(`<li class="add_item"><label for="answer-${id}" class="skip">질문 1의 정답</label><input type="text" name="answer" id="answer-${id}" placeholder="해당 주관식의 정답을 입력해주세요.">`)
+            .concat(`<button type="button" class="bt-add" onclick="addAnswer(event)">`)
+            .concat(`<span class="skip">추가</span></button></li>`)
+            .concat(`</ol>`)
+            .concat(`</div>`)
+            .concat(imageHtml(id)) // 이미지 등록 html 함수화
+            .concat(`<div class="bottom-sheets">`)
+            .concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
+            .concat(`</div>`)
+            .concat(`</div>`)
+    return html;
 }
 
 function subjectHtml() {
     const id = Date.now();
     let html = '';
     html =
-    html.concat(`<div class="frm-area short-answer form-div q-1">`)
+        html.concat(`<div class="frm-area short-answer form-div q-2">`)
             .concat(`<div class="inp-group"><i class="number"></i>`)
-                .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
-                .concat(`<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
-                .concat(`<ol id="answer_wrap" class="frm-answer">`)
-                    .concat(`<li class="add_item"><label for="answer0" class="skip">질문 1의 정답</label><input type="text" name="answer[]" id="answer0" placeholder="해당 주관식의 정답을 입력해주세요.">`)
-                        .concat(`<button type="button" class="bt-add" onclick="addAnswer(event)">`)
-                    .concat(`<span class="skip">추가</span></button></li>`)
-                .concat(`</ol>`)
+            .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
+            .concat(`</ol>`)
             .concat(`</div>`)
             .concat(imageHtml(id)) // 이미지 등록 html 함수화
             .concat(`<div class="bottom-sheets">`)
-                .concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
+            .concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
             .concat(`</div>`)
-        .concat(`</div>`)
+            .concat(`</div>`)
     return html;
 }
+
 
 function multipleHtml() {
     const id = Date.now();
     let html = ''
     html =
-        html.concat(`<div class="frm-area multiple-choice form-div q-2">`)
+        html.concat(`<div class="frm-area multiple-choice form-div q-3">`)
             .concat(`<div class="inp-group"><i class="number"></i>`)
                 .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
                 .concat(`<ol class="subject-valid">`);
@@ -77,7 +95,7 @@ function lookHtml() {
     const id = Date.now();
     let html = ''
     html =
-        html.concat(`<div class="frm-area multiple-choice form-div q-3">`)
+        html.concat(`<div class="frm-area multiple-choice form-div q-4">`)
             .concat(`<div class="inp-group"><i class="number"></i>`)
                 .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
 
@@ -87,10 +105,11 @@ function lookHtml() {
                 .concat(`<ol>`)
 
         for (let i=1; i <=5 ; i++) {
+            const id = 'e' + i;
             html =
                 html.concat(`<li>`)
                     .concat(`<label for="">${que_arr[i]}</label>`)
-                    .concat(`<input type="text" name="" placeholder="보기 내용을 입력하세요.">`)
+                    .concat(`<input type="text" class="${id}" name="${id}" placeholder="보기 내용을 입력하세요.">`)
                     .concat(`</li>`)
         }
 
@@ -144,7 +163,8 @@ function emptyHtml() {
         html.concat(`<div class="not-result" id="not-result">`)
             .concat(`<i class="ico"></i><p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>`)
             .concat(`<ul>`)
-                .concat(`<li><a onclick="appendQuestion(subjectHtml())" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>`)
+                .concat(`<li><a onclick="appendQuestion(shortHtml())" class="st-ico"><i class="ico i-short-answer"></i> <span>단답형 문항</span></a></li>`)
+                .concat(`<li><a onclick="appendQuestion(subjectHtml())" class="st-ico"><i class="ico i-short-answer"></i> <span>서술형 문항</span></a></li>`)
                 .concat(`<li><a onclick="appendQuestion(multipleHtml())" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>`)
                 .concat(`<li><a onclick="appendQuestion(lookHtml())" class="st-ico"><i class="ico i-view-que"></i> <span>보기 문항</span></a></li>`)
             .concat(`</ul>`)
@@ -174,11 +194,13 @@ function appendQuestion (html) { // 문한 컨텐츠 추가
     removeEmptyHtml(); // empty html 제거
     $("#first_content").append(html); // 문항 html append
     updateNumbering() // 넘버링 업데이트
+    updateQuestionCnt() // 문항 집계수 변경
 }
 
 function deleteQuestion (event) { // 문항 컨텐츠 삭제
     $(event.target).closest('.frm-area').remove(); // 삭제
     appendEmptyHtml(); // empty html 처리
+    updateQuestionCnt() // 문항 집계수 변경
 }
 
 function appendEmptyHtml() { // empty html 처리
@@ -198,6 +220,14 @@ function updateNumbering () { // 문항 넘버링
         e.querySelector('.number').textContent = i + 1;
     });
 };
+
+function updateQuestionCnt() { // 문항 수 집계 카운트 변경
+    const arr = document.querySelectorAll('.q-cnt')
+    arr[0].textContent = new String(document.querySelectorAll('.q-1').length);
+    arr[1].textContent = new String(document.querySelectorAll('.q-2').length);
+    arr[2].textContent = new String(document.querySelectorAll('.q-3').length);
+    arr[3].textContent = new String(document.querySelectorAll('.q-4').length);
+}
 
 function appendModalHtml() { // 모달 append
     let modalElement = document.getElementById('modal_layer')
@@ -393,9 +423,19 @@ function generateData(s) { // 데이터 세팅
 function extractData (question, idx) { // 질문 리스트 데이터 추출
     let file;
     question.querySelectorAll('.file-input').forEach((e => { file = e.files[0]; }));
-    if (question.classList.contains('q-1')) { // 주관식 처리
-        return new Question(0, 1, idx, question.querySelector('.sub_subject').value, question.querySelector('.sub_explain').value, null, null, file);
-    } else if (question.classList.contains('q-2')) { // 객관식 처리
+    if (question.classList.contains('q-1')) { // 단답형 처리
+        const answer = []; // 답 리스트
+        const shortAnswers = question.querySelectorAll(`input[name="answer"]`); // 단답형 답
+        console.log(shortAnswers)
+        shortAnswers.forEach(e=> {
+            if (e && e.value) {
+                answer.push(e.value)
+            }
+        })
+        return new Question(0, 1, idx, question.querySelector('.sub_subject').value, question.querySelector('.sub_explain').value, null, null, answer, file);
+    } else if (question.classList.contains('q-2')) { // 서술형 처리
+        return new Question(1, 1, idx, question.querySelector('.sub_subject').value, null, null, null, null, file);
+    } else if (question.classList.contains('q-3')) { // 객관식 처리
         let count = 0; // 질문 개수
         const arr = ['q1', 'q2', 'q3', 'q4', 'q5']; // 인자 class 리스트
         const details = []; // 질문 리스트
@@ -409,7 +449,30 @@ function extractData (question, idx) { // 질문 리스트 데이터 추출
                 count++;
             }
         })
-        return new Question(1, count, idx, question.querySelector('.sub_subject').value, null, details, answer, file);
+        return new Question(2, count, idx, question.querySelector('.sub_subject').value, null, details, null, answer, file);
+    } else if (question.classList.contains('q-4')) { // 보기 문항 처리
+        let count = 0; // 질문 개수
+        const arr = ['q1', 'q2', 'q3', 'q4', 'q5']; // 인자 class 리스트
+        const details = []; // 질문 리스트
+        const answer = []; // 답 리스트
+        arr.forEach(e => {
+            const checkbox = question.querySelector(`input[name="each"][value="${arr.indexOf(e) + 1}"]`); // 체크박스 답
+            const detail = question.querySelector(`.${e}`).value; // 입력 질문
+            if (detail) {
+                details.push(detail);
+                answer.push(checkbox.checked);
+                count++;
+            }
+        })
+        const arr2 = ['e1', 'e2', 'e3', 'e4', 'e5']; // 인자 class 리스트
+        const examples = []; // 답 리스트
+        arr2.forEach(e => {
+            const detail = question.querySelector(`.${e}`).value; // 입력 질문
+            if (detail) {
+                examples.push(detail);
+            }
+        })
+        return new Question(3, count, idx, question.querySelector('.sub_subject').value, null, details, examples, answer, file);
     }
 };
 
@@ -431,16 +494,35 @@ function validateRequestData(request) { // 폼 설정 유효성 검사
 
     for (let q of request.question) {
         if (q.type == 0) {
-            if (!q.title) { // 주관식 제목 검사
-                openPopUp("주관식 설정", "주관식 제목을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+            if (!q.title) { // 단답형 제목 검사
+                openPopUp("단답형 설정", "주관식 제목을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                return false;
+            } else if (!q.answer || q.answer.length == 0) {
+                openPopUp("단답형 내용", "주관식 정답을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
                 return false;
             }
         } else if (q.type == 1) {
+            if (!q.title) { // 서술형 제목 검사
+                openPopUp("서술형 설정", "주관식 제목을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                return false;
+            }
+        } else if (q.type == 2) {
             if (!q.title) { // 객관식 제목 검사
                 openPopUp("객관식 설정", "객관식 제목을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
                 return false;
-            } else if(!q.detail || q.detail == 0) { // 객관식 내용 검사
+            } else if(!q.detail || q.detail.length == 0) { // 객관식 내용 검사
                 openPopUp("객관식 내용", "객관식 내용을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                return false;
+            }
+        } else if (q.type == 3) {
+            if (!q.title) { // 객관식 제목 검사
+                openPopUp("보기 설정", "객관식 제목을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                return false;
+            } else if(!q.detail || q.detail.length == 0) { // 객관식 내용 검사
+                openPopUp("보기 내용", "객관식 내용을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                return false;
+            } else if(!q.exampleDetail || q.exampleDetail.length == 0) { // 객관식 내용 검사
+                openPopUp("보기 내용", "보기 내용을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
                 return false;
             }
         }
@@ -470,9 +552,9 @@ async function register(request) { // 폼 등록
             openPopUp("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
         }
     })
-        .catch(e => {
-            openPopUp("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
-        })
+    .catch(e => {
+        openPopUp("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+    })
 }
 
 $(document).ready(() => { // 초기 설정
@@ -514,7 +596,7 @@ function addAnswer(event) {
 
     let html = ''
     html = html.concat(`<li class="add_item"><label class="skip"></label>`)
-        .concat(`<input type="text" placeholder="해당 주관식의 정답을 입력해주세요.">`)
+        .concat(`<input type="text" name="answer" placeholder="해당 주관식의 정답을 입력해주세요.">`)
         .concat(`<button type="button" class="bt-remove" onclick="removeAnswer(event)">`)
         .concat(`<span class="skip">삭제</span></button></li>`)
     $(answerHtml).append(html)

@@ -55,22 +55,22 @@
 								<ul>
 									<li>
 										<i class="ico"></i>
-										<em>3</em>
+										<em class="q-cnt">0</em>
 										<p>단답식</p>
 									</li>
 									<li>
 										<i class="ico"></i>
-										<em>2</em>
+										<em class="q-cnt">0</em>
 										<p>객관식</p>
 									</li>
 									<li>
 										<i class="ico"></i>
-										<em>1</em>
+										<em class="q-cnt">0</em>
 										<p>보기</p>
 									</li>
 									<li>
 										<i class="ico"></i>
-										<em>2</em>
+										<em class="q-cnt">0</em>
 										<p>서술형</p>
 									</li>
 								</ul>
@@ -84,11 +84,11 @@
 										<label for="num-answer-sel" class="skip">최대 답변 인원 선택</label>
 										<select name="" id="num-answer-sel" class="layer-sel">
 											<option value="0">제한없음</option>
-											<option value="10">10명</option>
-											<option value="20">20명</option>
 											<option value="30">30명</option>
-											<option value="40">40명</option>
 											<option value="50">50명</option>
+											<option value="100">100명</option>
+											<option value="300">300명</option>
+											<option value="500">500명</option>
 										</select>
 									</div>
 								</li>
@@ -96,8 +96,8 @@
 								<li>
 									<em>폼 형태</em>
 									<div class="frm-area">
-<!--										<span class="ctm-radio"><input type="radio" name="formType" id="survey" checked value="0"> <label for="survey">설문조사</label></span>-->
 										<span class="ctm-radio"><input type="radio" name="formType" id="quiz" value="1" checked> <label for="quiz">퀴즈</label></span>
+										<span class="ctm-radio"><input type="radio" name="formType" id="survey" value="0"> <label for="survey">설문조사</label></span>
 									</div>
 								</li>
 								<li>
@@ -144,144 +144,12 @@
 							</div>
 							<div class="container" id="form_container">
 								<div class="inner" id="first_content">
-<!--									<div class="frm-area short-answer form-div">-->
-<!--										<div class="inp-group">-->
-<!--											<i class="number">1</i>-->
-<!--											<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">-->
-<!--											<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain" placeholder="주관식 답변창에 보일 문구를 입력해주세요.">-->
-<!--											&lt;!&ndash; 정답란 추가 &ndash;&gt;-->
-<!--											<ol id="answer_wrap" class="frm-answer">-->
-<!--												<li><label for="answer0" class="skip">질문 1의 정답</label><input type="text" name="answer[]" id="answer0" placeholder="해당 주관식의 정답을 입력해주세요."> <button type="button" class="bt-add" onclick="addAnswer('질문1', 'answer', 'answer[]')"><span class="skip">추가</span></button></li>-->
-<!--											</ol>-->
-<!--											&lt;!&ndash; //정답란 추가 &ndash;&gt;-->
-<!--										</div>-->
-<!--										<div class="frm-upload">-->
-<!--											&lt;!&ndash; 이미지 등록 &ndash;&gt;-->
-<!--											<canvas id="img-view-n1704628385476" class="img-view" style="display: none"></canvas>-->
-<!--											<div id="img-view-p1704628385476" class="img-view">-->
-<!--												<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>-->
-<!--											</div>-->
-<!--											&lt;!&ndash; //이미지 등록 &ndash;&gt;-->
-<!--											<label for="f1704628385476">이미지 등록하기</label> <input type="file" name="" id="f1704628385476" class="file-input" onchange="previewImage('1704628385476')">-->
-<!--										</div>-->
-<!--										<div class="bottom-sheets">-->
-<!--											<button type="button" class="bt-delete" title="삭제" onclick="deleteContent(event)"><span class="skip">삭제</span></button>-->
-<!--										</div>-->
-<!--									</div>-->
-
-<!--									<div class="frm-area multiple-choice form-div">-->
-<!--									  <div class="inp-group">-->
-<!--										<i class="number">2</i>-->
-<!--										<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">-->
-<!--										<ol class="subject-valid">-->
-<!--											&lt;!&ndash;-->
-<!--												1. <span class="ctm-check-span"> → <span class="ctm-chk"> 변경-->
-<!--												2. input type="checkbox" 의  class="ctm-check" 삭제-->
-<!--												3. admin.css /* input checkbox */ 추가-->
-<!--											&ndash;&gt;-->
-<!--											<li>-->
-<!--												<span class="ctm-chk"><input type="checkbox" name="each" value="1"><label class="skip">객관식 1</label></span>-->
-<!--												<span class="inp" style="width: 100%"><label class="skip">객관식 1 내용</label><input type="text" class="q1" name="q1" placeholder="1. 객관식 내용을 입력하세요."></span>-->
-<!--											</li>-->
-<!--											<li>-->
-<!--												<span class="ctm-chk"><input type="checkbox" name="each" value="2"> <label class="skip">객관식 2</label></span>-->
-<!--												<span class="inp" style="width: 100%"><label class="skip">객관식 2 내용</label> <input type="text" class="q2" name="q2" placeholder="2. 객관식 내용을 입력하세요."></span>-->
-<!--											</li>-->
-<!--											<li>-->
-<!--												<span class="ctm-chk"><input type="checkbox" name="each" value="3"> <label class="skip">객관식 3</label></span>-->
-<!--												<span class="inp" style="width: 100%"><label class="skip">객관식 3 내용</label> <input type="text" class="q3" name="q3" placeholder="3. 객관식 내용을 입력하세요."></span>-->
-<!--											</li>-->
-<!--											<li>-->
-<!--												<span class="ctm-chk"><input type="checkbox" name="each" value="4"> <label class="skip">객관식 4</label></span>-->
-<!--												<span class="inp" style="width: 100%"><label class="skip">객관식 4 내용</label> <input type="text" class="q4" name="q4" placeholder="4. 객관식 내용을 입력하세요."></span>-->
-<!--											</li>-->
-<!--											<li>-->
-<!--												<span class="ctm-chk"><input type="checkbox" name="each" value="5"> <label class="skip">객관식 5</label></span>-->
-<!--												<span class="inp" style="width: 100%"><label class="skip">객관식 5 내용</label> <input type="text" class="q5" name="q5" placeholder="5. 객관식 내용을 입력하세요."></span>-->
-<!--											</li>-->
-<!--										</ol>-->
-<!--									  </div>-->
-<!--									  <div class="frm-upload">-->
-<!--										&lt;!&ndash; 이미지 미등록 &ndash;&gt;-->
-<!--										<canvas id="img-view-nf1704628386395" class="img-view" style="display: none"></canvas>-->
-<!--										<div id="img-view-pf1704628386395" class="img-view">-->
-<!--										  <span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>-->
-<!--										</div>-->
-<!--										&lt;!&ndash; //이미지 미등록 &ndash;&gt;-->
-<!--										<label for="ff1704628386395">이미지 등록하기</label> <input type="file" name="" id="ff1704628386395" class="file-input" onchange="previewImage('f1704628386395')">-->
-<!--									  </div>-->
-<!--									  <div class="bottom-sheets">-->
-<!--										<button type="button" class="bt-delete" title="삭제" onclick="deleteContent(event)"><span class="skip">삭제</span></button>-->
-<!--									  </div>-->
-<!--									</div>-->
-<!--									<div class="frm-area multiple-choice form-div">-->
-<!--										<div class="inp-group">-->
-<!--											<i class="number">3</i>-->
-<!--											<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">-->
-<!--											&lt;!&ndash; 보기문항 추가 &ndash;&gt;-->
-<!--											<div class="que-viewitem">-->
-<!--												<p>보기</p>-->
-<!--												<ol>-->
-<!--													<li><label for="">ㄱ.</label> <input type="text" name="" placeholder="보기 내용을 입력하세요."></li>-->
-<!--													<li><label for="">ㄴ.</label> <input type="text" name="" placeholder="보기 내용을 입력하세요."></li>-->
-<!--													<li><label for="">ㄷ.</label> <input type="text" name="" placeholder="보기 내용을 입력하세요."></li>-->
-<!--													<li><label for="">ㄹ.</label> <input type="text" name="" placeholder="보기 내용을 입력하세요."></li>-->
-<!--													<li><label for="">ㅁ.</label> <input type="text" name="" placeholder="보기 내용을 입력하세요."></li>-->
-<!--												</ol>-->
-<!--											</div>-->
-<!--											&lt;!&ndash; //보기문항 추가 &ndash;&gt;-->
-<!--											<ol class="subject-valid">-->
-<!--												<li>-->
-<!--													<span class="ctm-chk"><input type="checkbox" name="each" value="1"><label class="skip">객관식 1</label></span>-->
-<!--													<span class="inp" style="width: 100%"><label class="skip">객관식 1 내용</label><input type="text" class="q1" name="q1" placeholder="1. 객관식 내용을 입력하세요."></span>-->
-<!--												</li>-->
-<!--												<li>-->
-<!--													<span class="ctm-chk"><input type="checkbox" name="each" value="2"> <label class="skip">객관식 2</label></span>-->
-<!--													<span class="inp" style="width: 100%"><label class="skip">객관식 2 내용</label> <input type="text" class="q2" name="q2" placeholder="2. 객관식 내용을 입력하세요."></span>-->
-<!--												</li>-->
-<!--												<li>-->
-<!--													<span class="ctm-chk"><input type="checkbox" name="each" value="3"> <label class="skip">객관식 3</label></span>-->
-<!--													<span class="inp" style="width: 100%"><label class="skip">객관식 3 내용</label> <input type="text" class="q3" name="q3" placeholder="3. 객관식 내용을 입력하세요."></span>-->
-<!--												</li>-->
-<!--												<li>-->
-<!--													<span class="ctm-chk"><input type="checkbox" name="each" value="4"> <label class="skip">객관식 4</label></span>-->
-<!--													<span class="inp" style="width: 100%"><label class="skip">객관식 4 내용</label> <input type="text" class="q4" name="q4" placeholder="4. 객관식 내용을 입력하세요."></span>-->
-<!--												</li>-->
-<!--												<li>-->
-<!--													<span class="ctm-chk"><input type="checkbox" name="each" value="5"> <label class="skip">객관식 5</label></span>-->
-<!--													<span class="inp" style="width: 100%"><label class="skip">객관식 5 내용</label> <input type="text" class="q5" name="q5" placeholder="5. 객관식 내용을 입력하세요."></span>-->
-<!--												</li>-->
-<!--											</ol>-->
-<!--										  </div>-->
-<!--										  <div class="frm-upload">-->
-<!--											&lt;!&ndash; 이미지 미등록 &ndash;&gt;-->
-<!--											<canvas id="img-view-nf1704628386395" class="img-view" style="display: none"></canvas>-->
-<!--											<div id="img-view-pf1704628386395" class="img-view">-->
-<!--											  <span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>-->
-<!--											</div>-->
-<!--											&lt;!&ndash; //이미지 미등록 &ndash;&gt;-->
-<!--											<label for="ff1704628386395">이미지 등록하기</label> <input type="file" name="" id="ff1704628386395" class="file-input" onchange="previewImage('f1704628386395')">-->
-<!--										  </div>-->
-<!--										  <div class="bottom-sheets">-->
-<!--											<button type="button" class="bt-delete" title="삭제" onclick="deleteContent(event)"><span class="skip">삭제</span></button>-->
-<!--										  </div>-->
-<!--									</div>-->
-									<!-- or not result -->
-<!--									<div class="not-result">-->
-<!--										<i class="ico"></i>-->
-<!--										<p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>-->
-<!--										<ul>-->
-<!--											<li><a href="javascript:alert('링크를 연결하세요!');" class="st-ico"><i class="ico i-short-answer"></i> <span>주관식 문항</span></a></li>-->
-<!--											<li><a href="javascript:alert('링크를 연결하세요!');" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>-->
-<!--											<li><a href="javascript:alert('링크를 연결하세요!');" class="st-ico"><i class="ico i-view-que"></i> <span>보기 문항</span></a></li>-->
-<!--										</ul>-->
-<!--									</div>-->
 								</div>
 								<!-- 버튼 3개 추가 -->
 								<aside class="floating open">
 									<button type="button" class="floating-menu"><span class="skip">펼침</span></button>
 									<ul class="floating_item">
-										<li><button type="button"><i class="ico"></i> <span class="tooltip">단답형</span></button></li>
+										<li onclick="appendQuestion(shortHtml())"><button type="button"><i class="ico"></i> <span class="tooltip">단답형</span></button></li>
 										<li onclick="appendQuestion(subjectHtml())"><button type="button"><i class="ico" ></i> <span class="tooltip">서술형</span></button></li>
 										<li onclick="appendQuestion(multipleHtml())"><button type="button"><i class="ico"></i> <span class="tooltip">객관식</span></button></li>
 										<li onclick="appendQuestion(lookHtml())"><button type="button"><i class="ico"></i> <span class="tooltip">보기문항</span></button></li>
