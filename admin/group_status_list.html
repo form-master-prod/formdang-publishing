@@ -176,9 +176,10 @@ function group_my_info() {
                 $("#group_name").append(`${data.group_name} <a href="#" class="bt-modify" title="그룹 이름 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
                 $("#group_form").text(`${data.form_count}개`);
                 $("#group_reg").text(`${data.reg_dt}`)
-
             },
             error: function (error) {
+                alert("유효하지 않은 그룹입니다.");
+                location.replace("index.html");
                 console.error('AJAX 요청 실패:', error);
             }
         });
