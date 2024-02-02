@@ -18,7 +18,7 @@
 				<h2 class="logo"><img src="../image/common/logo_vertical.png" alt="폼당폼당" class="w6em"></h2>
 				<div class="member-login">
 					<div class="frm-area">
-						<label for="group-id" class="skip">Group</label><input type="text" name="" value="" id="group-id" class="it" placeholder="" disabled="">
+						<label for="group-id" class="skip">Group</label><input type="text" name="" value="" id="group-id" class="it" placeholder="" disabled readonly>
 						<label for="group-pw" class="skip">Password</label><input type="password" name="" value="" id="group-pw" class="it" placeholder="Password" disabled="">
 					</div>
 					<button type="submit" class="st-fill">입장하기</button>
@@ -29,4 +29,49 @@
 </div>
 </body>
 <script src="../js/common/f.con.js"></script>
+<script>
+$(document).ready(function() {
+	groun_join()
+});
+
+function groun_join() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const gidValue = urlParams.get('gid');
+    const group_session = urlParams.get('group_session');
+	const access_token = localStorage.getItem('accessToken')
+
+	if ([null, undefined, ''].includes(access_token)) {
+		alert("로그인 후 그룹에 입장해주세요.");
+		location.replace("login.html");
+    }
+
+    if (gidValue && group_session) {
+        $.ajax({
+            type: 'GET',
+            url: 'https://formdang-api.com/api/dj/group/join',
+            data: {gid: gidValue, group_session: group_session},
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+            },
+            success: function (response) {
+				if(response.proc == "success") {
+					$("#group-id").val(response.group_name);
+				}else {
+					alert("존재하지 않는 그룹입니다.");
+					location.replace("index.html");
+				}
+            },
+            error: function (error) {
+                alert("유효하지 않은 그룹입니다.");
+                location.replace("index.html");
+                console.error('AJAX 요청 실패:', error);
+            }
+        });
+    }else {
+        alert("유효하지 않은 그룹입니다.");
+        location.replace("index.html");
+    }
+}
+
+</script>
 </html>
