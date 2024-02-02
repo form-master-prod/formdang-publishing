@@ -56,7 +56,10 @@ function groun_join() {
             success: function (response) {
 				if(response.proc == "success") {
 					$("#group-id").val(response.group_name);
-				}else {
+				}else if(response.proc = "duplicate") {
+					alert("그룹장은 가입할 수 없습니다.");
+					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
+				} else {
 					alert("존재하지 않는 그룹입니다.");
 					location.replace("index.html");
 				}
