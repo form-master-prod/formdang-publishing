@@ -171,9 +171,9 @@ function group_my_info() {
                 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
             },
             success: function (response) {
-                $("#group_activity_name").text(response.name);
-                $("#group_name").append(`${response.group_name} <a href="group_write.html" class="bt-modify" title="그룹 이름 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
-
+                const data = response.group_my_info
+                $("#group_activity_name").text(data.name);
+                $("#group_name").append(`${data.group_name} <a href="group_write.html" class="bt-modify" title="그룹 이름 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
             },
             error: function (error) {
                 console.error('AJAX 요청 실패:', error);
