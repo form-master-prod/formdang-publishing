@@ -63,7 +63,7 @@
                             </div>
                             <div class="frm-area">
                                 <div class="inp-group">
-                                    <label for="grp_pw"><em>필수</em> 활동테마</label>
+                                    <label for="type-sel"><em>필수</em> 활동테마</label>
                                     <select name="" id="type-sel" class="layer-sel">
 					                    <option value="">테마를 선택해주세요.</option>
                                         <option value="쪽지시험">쪽지시험</option>
@@ -130,6 +130,8 @@ function groupCreate() {
       }
       doubleSubmit("#create-btn")
       if (gidValue && group_session) {
+          console.log(gidValue)
+          console.log(group_session)
           $.ajax({
               type: 'POST',
               url: 'https://formdang-api.com/api/dj/group/create',
