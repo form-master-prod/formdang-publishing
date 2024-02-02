@@ -51,7 +51,7 @@
 						<p>내 활동 닉네임</p>
 						<em id="group_activity_name"></em>
 					</div>
-                    <a href="group_write.html" class="bt-modify" title="닉네임 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>
+                    <a href="#" class="bt-modify" title="닉네임 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>
                 </li>
                 <li>
                     <i class="ico"></i>
@@ -64,14 +64,14 @@
                     <i class="ico i-survey-fill"></i>
 					<div>
 						<p>공유된 폼 수</p>
-						<em>5개</em>
+						<em id="group_form"></em>
 					</div>
                 </li>
                 <li>
                     <i class="ico i-date-fill"></i>
 					<div>
-						<p>최근 공유일</p>
-						<em>2023-11-04</em>
+						<p>그룹 생성일</p>
+						<em id="group_reg"></em>
 					</div>
                 </li>
             </ul>
@@ -173,7 +173,10 @@ function group_my_info() {
             success: function (response) {
                 const data = response.group_my_info
                 $("#group_activity_name").text(data.name);
-                $("#group_name").append(`${data.group_name} <a href="group_write.html" class="bt-modify" title="그룹 이름 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
+                $("#group_name").append(`${data.group_name} <a href="#" class="bt-modify" title="그룹 이름 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
+                $("#group_form").text(`${data.form_count}개`);
+                $("#group_reg").text(`${data.reg_dt}`)
+
             },
             error: function (error) {
                 console.error('AJAX 요청 실패:', error);
