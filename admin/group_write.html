@@ -100,10 +100,6 @@ $(document).ready(function() {
 });
 
 function groupCreate() {
-
-      const urlParams = new URLSearchParams(window.location.search);
-      const gidValue = urlParams.get('gid');
-      const group_session = urlParams.get('group_session');
       const group_name = $("#grp_name").val()
       const pw = $("#grp_pw").val()
       const group_intro = $("#grp_intro").val()
@@ -129,34 +125,28 @@ function groupCreate() {
 			return false;
       }
       doubleSubmit("#create-btn")
-      if (gidValue && group_session) {
-          console.log(gidValue)
-          console.log(group_session)
-          $.ajax({
-              type: 'POST',
-              url: 'https://formdang-api.com/api/dj/group/create',
-              data: {gid: gidValue, group_session: group_session, pw:pw, name:group_name, intro:group_intro, category:category},
-              headers: {
-                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-              },
-              success: function (response) {
-                    if(response.proc == "success") {
-                        alert("그룹 생성 성공");
-                        location.replace("group_list.html")
-                    }else {
-                        alert('그룹 생성 실패');
-                        doubleSubmit("#create-btn")
-                        return false;
-                    }
-              },
-              error: function (error) {
-                  doubleSubmit("#create-btn")
-                  console.error('AJAX 요청 실패:', error);
-              }
-          });
-      }else {
-          doubleSubmit("#create-btn")
-      }
+      $.ajax({
+          type: 'POST',
+          url: 'https://formdang-api.com/api/dj/group/create',
+          data: {pw:pw, name:group_name, intro:group_intro, category:category},
+          headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+          },
+          success: function (response) {
+                if(response.proc == "success") {
+                    alert("그룹 생성 성공");
+                    location.replace("group_list.html")
+                }else {
+                    alert('그룹 생성 실패');
+                    doubleSubmit("#create-btn")
+                    return false;
+                }
+          },
+          error: function (error) {
+              doubleSubmit("#create-btn")
+              console.error('AJAX 요청 실패:', error);
+          }
+      });
 }
 
 function doubleSubmit(elementSelector) {
