@@ -106,21 +106,22 @@
 										<input type="date" id="startDate"> <input type="date" id="endDate">
 									</div>
 								</li>
-<!--								<li>-->
-<!--									<em>로고</em>-->
-<!--									<div class="frm-area">-->
-<!--										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="not_logo" checked value="0"> <label for="not_logo">없음</label></span>-->
-<!--										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="my_logo" value="1"> <label for="my_logo">내 로고</label></span>-->
-<!--									</div>-->
-<!--								</li>-->
-<!--								<li>-->
-<!--									<em>테마</em>-->
-<!--									<div class="frm-area">-->
-<!--										<span class="ctm-radio-chips"><input type="radio" name="themeType" id="empty" checked value="0"> <label for="empty">없음</label></span>-->
+								<li>
+									<em>로고</em>
+									<div class="frm-area">
+										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="not_logo" onclick="changeLogo(ri)"> <label for="not_logo">없음</label></span>
+										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="my_logo" onclick="changeLogo(DEFAULT_LOGO_URL)" checked> <label for="my_logo">기본</label></span>
+										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="file_logo" onclick="changeFileLogo()"><label for="file_logo">등록</label></span>
+									</div>
+								</li>
+								<li>
+									<em>테마</em>
+									<div class="frm-area">
+										<span class="ctm-radio-chips"><input type="radio" name="themeType" id="empty" checked value=""> <label for="empty">없음</label></span>
 <!--										<span class="ctm-radio-chips"><input type="radio" name="themeType" id="basic_thema" value="1"> <label for="basic_thema">산뜻한</label></span>-->
 <!--										<span class="ctm-radio-chips"><input type="radio" name="themeType" id="my_thema" value="2"> <label for="my_thema">내 테마</label></span>-->
-<!--									</div>-->
-<!--								</li>-->
+									</div>
+								</li>
 							</ul>
 							<div class="bt-wrap">
 								<button type="button" class="st-ico" onclick="openPopUpWithUser(0)"><span>임시저장</span><i class="ico"></i></button>
@@ -139,7 +140,7 @@
 									<div id="img-div-logo" class="img-view">
 										<span class="not-img"><img id="img-default-logo" src="" alt=""></span>
 									</div>
-									<label for="img-logo">로고(상호) 변경하기</label> <input type="file" name="" id="img-logo" onchange="previewImg('logo')">
+									<label for="img-logo">로고(상호) 변경하기</label> <input type="file" name="" id="img-logo" oninput="previewLogoImg('logo')">
 								</div>
 							</div>
 							<div class="container" id="form_container">

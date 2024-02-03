@@ -1,4 +1,4 @@
-let formType, logUrl, themaUrl, beginDt, endDt, status
+let formType, themaUrl, beginDt, endDt, status
 let doubleSubmitPrevent = false, modal_type = 'R';
 const today = new Date();
 const today_7 = new Date(today);
@@ -191,6 +191,10 @@ function modalHtml() {
 }
 
 function appendQuestion (html) { // 문한 컨텐츠 추가
+    if (getTotalQuestionCnt() >= 20) {
+        openPopUp("질문 설정", "최대 등록(20개) 가능한 질문을 초과하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+        return
+    }
     removeEmptyHtml(); // empty html 제거
     $("#first_content").append(html); // 문항 html append
     updateNumbering() // 넘버링 업데이트
@@ -229,6 +233,16 @@ function updateQuestionCnt() { // 문항 수 집계 카운트 변경
     arr[3].textContent = new String(document.querySelectorAll('.q-4').length);
 }
 
+function getTotalQuestionCnt() {
+    const arr = document.querySelectorAll('.q-cnt')
+    let cnt = 0;
+    cnt += document.querySelectorAll('.q-1') ? document.querySelectorAll('.q-1').length : 0;
+    cnt += document.querySelectorAll('.q-2') ? document.querySelectorAll('.q-2').length : 0;
+    cnt += document.querySelectorAll('.q-3') ? document.querySelectorAll('.q-3').length : 0;
+    cnt += document.querySelectorAll('.q-4') ? document.querySelectorAll('.q-4').length : 0;
+    return cnt;
+}
+
 function appendModalHtml() { // 모달 append
     let modalElement = document.getElementById('modal_layer')
     if (!modalElement)  $("#wrap").after(modalHtml());
@@ -246,6 +260,25 @@ function previewImg(id) { // 이미지 미리보기 처리
     readFile(file, canvas, div, context) // 파일 읽기 후 미리보기 설정
 }
 
+function previewLogoImg(id) { // 로고 파일 등록
+    const imgId = "img-" + id;
+    const input = document.getElementById(imgId);
+    if (input.files.length > 0) {
+        previewImg(id);
+        document.getElementById('file_logo').checked = true;
+        document.getElementById("img-default-logo").src = '';
+    }
+}
+
+function deleteLogo() { // 로고 파일 이미지 삭제
+    const canvas = document.getElementById('img-canvas-logo');
+    const div = document.getElementById('img-div-logo')
+    let logo = document.getElementById("img-logo")
+    canvas.style.display = "none";
+    div.style.display = "flex";
+    logo.value = null;
+}
+
 function readFile(file, canvas, div, context) { // 파일 읽기 후 미리보기 설정
     if (!file) return
     const reader = new FileReader();
@@ -261,6 +294,7 @@ function readFile(file, canvas, div, context) { // 파일 읽기 후 미리보�
     };
     reader.readAsDataURL(file);
 }
+
 
 function openPopUpWithUser(t) { // 유저 클릭 오픈 팝업 이벤트
     const title = t == 0 ? '임시 저장' : '등록 하기' // 타이틀 설정
@@ -394,9 +428,20 @@ function validateMultipleChoiceEmpty(event) { // 이성이 등록
     }
 }
 
-function setDefaultLogoImg() { // default 로고 이미지 세팅
+function changeLogo(logo) { // 로고 변경
     const dynamicImage = document.getElementById("img-default-logo");
-    dynamicImage.src = DEFAULT_LOGO_URL; // default 로고 이미지 세팅
+    dynamicImage.src = logo; // 로고 이미지 세팅
+    deleteLogo() // 등록된 파일 로고 삭제
+}
+
+function changeFileLogo() { // 로고 파일 선택
+    const logoImg = document.getElementById("img-default-logo");
+    if (logoImg.src && logoImg.src.includes(DEFAULT_BLANK_IMG_NAME)) { // 로고 없음
+        document.getElementById('not_logo').checked = true;
+    } else if (logoImg.src && logoImg.src.includes(DEFAULT_LOGO_URL)) { // 로고 기본
+        document.getElementById('my_logo').checked = true;
+    }
+    document.getElementById('img-logo').click(); // 로고 파일 등록 호출
 }
 
 async function startRegisterForm () { // 폼 등록하기
@@ -410,14 +455,24 @@ async function startRegisterForm () { // 폼 등록하기
 
 function generateData(s) { // 데이터 세팅
     let questions = [];
-    let logo = document.getElementById("img-logo"); // 로고 element
     let title = document.getElementById("subject").value; // 타이틀
     let detail = document.getElementById("explain").value; // 폼 설명
-    let maxRespondent = document.getElementById("num-answer-sel").value;
-    let file = logo.files[0] ? logo.files[0] : DEFAULT_LOGO_URL; // 로고 파일
+    let maxRespondent = document.getElementById("num-answer-sel").value; // 최대 답변 인원
+    let file = this.getLogo(); // 로고 정보 가져오기
     let arr = document.querySelectorAll('.inner#first_content .form-div');
     arr.forEach((question, idx) => { questions.push(extractData(question, idx)); }); // 질문 리스트 추출
     return new Form(formType, title, detail, formatDateToyyyyMMdd(beginDt), formatDateToyyyyMMdd(endDt), file, themaUrl, questions, s, maxRespondent);
+}
+
+function getLogo() { // 내 로고 조회하기 ( 파일 or URL 가져오기)
+    let logo = document.getElementById("img-logo"); // 로고 element
+    if (logo.files.length > 0) {
+        return  logo.files[0] // 등록 로고 파일 반환
+    } else {
+        const logoImg = document.getElementById("img-default-logo");
+        if (!logoImg || logoImg.src.includes(DEFAULT_BLANK_IMG_NAME)) return null // 로고 null or 로고 없음은 로고 url 없음
+        return logoImg.src // 로고 URL 반환
+    }
 }
 
 function extractData (question, idx) { // 질문 리스트 데이터 추출
@@ -561,17 +616,14 @@ $(document).ready(() => { // 초기 설정
     essentialLogin(); // 로그인 여부 검사
     appendModalHtml(); // 모달 붙이기
     appendEmptyHtml(); // 처음 빈 div 설정
-    setDefaultLogoImg(); // default 로고 이미지 세팅
     resetDate(); // 날짜 데이터 초기화
     formType = $('input[name="formType"]:checked').val(); // 초기 타입 설정
-    logUrl = $('input[name="logoType"]:checked').val(); // 초기 로고 타입 설정
-    themaUrl = $('input[name="themeType"]:checked').val(); // 테마 타입 설정
+    document.getElementById("img-default-logo").src = DEFAULT_LOGO_URL; // default 로고 이미지 세팅
     $('.layer-sel').niceSelect(); // 퍼블 추가 내역
 })
 
 $(window).load(() => {
     $('input[name="formType"]').change(function () { formType = $(this).val(); }); // 폼형태
-    $('input[name="logoType"]').change(function()  { logUrl = $(this).val(); }); // 로고
     $('input[name="themeType"]').change(function() { themaUrl = $(this).val(); }); // 테마
     $('#startDate, #endDate').change(function () { watchingDate() }); // 날짜 유효성 검사
     $('input[type="checkbox"]').on('click', function() { validateCheckBox() }); // 이성이 등록

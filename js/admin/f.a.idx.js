@@ -6,7 +6,6 @@ const PAGE_BAR_NUM = 5;
 const ts = 'type-sel'
 const ss = 'status-sel'
 const as = 'align-sel'
-const ri = '../image/icon/gallery-remove.svg'
 let page = 0, type = 99, status = 99, order = 0, totalPage = 0; // 페이지, 타입, 상태 파라미터
 let endFlag = false; // 마지막 페이지 플래그
 class R1 { page; type; status; order; constructor(p, t, s, o) { this.page = p; this.type = t; this.status = s; this.order = o; } }
@@ -108,6 +107,8 @@ function appendCards(data) { // 폼 카드 리스트 처리
 function appendAnalyze(data) { // 종합 분석 처리
     $("li:nth-child(1) em").text(data.quizCnt + "건"); // 퀴즈 건수
     $("li:nth-child(2) em").text(data.quizRespondentCnt + "건"); // 퀴즈 응답 건수
+    $("li:nth-child(3) em").text(data.inspectionCnt + "건"); // 설문 건수
+    $("li:nth-child(4) em").text(data.inspectionRespondentCnt + "건"); // 설문 응답 건수
 }
 
 function appendPage(curPage, totalPage) { // 페이징 바 붙이기
