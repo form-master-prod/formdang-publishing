@@ -347,7 +347,7 @@ function formShare(gid, action) {
       const fidValue = urlParams.get('fid');
       if (fidValue) {
           $.ajax({
-              type: 'GET',
+              type: 'POST',
               url: 'https://formdang-api.com/api/dj/form/share',
               data: {fid: fidValue, gid:gid, action:action},
               headers: {
