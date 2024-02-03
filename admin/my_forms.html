@@ -49,28 +49,28 @@
 					<i class="ico i-survey-fill"></i>
 					<div>
 						<p>템플릿 제목</p>
-						<em>오늘의 넌센스 퀴즈!</em>
+						<em id="form_title"></em>
 					</div>
 				</li>
 				<li>
 					<i class="ico i-calender-fill"></i>
 					<div>
-						<p>설문조사 기간</p>
-						<em>2023-01-01 ~ 2023-12-31</em>
+						<p>답변기간 기간</p>
+						<em id="stat_answer_last"></em>
 					</div>
 				</li>
 				<li>
 					<i class="ico"></i>
 					<div>
 						<p>총 답변 인원</p>
-						<em>100명</em>
+						<em id="answer_count"></em>
 					</div>
 				</li>
 				<li>
 					<i class="ico i-date-fill"></i>
 					<div>
 						<p>마지막 답변 발생 시간</p>
-						<em>2023-02-04 16:42:31</em>
+						<em id="answer_last"></em>
 					</div>
 				</li>
 			</ul>
@@ -175,7 +175,7 @@
 						<li>
 							<em>답변기간</em>
 							<div class="frm-area">
-								<label for="survey_date" class="skip">답변기간</label><input type="text" name="" value="2023-10-11 ~ 2023-11-15" placeholder="설문기간" id="survey_date" class="it" disabled>
+								<label for="form_date" class="skip">답변기간</label><input type="text" name="" value="" placeholder="답변기간" id="form_date" class="it" disabled>
 							</div>
 						</li>
 						<li>
@@ -232,15 +232,22 @@
                   'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
               },
               success: function (response) {
-				  // if(response.proc == "fail") {
-					//   alert("잘못된 접근입니다.")
-					//   location.replace("../admin/index.html")
-				  // }
+				  if(response.proc == "fail") {
+					  alert("잘못된 접근입니다.")
+					  location.replace("../admin/index.html")
+				  }else if(response.proc == "success") {
+					  $("#form_date").val(`${response.start} ~ ${response.end}`);
+					  $("#form_title").text(response.title);
+					  $("#stat_answer_last").text(`${response.start} ~ ${response.end}`);
+					  $("#answer_count").text(response.answer_count);
+					  $("#answer_last").text(response.answer_last);
+					  $("#url").val(response.url)
+				  }
               },
               error: function (error) {
-				  // alert("잘못된 접근입니다.")
-				  // location.replace("../admin/index.html")
-                  // console.error('AJAX 요청 실패:', error);
+				  alert("잘못된 접근입니다.")
+				  location.replace("../admin/index.html")
+                  console.error('AJAX 요청 실패:', error);
               }
           });
       }
