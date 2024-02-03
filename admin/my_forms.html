@@ -270,9 +270,10 @@
 					  alert("잘못된 접근입니다.")
 					  location.replace("../admin/index.html");
 				  }else if(response.proc == "success") {
-					  const group_all = response.group_all
-					  const group_form_all = response.group_form_all
-
+					  const group_all = response.group_all;
+					  const group_form_all = response.group_form_all;
+					  console.log(group_all)
+					  console.log(group_form_all)
 					  if(group_all.length > 0) {
 						  let group_all_html = ""
 						  for(let i = 0; i<group_all.length; i++) {
