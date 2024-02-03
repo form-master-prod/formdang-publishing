@@ -141,7 +141,7 @@
 					</ul>
 				</div> -->
 				<div id="tab3" class="tab_cont">
-					<ul>
+					<ul id="group_form_share">
 						<li>
 							<label for="share-group">그룹에게 공유하기</label>
 							<div class="frm-area">
@@ -161,14 +161,6 @@
 							</div>
 						</li>
 					</ul>
-					<!-- or not result -->
-					<div class="not-result">
-						<i class="ico"></i>
-						<p>앗 ! 폼을 공유할 그룹이 없어요.<br>그룹을 결성해보세요 !</p>
-						<ul>
-							<li><a href="group_write.html" class="st-ico"><i class="ico i-group"></i> <span>그룹 생성하기</span></a></li>
-						</ul>
-					</div>
 				</div>
 				<div id="tab4" class="tab_cont">
 					<ul>
@@ -293,6 +285,20 @@
 						  $("#share-list").append(group_form_all_html);
 					  }
 					  $('.layer-sel').niceSelect();
+
+					  if(group_form_all.length < 1 && group_all.length < 1) {
+						  let html = `
+								<div class="not-result">
+									<i class="ico"></i>
+									<p>앗 ! 폼을 공유할 그룹이 없어요.<br>그룹을 결성해보세요 !</p>
+									<ul>
+										<li><a href="group_write.html" class="st-ico"><i class="ico i-group"></i> <span>그룹 생성하기</span></a></li>
+									</ul>
+								</div>
+						  `
+						  $("#group_form_share").remove();
+						  $("#tab3").append(html);
+					  }
 				  }
               },
               error: function (error) {
