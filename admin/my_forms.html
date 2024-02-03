@@ -148,7 +148,7 @@
 								<select name="" id="share-group" class="layer-sel">
 									<option value="">선택해주세요.</option>
 								</select>
-								<button type="button" class="st-fill" onclick="alert('링크를 연결하세요!');"><span>공유하기</span> <i class="ico i-send"></i></button>
+								<button type="button" class="st-fill" onclick="formShareAdd()"><span>공유하기</span> <i class="ico i-send"></i></button>
 							</div>
 						</li>
 						<li>
@@ -157,7 +157,7 @@
 								<select name="" id="share-list" class="layer-sel">
 									<option value="">선택해주세요.</option>
 								</select>
-								<button type="button" class="st-ico" onclick="alert('링크를 연결하세요!');"><span>공유해제</span> <i class="ico i-trash"></i></button>
+								<button type="button" class="st-ico" onclick="formShareSub()"><span>공유해제</span> <i class="ico i-trash"></i></button>
 							</div>
 						</li>
 					</ul>
@@ -309,6 +309,34 @@
           });
       }
   }
+
+function formShareAdd() {
+	const name = $("#share-group option:selected").text();
+	const gid = $("#share-group").val();
+	if ([null, undefined, ''].includes(gid)) {
+		alert("공유할 그룹을 선택해주세요.");
+		return false;
+    }else {
+		$("#share-group option:selected").remove();
+		$("#share-group").val('');
+		$("#share-list").append(`<option value="${gid}">${name}</option>`);
+		$('.layer-sel').niceSelect('update');
+	}
+}
+
+function formShareSub() {
+	const name = $("#share-list option:selected").text();
+	const gid = $("#share-list").val();
+	if ([null, undefined, ''].includes(gid)) {
+		alert("해제할 그룹을 선택해주세요.");
+		return false;
+    }else {
+		$("#share-list option:selected").remove();
+		$("#share-list").val('');
+		$("#share-group").append(`<option value="${gid}">${name}</option>`);
+		$('.layer-sel').niceSelect('update');
+	}
+}
 </script>
 </body>
 </html>
