@@ -239,9 +239,9 @@
 					  $("#form_date").val(`${response.start} ~ ${response.end}`);
 					  $("#form_title").text(response.title);
 					  $("#stat_answer_last").text(`${response.start} ~ ${response.end}`);
-					  $("#answer_count").text(response.answer_count);
-					  $("#answer_last").text(response.answer_last);
-					  $("#url").val(response.url)
+					  $("#answer_count").text(`${response.answer_count}명`);
+					  $("#answer_last").text(String(response.answer_last).replace('T', ' '));
+					  $("#url").val(`${response.url == null ? "" : response.url}`)
 				  }
               },
               error: function (error) {
