@@ -9,7 +9,7 @@ function ccatPfx(u) { return SP_PFX + u } // 스프링 API prefix 생성 함수
 function gt() { return { 'Authorization': `Bearer ${window.localStorage.getItem(ACCESS_TOKEN)}` } } // 헤더 토큰 적용 함수
 
 function fla(d) { // 폼 리스트 조회
-    return ajaxForm(getApiURL(ccatPfx('/form/find')), d, G, gt(), DF_CT, true , true)
+    return ajaxForm(getApiURL(ccatPfx('/form/list/find')), d, G, gt(), DF_CT, true , true)
 }
 
 function fsa(d) { // 폼 제출
