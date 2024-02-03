@@ -80,7 +80,9 @@ function groun_join() {
 }
 
 
-$("#group_login").click(function () {
+$("#group_login").click(function (event) {
+	event.preventDefault();
+
 	const pw = $("#group-pw").val()
 	const urlParams = new URLSearchParams(window.location.search);
     const gidValue = urlParams.get('gid');
