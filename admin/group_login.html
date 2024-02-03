@@ -19,9 +19,9 @@
 				<div class="member-login">
 					<div class="frm-area">
 						<label for="group-id" class="skip">Group</label><input type="text" name="" value="" id="group-id" class="it" placeholder="" disabled readonly>
-						<label for="group-pw" class="skip">Password</label><input type="password" name="" value="" id="group-pw" class="it" placeholder="Password" disabled="">
+						<label for="group-pw" class="skip">Password</label><input type="password" name="" value="" id="group-pw" class="it" placeholder="Group Password">
 					</div>
-					<button type="submit" class="st-fill">입장하기</button>
+					<button id="group_login" class="st-fill">입장하기</button>
 				</div>
 			</fieldset>
 		</div>
@@ -56,8 +56,11 @@ function groun_join() {
             success: function (response) {
 				if(response.proc == "success") {
 					$("#group-id").val(response.group_name);
-				}else if(response.proc = "duplicate") {
+				}else if(response.proc = "duplicate_001") {
 					alert("그룹장은 가입할 수 없습니다.\n그룹 상세페이지로 이동합니다.");
+					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
+				} else if(response.proc = "duplicate_000"){
+					alert("이미 가입된 그룹입니다.\n그룹 상세페이지로 이동합니다.");
 					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
 				} else {
 					alert("존재하지 않는 그룹입니다.");
@@ -76,5 +79,61 @@ function groun_join() {
     }
 }
 
+
+$("#group_login").click(function () {
+	const pw = $("#group-pw").val()
+	const urlParams = new URLSearchParams(window.location.search);
+    const gidValue = urlParams.get('gid');
+    const group_session = urlParams.get('group_session');
+	const access_token = localStorage.getItem('accessToken')
+
+	if ([null, undefined, ''].includes(pw)) {
+		alert("그룹입장 패스워드를 작성해주세요.");
+		return false;
+	}
+
+	if ([null, undefined, ''].includes(access_token)) {
+		alert("로그인 후 그룹에 입장해주세요.");
+		location.replace("login.html");
+	}
+
+	if (gidValue && group_session) {
+        $.ajax({
+            type: 'POST',
+            url: 'https://formdang-api.com/api/dj/group/join',
+            data: {gid: gidValue, group_session: group_session, password:pw},
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+            },
+            success: function (response) {
+				if(response.proc == "success") {
+					alert("그룹에 입장했습니다 !");
+					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
+				}else if(response.proc = "duplicate_001") {
+					alert("그룹장은 가입할 수 없습니다.\n그룹 상세페이지로 이동합니다.");
+					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
+				} else if(response.proc = "duplicate_000"){
+					alert("이미 가입된 그룹입니다.\n그룹 상세페이지로 이동합니다.");
+					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
+				} else if(response.proc == "password") {
+					alert("그룹 패스워드 정보가 틀렸습니다.");
+					return false;
+				}else {
+					alert("존재하지 않는 그룹입니다.");
+					location.replace("index.html");
+				}
+            },
+            error: function (error) {
+                alert("유효하지 않은 그룹입니다.");
+                location.replace("index.html");
+                console.error('AJAX 요청 실패:', error);
+            }
+        });
+    }else {
+        alert("유효하지 않은 그룹입니다.");
+        location.replace("index.html");
+    }
+
+})
 </script>
 </html>
