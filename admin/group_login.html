@@ -106,6 +106,7 @@ $("#group_login").click(function () {
                 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
             },
             success: function (response) {
+				alert(response.proc)
 				if(response.proc == "success") {
 					alert("그룹에 입장했습니다 !");
 					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
