@@ -54,14 +54,12 @@ function groun_join() {
                 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
             },
             success: function (response) {
-				alert("groun_join : " + response.proc);
 				if(response.proc == "success") {
 					$("#group-id").val(response.group_name);
-				}else if(response.proc = "duplicate_001") {
-					alert("groun_join duplicate_001 : " + response.proc);
+				}else if(response.proc == "duplicate_001") {
 					alert("그룹장은 가입할 수 없습니다.\n그룹 상세페이지로 이동합니다.");
 					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
-				} else if(response.proc = "duplicate_000"){
+				} else if(response.proc == "duplicate_000"){
 					alert("이미 가입된 그룹입니다.\n그룹 상세페이지로 이동합니다.");
 					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
 				} else {
@@ -112,13 +110,11 @@ $("#group_login").click(function (event) {
             success: function (response) {
 				alert(response.proc)
 				if(response.proc == "success") {
-					alert("그룹에 입장했습니다 !");
 					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
-				}else if(response.proc = "duplicate_001") {
-					alert("groun_login : " + response.proc);
+				}else if(response.proc == "duplicate_001") {
 					alert("그룹장은 가입할 수 없습니다.\n그룹 상세페이지로 이동합니다.");
 					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
-				} else if(response.proc = "duplicate_000"){
+				} else if(response.proc == "duplicate_000"){
 					alert("이미 가입된 그룹입니다.\n그룹 상세페이지로 이동합니다.");
 					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
 				} else if(response.proc == "password") {
@@ -139,7 +135,6 @@ $("#group_login").click(function (event) {
         alert("유효하지 않은 그룹입니다.");
         location.replace("index.html");
     }
-
 })
 </script>
 </html>
