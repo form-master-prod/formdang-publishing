@@ -348,7 +348,7 @@ function formShare(gid, action) {
       if (fidValue) {
           $.ajax({
               type: 'GET',
-              url: 'https://formdang-api.com/api/dj/form/detail',
+              url: 'https://formdang-api.com/api/dj/form/share',
               data: {fid: fidValue, gid:gid, action:action},
               headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
