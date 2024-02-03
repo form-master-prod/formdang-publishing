@@ -100,7 +100,7 @@ $("#group_login").click(function () {
 	if (gidValue && group_session) {
         $.ajax({
             type: 'POST',
-            url: 'https://formdang-api.com/api/dj/group/join',
+            url: 'https://formdang-api.com/api/dj/group/login',
             data: {gid: gidValue, group_session: group_session, password:pw},
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
