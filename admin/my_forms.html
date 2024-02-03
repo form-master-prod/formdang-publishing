@@ -247,7 +247,7 @@
 
 
     function GroupFormDetail(fidValue) {
-	  console.log("form id : " + fidValue)
+
       if (fidValue) {
           $.ajax({
               type: 'GET',
@@ -317,6 +317,7 @@ function formShareAdd() {
 		alert("공유할 그룹을 선택해주세요.");
 		return false;
     }else {
+		formShare(gid, 'ADD')
 		$("#share-group option:selected").remove();
 		$("#share-group").val('');
 		$("#share-list").append(`<option value="${gid}">${name}</option>`);
@@ -332,12 +333,39 @@ function formShareSub() {
 		alert("해제할 그룹을 선택해주세요.");
 		return false;
     }else {
+		formShare(gid, 'SUB')
 		$("#share-list option:selected").remove();
 		$("#share-list").val('');
 		$("#share-group").append(`<option value="${gid}">${name}</option>`);
 		$('.layer-sel').niceSelect('update');
 		alert("공유가 해제되었습니다.");
 	}
+}
+
+function formShare(gid, action) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fidValue = urlParams.get('fid');
+      if (fidValue) {
+          $.ajax({
+              type: 'GET',
+              url: 'https://formdang-api.com/api/dj/form/detail',
+              data: {fid: fidValue, gid:gid, action:action},
+              headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+              },
+              success: function (response) {
+				  if(response.proc == "fail") {
+					  alert("문제가 발생했습니다.");
+					  return false;
+				  }
+              },
+              error: function (error) {
+				  alert("문제가 발생했습니다.")
+				  location.reload();
+                  console.error('AJAX 요청 실패:', error);
+              }
+          });
+      }
 }
 </script>
 </body>
