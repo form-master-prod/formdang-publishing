@@ -146,18 +146,18 @@
 							<label for="share-group">그룹에게 공유하기</label>
 							<div class="frm-area">
 								<select name="" id="share-group" class="layer-sel">
-									<option value="">공유할 그룹 선택</option>
+									<option value="">선택해주세요.</option>
 								</select>
-								<button type="button" class="st-fill" onclick="alert('링크를 연결하세요!');"><span>전송하기</span> <i class="ico i-send"></i></button>
+								<button type="button" class="st-fill" onclick="alert('링크를 연결하세요!');"><span>공유하기</span> <i class="ico i-send"></i></button>
 							</div>
 						</li>
 						<li>
 							<label for="share-list">공유된 그룹 목록</label>
 							<div class="frm-area">
 								<select name="" id="share-list" class="layer-sel">
-									<option value="">공유된 그룹 선택</option>
+									<option value="">선택해주세요.</option>
 								</select>
-								<button type="button" class="st-ico" onclick="alert('링크를 연결하세요!');"><span>삭제하기</span> <i class="ico i-trash"></i></button>
+								<button type="button" class="st-ico" onclick="alert('링크를 연결하세요!');"><span>공유해제</span> <i class="ico i-trash"></i></button>
 							</div>
 						</li>
 					</ul>
@@ -242,6 +242,56 @@
 					  $("#answer_count").text(`${response.answer_count}명`);
 					  $("#answer_last").text(String(response.answer_last).replace('T', ' '));
 					  $("#url").val(`${response.url == null ? "" : response.url}`)
+					  GroupFormDetail(fidValue);
+				  }
+              },
+              error: function (error) {
+				  alert("잘못된 접근입니다.")
+				  location.replace("../admin/index.html")
+                  console.error('AJAX 요청 실패:', error);
+              }
+          });
+      }
+  }
+
+
+    function GroupFormDetail(fidValue) {
+	  console.log("form id : " + fidValue)
+      if (fidValue) {
+          $.ajax({
+              type: 'GET',
+              url: 'https://formdang-api.com/api/dj/group/form',
+              data: {fid: fidValue},
+              headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+              },
+              success: function (response) {
+				  if(response.proc == "fail") {
+					  alert("잘못된 접근입니다.")
+					  location.replace("../admin/index.html");
+				  }else if(response.proc == "success") {
+					  const group_all = response.group_all
+					  const group_form_all = response.group_form_all
+
+					  if(group_all.length > 0) {
+						  let group_all_html = ""
+						  for(let i = 0; i<group_all.length; i++) {
+								group_all_html += `
+									<option value="${group_all[i].gid}">${group_all[i].name}</option>
+								`
+						  }
+						  $("#share-group").append(group_all_html);
+					  }
+
+					  if(group_form_all.length > 0) {
+						  let group_form_all_html = ""
+						  for(let i = 0; i<group_form_all.length; i++) {
+								group_form_all_html += `
+									<option value="${group_form_all[i].gid}">${group_form_all[i].name}</option>
+								`
+						  }
+						  $("#share-list").append(group_form_all_html);
+					  }
 				  }
               },
               error: function (error) {
