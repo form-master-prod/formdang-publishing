@@ -321,6 +321,7 @@ function formShareAdd() {
 		$("#share-group").val('');
 		$("#share-list").append(`<option value="${gid}">${name}</option>`);
 		$('.layer-sel').niceSelect('update');
+		alert(`${name} 그룹에 공유되었습니다.`);
 	}
 }
 
@@ -335,6 +336,7 @@ function formShareSub() {
 		$("#share-list").val('');
 		$("#share-group").append(`<option value="${gid}">${name}</option>`);
 		$('.layer-sel').niceSelect('update');
+		alert("공유가 해제되었습니다.");
 	}
 }
 </script>
