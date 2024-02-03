@@ -217,7 +217,6 @@
 <script>
    $(document).ready(function() {
 	  FormDetail();
-	  $('.layer-sel').niceSelect();
   });
 
   function FormDetail() {
@@ -293,6 +292,7 @@
 						  }
 						  $("#share-list").append(group_form_all_html);
 					  }
+					  $('.layer-sel').niceSelect();
 				  }
               },
               error: function (error) {
