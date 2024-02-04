@@ -12,6 +12,10 @@ function fla(d) { // 폼 리스트 조회
     return ajaxForm(getApiURL(ccatPfx('/form/list/find')), d, G, gt(), DF_CT, true , true)
 }
 
+function fda(d) {
+    return ajaxForm(getApiURL(ccatPfx(`/form/detail/${d}/find`)), null, G, gt(), DF_CT, true, true)
+}
+
 function fsa(d) { // 폼 제출
     return ajaxForm(getApiURL(ccatPfx('/form/submit')), JSON.stringify(d), P, gt(), J_CT, false, true)
 }

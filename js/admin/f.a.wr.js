@@ -1,4 +1,4 @@
-let formType, themaUrl, beginDt, endDt, status
+let formType, themeUrl, beginDt, endDt, status
 let doubleSubmitPrevent = false, modal_type = 'R';
 const today = new Date();
 const today_7 = new Date(today);
@@ -6,9 +6,9 @@ today_7.setDate(today_7.getDate() + 7);
 const que_arr = ['', 'ㄱ.', 'ㄴ.', 'ㄷ.', 'ㄹ.', 'ㅁ.']
 
 class Form {
-    type; title; detail; beginDt; endDt; questionCount; status; maxRespondent; logoUrl; themaUrl; question;
-    constructor(type, title, detail, beginDt, endDt, logUrl, themaUrl, question, status, maxRespondent) {
-        this.type = type; this.title= title; this.detail = detail; this.beginDt = beginDt; this.endDt = endDt; this.logoUrl = logUrl; this.themaUrl = themaUrl; this.question = question;
+    type; title; detail; beginDt; endDt; questionCount; status; maxRespondent; logoUrl; themeUrl; question;
+    constructor(type, title, detail, beginDt, endDt, logUrl, themeUrl, question, status, maxRespondent) {
+        this.type = type; this.title= title; this.detail = detail; this.beginDt = beginDt; this.endDt = endDt; this.logoUrl = logUrl; this.themeUrl = themeUrl; this.question = question;
         this.questionCount = question ? question.length : 0; this.maxRespondent = maxRespondent; this.status = status
     }
 }
@@ -279,10 +279,30 @@ function deleteLogo() { // 로고 파일 이미지 삭제
     logo.value = null;
 }
 
+function addAnswer(event) {
+    const answerMaxCount = 4;
+    const answerHtml = $(event.target).closest('#answer_wrap')[0];
+    if( answerHtml.querySelectorAll('.add_item' ).length > answerMaxCount ){
+        openPopUp("답안 설정", `최대 ${answerMaxCount + 1}개까지 생성 가능합니다.`, "flex", '닫기', false, 'C') // 팝업 오픈
+        return false;
+    }
+
+    let html = ''
+    html = html.concat(`<li class="add_item"><label class="skip"></label>`)
+        .concat(`<input type="text" name="answer" placeholder="해당 주관식의 정답을 입력해주세요.">`)
+        .concat(`<button type="button" class="bt-remove" onclick="removeAnswer(event)">`)
+        .concat(`<span class="skip">삭제</span></button></li>`)
+    $(answerHtml).append(html)
+}
+
+function removeAnswer(event){
+    $(event.target).closest('.add_item').remove()
+}
+
 function readFile(file, canvas, div, context) { // 파일 읽기 후 미리보기 설정
     if (!file) return
     const reader = new FileReader();
-    canvas.style.display = 'block'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
+    canvas.style.display = 'flex'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
     div.style.display = 'none';
     reader.onload = function (e) { // 파일 리드 후 설정 처리
         const img = new Image();
@@ -461,7 +481,7 @@ function generateData(s) { // 데이터 세팅
     let file = this.getLogo(); // 로고 정보 가져오기
     let arr = document.querySelectorAll('.inner#first_content .form-div');
     arr.forEach((question, idx) => { questions.push(extractData(question, idx)); }); // 질문 리스트 추출
-    return new Form(formType, title, detail, formatDateToyyyyMMdd(beginDt), formatDateToyyyyMMdd(endDt), file, themaUrl, questions, s, maxRespondent);
+    return new Form(formType, title, detail, formatDateToyyyyMMdd(beginDt), formatDateToyyyyMMdd(endDt), file, themeUrl, questions, s, maxRespondent);
 }
 
 function getLogo() { // 내 로고 조회하기 ( 파일 or URL 가져오기)
@@ -600,7 +620,6 @@ async function uploadImage(request) { // 이미지 업로드 처리
 
 async function register(request) { // 폼 등록
     await fsa(request).then(res => {
-        console.log(res)
         if (res && res.resultCode == '0') {
             openPopUp("등록 성공", "등록에 성공했습니다. 메인 페이지로 이동합니다.", "none", '확인', false, 'S') // 팝업 오픈
         } else {
@@ -618,42 +637,23 @@ $(document).ready(() => { // 초기 설정
     appendEmptyHtml(); // 처음 빈 div 설정
     resetDate(); // 날짜 데이터 초기화
     formType = $('input[name="formType"]:checked').val(); // 초기 타입 설정
-    document.getElementById("img-default-logo").src = DEFAULT_LOGO_URL; // default 로고 이미지 세팅
+    if (document.getElementById('my_logo').checked) { // 초기 기본 로고가 체크 되어있는 경우
+        document.getElementById("img-default-logo").src = DEFAULT_LOGO_URL; // default 로고 이미지 세팅
+    }
     $('.layer-sel').niceSelect(); // 퍼블 추가 내역
+    let top_button = document.querySelector('.bt-top');
+    top_button.addEventListener('click', function(e){
+        e.preventDefault();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    });
 })
 
 $(window).load(() => {
     $('input[name="formType"]').change(function () { formType = $(this).val(); }); // 폼형태
-    $('input[name="themeType"]').change(function() { themaUrl = $(this).val(); }); // 테마
+    $('input[name="themeType"]').change(function() { themeUrl = $(this).val(); }); // 테마
     $('#startDate, #endDate').change(function () { watchingDate() }); // 날짜 유효성 검사
     $('input[type="checkbox"]').on('click', function() { validateCheckBox() }); // 이성이 등록
     $('input[type="text"]').on('input', function() { validateText() }); // 이성이 등록
     document.addEventListener('click', function(event) { validateMultipleChoiceSetting(event) }); // 이성이 등록
     document.addEventListener('input', function(event) { validateMultipleChoiceEmpty(event) }); // 이성이 등록
 })
-
-let top_button = document.querySelector('.bt-top');
-top_button.addEventListener('click', function(e){
-    e.preventDefault();
-    window.scrollTo({top: 0, behavior: 'smooth'});
-});
-
-function addAnswer(event) {
-    const answerMaxCount = 4;
-    const answerHtml = $(event.target).closest('#answer_wrap')[0];
-    if( answerHtml.querySelectorAll('.add_item' ).length > answerMaxCount ){
-        openPopUp("답안 설정", `최대 ${answerMaxCount + 1}개까지 생성 가능합니다.`, "flex", '닫기', false, 'C') // 팝업 오픈
-        return false;
-    }
-
-    let html = ''
-    html = html.concat(`<li class="add_item"><label class="skip"></label>`)
-        .concat(`<input type="text" name="answer" placeholder="해당 주관식의 정답을 입력해주세요.">`)
-        .concat(`<button type="button" class="bt-remove" onclick="removeAnswer(event)">`)
-        .concat(`<span class="skip">삭제</span></button></li>`)
-    $(answerHtml).append(html)
-}
-
-function removeAnswer(event){
-    $(event.target).closest('.add_item').remove()
-}

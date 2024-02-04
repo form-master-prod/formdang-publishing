@@ -171,7 +171,7 @@ async function queryStringTokenParse (p) { // 로그인 후 받은 인증 토큰
 }
 
 $(document).ready(() => {
-    queryStringTokenParse(new URLSearchParams(location.search)) // 로그인 인증 토큰 파싱 처리
+    queryStringTokenParse(new URLSearchParams(window.location.search)) // 로그인 인증 토큰 파싱 처리
         .then(() => {
             essentialLogin() // 로그인 필수 체크
         });
