@@ -73,7 +73,7 @@ function groupList() {
 	      for(let i = 0; i < length; i++) {
 		  html += `
 	                <div class="group-item">
-	                    <h3>${data[i].name}</h3>
+	                    <h3>${data[i].group_name}</h3>
 	                    <p><span><i class="ico"></i> ${data[i].category}</span> ${data[i].group_intro}</p>
 	                    <div class="bt-group">
 	                        <a href="../admin/group_status_list.html?gid=${data[i].gid}&group_session=${data[i].group_url}" class="st-fill"><span>상세보기</span> <i class="ico i-preview"></i></a>
