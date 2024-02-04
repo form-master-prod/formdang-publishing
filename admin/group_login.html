@@ -28,11 +28,45 @@
 	</div>
 </div>
 </body>
+<div class="window_alert" id="group_layer">
+	<div class="modal-layer">
+		<div class="inner">
+			<p id="group_comment"></p>
+		</div>
+		<div class="bt-wrap">
+			<button type="button" class="st-fill" id="close_modal" onclick="closeModal()"><span>확인</span></button>
+		</div>
+	</div>
+</div>
 <script src="../js/common/f.con.js"></script>
+<script src="../js/common.js"></script>
 <script>
 $(document).ready(function() {
 	groun_join()
 });
+
+const group_layer = document.getElementById("group_layer");
+
+function openModal(text, url) {
+	  group_layer.style.display = "flex";
+	  document.body.style.overflow = "hidden";
+	  $("#group_comment").text(text);
+	  if (![null, undefined, ''].includes(url)) {
+		   $("#close_modal").data("url", url);
+	  }else {
+		   $("#close_modal").data("url", "");
+	  }
+}
+
+function closeModal() {
+	  group_layer.style.display = "none";
+	  document.body.style.overflow = "auto";
+	  const url = $("#close_modal").data("url")
+	  if (![null, undefined, ''].includes(url)) {
+		   location.replace(url);
+	  }
+}
+
 
 function groun_join() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -41,8 +75,7 @@ function groun_join() {
 	const access_token = localStorage.getItem('accessToken')
 
 	if ([null, undefined, ''].includes(access_token)) {
-		alert("로그인 후 그룹에 입장해주세요.");
-		location.replace("login.html");
+		openModal("로그인 후 그룹에 입장해주세요.", "login.html")
     }
 
     if (gidValue && group_session) {
@@ -57,14 +90,11 @@ function groun_join() {
 				if(response.proc == "success") {
 					$("#group-id").val(response.group_name);
 				}else if(response.proc == "duplicate_001") {
-					alert("그룹장은 가입할 수 없습니다.\n그룹 상세페이지로 이동합니다.");
-					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
+					openModal("그룹장은 가입할 수 없습니다.", `group_status_list.html?gid=${gidValue}&group_session=${group_session}`)
 				} else if(response.proc == "duplicate_000"){
-					alert("이미 가입된 그룹입니다.\n그룹 상세페이지로 이동합니다.");
-					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
+					openModal("이미 가입된 그룹입니다.", `group_status_list.html?gid=${gidValue}&group_session=${group_session}`)
 				} else {
-					alert("존재하지 않는 그룹입니다.");
-					location.replace("index.html");
+					openModal("존재하지 않는 그룹입니다.", "index.html")
 				}
             },
             error: function (error) {
@@ -74,8 +104,7 @@ function groun_join() {
             }
         });
     }else {
-        alert("유효하지 않은 그룹입니다.");
-        location.replace("index.html");
+		openModal("유효하지 않는 그룹입니다.", "index.html")
     }
 }
 
@@ -90,13 +119,13 @@ $("#group_login").click(function (event) {
 	const access_token = localStorage.getItem('accessToken')
 
 	if ([null, undefined, ''].includes(pw)) {
-		alert("그룹입장 패스워드를 작성해주세요.");
+		openModal("그룹입장 패스워드를 작성해주세요.");
 		return false;
 	}
 
 	if ([null, undefined, ''].includes(access_token)) {
-		alert("로그인 후 그룹에 입장해주세요.");
-		location.replace("login.html");
+		openModal("로그인 후 그룹에 입장해주세요.", "login.html");
+		return false;
 	}
 
 	if (gidValue && group_session) {
@@ -109,19 +138,16 @@ $("#group_login").click(function (event) {
             },
             success: function (response) {
 				if(response.proc == "success") {
-					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
+					openModal("그룹 가입이 완료되었습니다.", `group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
 				}else if(response.proc == "duplicate_001") {
-					alert("그룹장은 가입할 수 없습니다.\n그룹 상세페이지로 이동합니다.");
-					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
+					openModal("그룹장은 가입할 수 없습니다.", `group_status_list.html?gid=${gidValue}&group_session=${group_session}`)
 				} else if(response.proc == "duplicate_000"){
-					alert("이미 가입된 그룹입니다.\n그룹 상세페이지로 이동합니다.");
-					location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`);
+					openModal("이미 가입된 그룹입니다.", `group_status_list.html?gid=${gidValue}&group_session=${group_session}`)
 				} else if(response.proc == "password") {
-					alert("그룹 정보가 틀렸습니다.");
+					openModal("그룹 정보가 틀렸습니다.");
 					return false;
 				}else {
-					alert("존재하지 않는 그룹입니다.");
-					location.replace("index.html");
+					openModal("존재하지 않는 그룹입니다.", "index.html")
 				}
             },
             error: function (error) {
@@ -131,8 +157,7 @@ $("#group_login").click(function (event) {
             }
         });
     }else {
-        alert("유효하지 않은 그룹입니다.");
-        location.replace("index.html");
+		openModal("유효하지 않는 그룹입니다.", "index.html")
     }
 })
 </script>
