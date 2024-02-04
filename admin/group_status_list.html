@@ -89,14 +89,8 @@
                                 <th scope="col" class="detail">상세보기</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row" class="chkbox"><span class="ctm-chk"><input type="checkbox" name="" value=""><label class="skip">선택</label></span></th>
-                                <td class="name">홍길동</td>
-                                <td class="form">4</td>
-                                <td class="date">2023-11-14</td>
-                                <td class="detail"><a href="javascript:alert('링크를 연결하세요!');"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
-                            </tr>
+                        <tbody id="group_list">
+
                         </tbody>
                     </table>
                 </div>
@@ -172,10 +166,31 @@ function group_my_info() {
             },
             success: function (response) {
                 const data = response.group_my_info
+                const list = response.group_info
                 $("#group_activity_name").text(data.name);
                 $("#group_name").append(`${data.group_name} <a href="#" class="bt-modify" title="그룹 이름 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
                 $("#group_form").text(`${data.form_count}개`);
                 $("#group_reg").text(`${data.reg_dt}`)
+                if(list.length > 0) {
+                    let html = "";
+                    for(let i =0; i<list.length; i++) {
+                        html += `
+                            <tr>
+                                <th scope="row" class="chkbox"><span class="ctm-chk"><input type="checkbox" name="" value="${list[i].gmid}"><label class="skip">선택</label></span></th>
+                                <td class="name">${list[i].name}</td>
+                                <td class="form">${list[i].form_count}</td>
+                                <td class="date">${String(list[i].reg_dt).split('T')[0]}</td>
+                                <td class="detail"><a href="javascript:alert('링크를 연결하세요!');"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
+                            </tr>
+                        `
+                    }
+                    if ([null, undefined, ''].includes(html)) {
+                        html += `
+                            <th scope="row" colspan="5">그룹에 초대된 인원이 없습니다.</th>
+                        `
+                    }
+                    $("#group_list").append(html);
+                }
             },
             error: function (error) {
                 alert("유효하지 않은 그룹입니다.");
