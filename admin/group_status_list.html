@@ -122,19 +122,19 @@
                     <legend>그룹원 추가</legend>
                     <div class="forms-write-wrap">
                         <div class="frm-area">
-                            <label for="url">URL</label>
+                            <label for="group_join_url">URL</label>
                             <div class="inp-group">
-                                <input type="url" name="" value="" id="url" class="it">
-                                <button type="button" class="st-fill" onclick="alert('링크를 연결하세요!');"><span>복사하기</span> <i class="ico i-linkcopy"></i></button>
+                                <input type="url" name="" value="" id="group_join_url" class="it" readonly disabled>
+                                <button type="button" class="st-fill" data-clipboard-target="#group_join_url" id="url_copy"><span>복사하기</span> <i class="ico i-linkcopy"></i></button>
                             </div>
                         </div>
-                        <div class="frm-area">
-                            <label for="hp_link">휴대폰으로 링크 전송하기</label>
-                            <div class="inp-group">
-                                <input type="number" name="" value="" id="hp_link" class="it">
-                                <button type="button" class="st-fill" onclick="alert('링크를 연결하세요!');"><span>전송하기</span> <i class="ico i-msg-send"></i></button>
-                            </div>
-                        </div>
+<!--                        <div class="frm-area">-->
+<!--                            <label for="hp_link">휴대폰으로 링크 전송하기</label>-->
+<!--                            <div class="inp-group">-->
+<!--                                <input type="number" name="" value="" id="hp_link" class="it">-->
+<!--                                <button type="button" class="st-fill" onclick="alert('링크를 연결하세요!');"><span>전송하기</span> <i class="ico i-msg-send"></i></button>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                 </fieldset>
             </form>
@@ -147,10 +147,17 @@
 <script src="../js/common/f.con.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/common/f.util.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
 <script>
 $(document).ready(function() {
     $('.layer-sel').niceSelect();
     group_my_info();
+});
+
+var clipboard = new ClipboardJS('#url_copy');
+
+clipboard.on('success', function(e) {
+    alert("복사 성공");
 });
 function group_my_info() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -172,6 +179,7 @@ function group_my_info() {
                 $("#group_name").append(`${data.group_name} <a href="#" class="bt-modify" title="그룹 이름 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
                 $("#group_form").text(`${data.form_count}개`);
                 $("#group_reg").text(`${data.reg_dt}`)
+                $("#group_join_url").val(`https://formdang.com/admin/group_login.html?gid=${data.gid}&group_session=${data.url}`)
                 if(list.length > 0) {
                     let html = "";
                     for(let i =0; i<list.length; i++) {
