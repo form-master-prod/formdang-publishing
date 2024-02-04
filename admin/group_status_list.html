@@ -174,15 +174,17 @@ function group_my_info() {
                 if(list.length > 0) {
                     let html = "";
                     for(let i =0; i<list.length; i++) {
-                        html += `
-                            <tr>
-                                <th scope="row" class="chkbox"><span class="ctm-chk"><input type="checkbox" name="" value="${list[i].gmid}"><label class="skip">선택</label></span></th>
-                                <td class="name">${list[i].name}</td>
-                                <td class="form">${list[i].form_count}</td>
-                                <td class="date">${String(list[i].reg_dt).split('T')[0]}</td>
-                                <td class="detail"><a href="javascript:alert('링크를 연결하세요!');"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
-                            </tr>
-                        `
+                        if(list[i].role == 0) {
+                            html += `
+                                <tr>
+                                    <th scope="row" class="chkbox"><span class="ctm-chk"><input type="checkbox" name="" value="${list[i].gmid}"><label class="skip">선택</label></span></th>
+                                    <td class="name">${list[i].name}</td>
+                                    <td class="form">${list[i].form_count}</td>
+                                    <td class="date">${String(list[i].reg_dt).replace("T", " ")}</td>
+                                    <td class="detail"><a href="javascript:alert('링크를 연결하세요!');"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
+                                </tr>
+                            `
+                        }
                     }
                     if ([null, undefined, ''].includes(html)) {
                         html += `
