@@ -224,7 +224,7 @@
               },
               success: function (response) {
 				  if(response.proc == "fail") {
-					  alert("잘못된 접근입니다. 1")
+					  alert("잘못된 접근입니다.")
 					  location.replace("../admin/index.html")
 				  }else if(response.proc == "success") {
 					  $("#form_date").val(`${response.start} ~ ${response.end}`);
@@ -237,7 +237,7 @@
 				  }
               },
               error: function (error) {
-				  alert("잘못된 접근입니다. 2")
+				  alert("잘못된 접근입니다.")
 				  location.replace("../admin/index.html")
                   console.error('AJAX 요청 실패:', error);
               }
@@ -258,7 +258,7 @@
               },
               success: function (response) {
 				  if(response.proc == "fail") {
-					  alert("잘못된 접근입니다. 3")
+					  alert("잘못된 접근입니다.")
 					  location.replace("../admin/index.html");
 				  }else if(response.proc == "success") {
 					  const group_all = response.group_all;
@@ -302,7 +302,7 @@
 				  }
               },
               error: function (error) {
-				  alert("잘못된 접근입니다. 4")
+				  alert("잘못된 접근입니다.")
 				  location.replace("../admin/index.html")
                   console.error('AJAX 요청 실패:', error);
               }
