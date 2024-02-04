@@ -124,7 +124,7 @@
                         <div class="frm-area">
                             <label for="group_join_url">URL</label>
                             <div class="inp-group">
-                                <input type="url" name="" value="" id="group_join_url" class="it" readonly disabled>
+                                <input type="url" name="" value="" id="group_join_url" class="it" style="pointer-events: none">
                                 <button type="button" class="st-fill" data-clipboard-target="#group_join_url" id="url_copy"><span>복사하기</span> <i class="ico i-linkcopy"></i></button>
                             </div>
                         </div>
@@ -144,6 +144,18 @@
 		</div>
 	</div>
 </div>
+
+<div class="window_alert" id="group_layer">
+	<div class="modal-layer">
+		<div class="inner">
+			<h2 class="skip" id="group_title">복사 완료</h2>
+			<p id="group_comment">그룹에 초대해보세요 !</p>
+		</div>
+		<div class="bt-wrap">
+			<button type="button" class="st-fill" id="close_modal" onclick="closeModal()"><span>확인</span></button>
+		</div>
+	</div>
+</div>
 <script src="../js/common/f.con.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/common/f.util.js"></script>
@@ -153,11 +165,21 @@ $(document).ready(function() {
     $('.layer-sel').niceSelect();
     group_my_info();
 });
+ const group_layer = document.getElementById("group_layer");
 
+function openModal() {
+  group_layer.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  group_layer.style.display = "none";
+  document.body.style.overflow = "auto";
+}
 var clipboard = new ClipboardJS('#url_copy');
 
 clipboard.on('success', function(e) {
-    alert("복사 성공");
+    openModal()
 });
 function group_my_info() {
     const urlParams = new URLSearchParams(window.location.search);
