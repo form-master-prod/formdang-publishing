@@ -8,7 +8,7 @@ function fd (id) { // 설문 리스트 조회 함수
     })
 }
 
-function setFormData(data) {
+function setFormData(data) { // 데이터 세팅
     this.setFormType(data.type); // 폼타입 설정
     this.setMaxRespondent(data.maxRespondent); // 답변 인원 설정
     this.setDate(data.beginDt, data.endDt); // 날짜 설정
@@ -18,56 +18,84 @@ function setFormData(data) {
     this.setQuestion(data.question); // 질문 리스트 붙이기
 }
 
-function setFormType(type) {
-    const types = $('input[name="formType"]');
+function setFormType(type) { // 폼 타입 설정
+    const types = document.getElementsByName('formType');
     for (let i=0; i < types.length; i++) {
         if (types[i].value == type) types[i].checked = true
         else types[i].checked = false
     }
 }
 
-function setMaxRespondent(cnt) {
-    let selectElement = document.getElementById("num-answer-sel");
-    for (let i = 0; i < selectElement.options.length; i++) {
-        if (selectElement.options[i].value == cnt) {
-            selectElement.options[i].selected = true; // select box 초기값 설정
-            $('.current').text(selectElement.options[i].innerText) // select box 초기가 text 내용 설정
-        } else {
-            selectElement.options[i].selected = false;
-        }
-    }
-}
-
-function setDate(beginDt, endDt) {
-    document.getElementById("startDate").value = beginDt
-    document.getElementById("endDate").value = endDt
-}
-
-function setHeader(title, detail) {
-    document.getElementById("subject").value = title
-    document.getElementById("explain").value = detail
-}
-
-function setTheme(themeUrl) {
-    const types = $('input[name="themeType"]');
+function setTheme(themeUrl) { // 테마 설정
+    const types = document.getElementsByName('themeType');
     for (let i=0; i < types.length; i++) {
         if (types[i].value == themeUrl) types[i].checked = true
         else types[i].checked = false
     }
 }
 
-function setLogo(logo) {
-    if (logo == ri) {
-        document.getElementById('not_logo').checked = true;
-    } else if (logo == DEFAULT_LOGO_URL) {
-        document.getElementById('my_logo').checked = true;
-    } else {
-        document.getElementById('file_logo').checked = true;
+function setMaxRespondent(cnt) {  // 답변 인원 설정
+    let elements = document.getElementById("num-answer-sel");
+    for (let i = 0; i < elements.options.length; i++) {
+        if (elements.options[i].value == cnt) {
+            elements.options[i].selected = true; // select box 초기값 설정
+            $('.current').text(elements.options[i].innerText) // select box 초기가 text 내용 설정
+        } else {
+            elements.options[i].selected = false;
+        }
     }
-    document.getElementById("img-default-logo").src = logo
 }
 
-function setQuestion(q) {
+function setDate(beginDt, endDt) { // 날짜 설정
+    document.getElementById("startDate").value = beginDt
+    document.getElementById("endDate").value = endDt
+}
+
+function setHeader(title, detail) { // 헤더 설정
+    document.getElementById("subject").value = title
+    document.getElementById("explain").value = detail
+}
+
+function setLogo(logo) { // 로고 설정
+    if (logo == ri) { // 로고 없음
+        document.getElementById('not_logo').checked = true;
+        document.getElementById("img-default-logo").src = logo
+    } else if (logo == DEFAULT_LOGO_URL) { // 기본 로고
+        document.getElementById('my_logo').checked = true;
+        document.getElementById("img-default-logo").src = logo
+    } else { // 로고 등록
+        document.getElementById('file_logo').checked = true;
+        setLogoImg('logo', logo)
+    }
+}
+
+function setLogoImg(id, src) { // 로고 이미지 세팅
+    if (!src) return;
+    const canvas = document.getElementById(`img-canvas-${id}`);
+    const div = document.getElementById(`img-div-${id}`)
+    setImg(canvas, div, src);
+}
+
+function setQuestionImg(question, src) { // 질문 이미지 세팅
+    if (!src) return
+    const canvas = question.querySelector('canvas');
+    const div = question.querySelector('.frm-upload div')
+    setImg(canvas, div, src);
+}
+
+function setImg(canvas, div, src) { // canvas 이미지 미리보기 세팅
+    const context = canvas.getContext('2d');
+    canvas.style.display = 'flex'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
+    div.style.display = 'none';
+    const img = new Image();
+    img.src = src;
+    img.onload = function () {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+}
+
+function setQuestion(q) { // 질문 등록
     const questions = q.sort((a, b) => a.order - b.order);
     questions.forEach(e => {
         if (e.type == 0) appendQuestion(shortHtml())
@@ -84,69 +112,52 @@ function setQuestion(q) {
     }
 }
 
-function setShort(question, data) {
+function setShort(question, data) { // 단답형 추가
     question.querySelector('.sub_subject').value = data.title
     question.querySelector('.sub_explain').value = data?.placeholder || ''
     for (let i = 0 ; i < data.answer.length - 1; i++) {
-        question.querySelector('.bt-add').click();
+        question.querySelector('.bt-add').click(); // 질문 답 추가
     }
     let answers = question.querySelectorAll('.add_item');
     for (let i=0; i < answers.length; i++) {
         answers[i].querySelector('input[name="answer"]').value = data.answer[i];
     }
-    if (data.imageUrl) {
-        question.querySelector('.not-img img').src = data.imageUrl
-    }
+    this.setQuestionImg(question, data.imageUrl)
 }
 
-function setSubject(question, data) {
+function setSubject(question, data) { // 서술형 추가
     question.querySelector('.sub_subject').value = data.title
-    if (data.imageUrl) {
-        question.querySelector('.not-img img').src = data.imageUrl
-    }
+    this.setQuestionImg(question, data.imageUrl)
 }
 
-function setMultiple(question, data) {
+function setMultiple(question, data) { // 객관식 추가
     question.querySelector('.sub_subject').value = data.title
-    const checkbox = question.querySelectorAll(`input[name="each"]`); // 체크박스 답
-    for (let i=0; i < data.answer.length ; i++) {
-        if (data.answer[i] == 'true') {
-            checkbox[i].checked = true
-        }
-    }
-    for (let i=1; i <=5; i++) {
-        const id = 'q' + i;
-        const text = question.querySelector(`input[name="${id}"]`); // 체크박스 답
-        text.value = data.detail[i-1];
-    }
-
-    if (data.imageUrl) {
-        question.querySelector('.not-img img').src = data.imageUrl
-    }
+    setCheckBox(question, data)
+    this.setQuestionImg(question, data.imageUrl)
 }
 
-function setLook(question, data) {
+function setLook(question, data) { // 보기 문항 추가
     question.querySelector('.sub_subject').value = data.title
-    const checkbox = question.querySelectorAll(`input[name="each"]`); // 체크박스 답
-    for (let i=0; i < data.answer.length ; i++) {
-        if (data.answer[i] == 'true') {
-            checkbox[i].checked = true
-        }
-    }
-    for (let i=1; i <=5; i++) {
-        const id = 'q' + i;
-        const text = question.querySelector(`input[name="${id}"]`); // 체크박스 답
-        text.value = data.detail[i-1];
-    }
-
-    for (let i=1; i <=5; i++) {
+    setCheckBox(question, data)
+    for (let i=1; i <=5; i++) { // 보기 처리
         const id = 'e' + i;
         const text = question.querySelector(`input[name="${id}"]`); // 체크박스 답
         text.value = data.exampleDetail[i-1];
     }
+    this.setQuestionImg(question, data.imageUrl)
+}
 
-    if (data.imageUrl) {
-        question.querySelector('.not-img img').src = data.imageUrl
+function setCheckBox(question, data) { // 공통 객관식 처리
+    const checkbox = question.querySelectorAll(`input[name="each"]`); // 체크박스 답
+    for (let i=0; i < data.answer.length ; i++) {
+        if (data.answer[i] == 'true') {
+            checkbox[i].checked = true
+        }
+    }
+    for (let i=1; i <= 5; i++) {
+        const id = 'q' + i;
+        const text = question.querySelector(`input[name="${id}"]`); // 체크박스 답
+        text.value = data?.detail[i-1] || '';
     }
 }
 
