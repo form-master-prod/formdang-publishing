@@ -128,13 +128,13 @@
                                 <button type="button" class="st-fill" data-clipboard-target="#group_join_url" id="url_copy"><span>복사하기</span> <i class="ico i-linkcopy"></i></button>
                             </div>
                         </div>
-<!--                        <div class="frm-area">-->
-<!--                            <label for="hp_link">휴대폰으로 링크 전송하기</label>-->
-<!--                            <div class="inp-group">-->
-<!--                                <input type="number" name="" value="" id="hp_link" class="it">-->
-<!--                                <button type="button" class="st-fill" onclick="alert('링크를 연결하세요!');"><span>전송하기</span> <i class="ico i-msg-send"></i></button>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <div class="frm-area">
+                            <label for="hp_link">공유 하기</label>
+                            <div class="inp-group">
+                                <input type="number" name="" value="URL로 공유하기" id="hp_link" class="it">
+                                <button type="button" class="st-fill" onclick="shareURL()"><span>공유하기</span> <i class="ico i-msg-send"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </fieldset>
             </form>
@@ -235,6 +235,23 @@ function group_my_info() {
         alert("유효하지 않은 그룹입니다.");
         location.replace("index.html");
     }
+}
+
+
+function shareURL() {
+  const urlToShare = $("#group_join_url").val();
+  const textToShare = $("#group_activity_name").text()
+  if (navigator.share) {
+    navigator.share({
+      title: '폼당폼당 그룹초대',
+      text: `${textToShare}님의 그룹 초대장`,
+      url: urlToShare
+    })
+    .then(() => console.log('그룹 초대'))
+    .catch((error) => console.error('공유 중 오류 발생:', error));
+  } else {
+    alert('죄송합니다. 이 브라우저에서는 텍스트 공유가 지원되지 않습니다.');
+  }
 }
 </script>
 </body>
