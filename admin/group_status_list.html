@@ -57,7 +57,7 @@
                     <i class="ico"></i>
 					<div>
 						<p>그룹 인원</p>
-						<em>25명</em>
+						<em id="group_count"></em>
 					</div>
                 </li>
                 <li>
@@ -168,6 +168,7 @@ function group_my_info() {
                 const data = response.group_my_info
                 const list = response.group_info
                 $("#group_activity_name").text(data.name);
+                $("#group_count").text(`${list.length}명`)
                 $("#group_name").append(`${data.group_name} <a href="#" class="bt-modify" title="그룹 이름 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
                 $("#group_form").text(`${data.form_count}개`);
                 $("#group_reg").text(`${data.reg_dt}`)
