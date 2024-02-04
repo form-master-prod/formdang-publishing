@@ -244,8 +244,7 @@
               },
               success: function (response) {
 				  if(response.proc == "fail") {
-					  alert("잘못된 접근입니다.")
-					  location.replace("../admin/index.html");
+					  openModal("잘못된 접근입니다.", "../admin/index.html");
 				  }else if(response.proc == "success") {
 					  $("#form_date").val(`${response.start} ~ ${response.end}`);
 					  $("#form_title").text(response.title);
@@ -278,8 +277,7 @@
               },
               success: function (response) {
 				  if(response.proc == "fail") {
-					  alert("잘못된 접근입니다.")
-					  location.replace("../admin/index.html");
+					  openModal("잘못된 접근입니다.", "../admin/index.html");
 				  }else if(response.proc == "success") {
 					  const group_all = response.group_all;
 					  const group_form_all = response.group_form_all;
@@ -373,7 +371,7 @@ function formShare(gid, action) {
               },
               success: function (response) {
 				  if(response.proc == "fail") {
-					  alert("문제가 발생했습니다.");
+					  openModal("문제가 발생했습니다.", "");
 					  return false;
 				  }
               },
