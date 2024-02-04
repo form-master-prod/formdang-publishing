@@ -129,7 +129,7 @@
                             </div>
                         </div>
                         <div class="frm-area">
-                            <label for="hp_link">공유 하기</label>
+                            <label for="hp_link">공유하기</label>
                             <div class="inp-group">
                                 <input type="text" name="" value="초대장 공유하기" id="hp_link" class="it" disabled readonly>
                                 <button type="button" class="st-fill" onclick="shareURL()"><span>공유하기</span> <i class="ico i-msg-send"></i></button>
@@ -250,7 +250,7 @@ function shareURL() {
     .then(() => console.log('그룹 초대'))
     .catch((error) => console.error('공유 중 오류 발생:', error));
   } else {
-    alert('죄송합니다. 이 브라우저에서는 텍스트 공유가 지원되지 않습니다.');
+    alert('죄송합니다. 이 브라우저에서는 공유가 지원되지 않습니다.');
   }
 }
 </script>
