@@ -25,7 +25,7 @@
 					<li><a href="group_list.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path style="fill:currentColor" fill-rule="evenodd" d="M19.25 17.353a2.75 2.75 0 0 0-2 2.647c0 1.52 1.23 2.75 2.75 2.75s2.75-1.23 2.75-2.75a2.75 2.75 0 0 0-2-2.647V14c0-2.42-1.33-3.75-3.75-3.75h-4.25V6.647a2.75 2.75 0 0 0 2-2.647c0-1.52-1.23-2.75-2.75-2.75S9.25 2.48 9.25 4c0 1.26.845 2.32 2 2.647v3.603H7c-2.42 0-3.75 1.33-3.75 3.75v3.353a2.75 2.75 0 0 0-2 2.647c0 1.52 1.23 2.75 2.75 2.75S6.75 21.52 6.75 20a2.75 2.75 0 0 0-2-2.647V14c0-1.58.67-2.25 2.25-2.25h4.25v5.603a2.75 2.75 0 0 0-2 2.647c0 1.52 1.23 2.75 2.75 2.75s2.75-1.23 2.75-2.75a2.75 2.75 0 0 0-2-2.647V11.75H17c1.58 0 2.25.67 2.25 2.25v3.353ZM4 18.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Zm16 0a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM13.25 4a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0ZM12 18.75a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z" clip-rule="evenodd"/></svg> 내 그룹 보기</a></li>
                 </ul>
             </nav>
-			<a onclick="LOGOUT()" class="bt-logout"><i class="ico i-logout"></i> Logout</a>
+			<a onclick="logout()" class="bt-logout"><i class="ico i-logout"></i> Logout</a>
         </div>
         <button type="button" class="bt-menu"><span class="skip">메뉴</span></button>
 		<div class="member-logout">
@@ -36,7 +36,7 @@
             <div class="modal-layer mem_info">
 				<figure><img src="../image/common/not_profile.svg" alt=""> <button type="button" onclick="alert('프로필 이미지 등록 버튼 입니다. 필요 시 사용하세요.');"><i class="ico"></i> <span class="skip">프로필 사진 등록</span></button></figure>
 				<strong id="user_name2"></strong>
-				<a onclick="LOGOUT()" class="bt-logout"><i class="ico i-logout"></i> Logout</a>
+				<a onclick="logout()" class="bt-logout"><i class="ico i-logout"></i> Logout</a>
                 <button type="button" class="bt-close"><span class="skip">닫기</span></button>
             </div>
         </div>
@@ -86,7 +86,7 @@
 						<li>
 							<em>미리보기</em>
 							<div class="frm-area">
-								<a href="#" class="st-fill" target="_blank"><span>수정하기</span> <i class="ico i-preview"></i></a>
+								<a href="#" onclick="goUpdate()" class="st-fill" ><span>수정하기</span> <i class="ico i-preview"></i></a>
 								<p>수정 가능한 페이지로 이동합니다.</p>
 							</div>
 						</li>
@@ -384,6 +384,12 @@ function formShare(gid, action) {
               }
           });
       }
+}
+
+function goUpdate() {
+	const urlParams = new URLSearchParams(window.location.search);
+	const fidValue = urlParams.get('fid');
+  	window.location.href = `update.html?fid=${fidValue}`
 }
 </script>
 </body>
