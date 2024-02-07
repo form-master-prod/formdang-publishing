@@ -183,6 +183,7 @@
 								<a class="st-fill" onclick="formClose()"><span>종료</span></a>
 								<p>폼을 강제 종료 하고 싶으시다면 종료를 눌러주세요.</p>
 							</div>
+							<input id="end_flag" type="hidden" value="">
 						</li>
 					</ul>
 				</div>
@@ -252,7 +253,8 @@
 					  $("#stat_answer_last").text(`${response.start} ~ ${response.end}`);
 					  $("#answer_count").text(`${response.answer_count}명`);
 					  $("#answer_last").text(String(response.answer_last).replace('T', ' '));
-					  $("#url").val(`${response.url == null ? "" : response.url}`)
+					  $("#url").val(`${response.url == null ? "" : response.url}`);
+					  $("#end_flag").val(`${response.end_flag}`);
 					  GroupFormDetail(fidValue);
 				  }
               },
@@ -395,6 +397,12 @@ function goUpdate() {
   function formClose() {
       const urlParams = new URLSearchParams(window.location.search);
       const fidValue = urlParams.get('fid');
+	  const endFlag = $("#end_flag").val();
+	  if(endFlag == 1) {
+			alert("이미 종료된 폼입니다.");
+			return false;
+	  }
+
       if (fidValue) {
           $.ajax({
               type: 'GET',
