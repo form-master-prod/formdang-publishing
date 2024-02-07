@@ -83,10 +83,10 @@ function setQuestionImg(question, src) { // 질문 이미지 세팅
 function setQuestion(q) { // 질문 등록
     const questions = q.sort((a, b) => a.order - b.order);
     questions.forEach(e => {
-        if (e.type == 0) appendQuestion(short_html())
-        else if (e.type == 1) appendQuestion(subject_html())
-        else if (e.type == 2) appendQuestion(multiple_html())
-        else if (e.type == 3) appendQuestion(look_html())
+        if (e.type == 0) append_question(short_html())
+        else if (e.type == 1) append_question(subject_html())
+        else if (e.type == 2) append_question(multiple_html())
+        else if (e.type == 3) append_question(look_html())
     })
     let forms = document.querySelectorAll('.inner#first_content .form-div');
     for (let i=0; i < forms.length; i++) {
@@ -148,7 +148,7 @@ function setCheckBox(question, data) { // 공통 객관식 처리
 
 $(document).ready(() => { // 초기 설정
     essentialLogin(); // 로그인 여부 검사
-    appendEmptyHtml(); // 처음 빈 div 설정
+    append_empty_html(); // 처음 빈 div 설정
     resetDate(); // 날짜 데이터 초기화
     formType = $('input[name="formType"]:checked').val(); // 초기 타입 설정
     $('.layer-sel').niceSelect(); // 퍼블 추가 내역

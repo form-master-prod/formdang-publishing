@@ -1,9 +1,8 @@
 let formType, themeUrl, beginDt, endDt, status
-let doubleSubmitPrevent = false, modal_type = 'R';
+let doubleSubmitPrevent = false;
 const today = new Date();
 const today_7 = new Date(today);
 today_7.setDate(today_7.getDate() + 7);
-const que_arr = ['', 'ㄱ.', 'ㄴ.', 'ㄷ.', 'ㄹ.', 'ㅁ.']
 
 class Form {
     type; title; detail; beginDt; endDt; questionCount; status; maxRespondent; logoUrl; themeUrl; question;
@@ -225,7 +224,7 @@ function tempPopup() {
 
 $(document).ready(() => { // 초기 설정
     essentialLogin(); // 로그인 여부 검사
-    appendEmptyHtml(); // 처음 빈 div 설정
+    append_empty_html(); // 처음 빈 div 설정
     resetDate(); // 날짜 데이터 초기화
     formType = $('input[name="formType"]:checked').val(); // 초기 타입 설정
     if (document.getElementById('my_logo').checked) { // 초기 기본 로고가 체크 되어있는 경우
