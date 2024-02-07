@@ -3,7 +3,7 @@ function fd (id) { // 설문 리스트 조회 함수
         if (r && r.resultCode == '0') {
             setFormData(r)
         } else {
-            openPopUp("폼 조회 실패", "폼 내용을 불러오는데 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+            open_popup("폼 조회 실패", "폼 내용을 불러오는데 실패하였습니다.", "flex", '닫기', false) // 팝업 오픈
         }
     })
 }
@@ -57,7 +57,10 @@ function setHeader(title, detail) { // 헤더 설정
 }
 
 function setLogo(logo) { // 로고 설정
-    if (logo == ri) { // 로고 없음
+    if (!logo) {
+        document.getElementById('not_logo').checked = true;
+        document.getElementById("img-default-logo").src = logo
+    } if (logo == ri) { // 로고 없음
         document.getElementById('not_logo').checked = true;
         document.getElementById("img-default-logo").src = logo
     } else if (logo == DEFAULT_LOGO_URL) { // 기본 로고
@@ -65,15 +68,9 @@ function setLogo(logo) { // 로고 설정
         document.getElementById("img-default-logo").src = logo
     } else { // 로고 등록
         document.getElementById('file_logo').checked = true;
-        setLogoImg('logo', logo)
+        document.getElementById("img-default-logo").src = logo
+        set_logo_url_to_img(logo)
     }
-}
-
-function setLogoImg(id, src) { // 로고 이미지 세팅
-    if (!src) return;
-    const canvas = document.getElementById(`img-canvas-${id}`);
-    const div = document.getElementById(`img-div-${id}`)
-    setImg(canvas, div, src);
 }
 
 function setQuestionImg(question, src) { // 질문 이미지 세팅
@@ -83,25 +80,13 @@ function setQuestionImg(question, src) { // 질문 이미지 세팅
     setImg(canvas, div, src);
 }
 
-function setImg(canvas, div, src) { // canvas 이미지 미리보기 세팅
-    const context = canvas.getContext('2d');
-    canvas.style.display = 'flex'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
-    div.style.display = 'none';
-    const img = new Image();
-    img.src = src;
-    img.onload = function () {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
-}
-
 function setQuestion(q) { // 질문 등록
     const questions = q.sort((a, b) => a.order - b.order);
     questions.forEach(e => {
-        if (e.type == 0) appendQuestion(shortHtml())
-        else if (e.type == 1) appendQuestion(subjectHtml())
-        else if (e.type == 2) appendQuestion(multipleHtml())
-        else if (e.type == 3) appendQuestion(lookHtml())
+        if (e.type == 0) appendQuestion(short_html())
+        else if (e.type == 1) appendQuestion(subject_html())
+        else if (e.type == 2) appendQuestion(multiple_html())
+        else if (e.type == 3) appendQuestion(look_html())
     })
     let forms = document.querySelectorAll('.inner#first_content .form-div');
     for (let i=0; i < forms.length; i++) {
@@ -162,10 +147,26 @@ function setCheckBox(question, data) { // 공통 객관식 처리
 }
 
 $(document).ready(() => { // 초기 설정
+    essentialLogin(); // 로그인 여부 검사
+    appendEmptyHtml(); // 처음 빈 div 설정
+    resetDate(); // 날짜 데이터 초기화
+    formType = $('input[name="formType"]:checked').val(); // 초기 타입 설정
+    $('.layer-sel').niceSelect(); // 퍼블 추가 내역
+    let top_button = document.querySelector('.bt-top');
+    top_button.addEventListener('click', function(e){
+        e.preventDefault();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    });
     const params = new URLSearchParams(window.location.search);
     fd(params.get('fid'))
 })
 
 $(window).load(() => {
-
+    $('input[name="formType"]').change(function () { formType = $(this).val(); }); // 폼형태
+    $('input[name="themeType"]').change(function() { themeUrl = $(this).val(); }); // 테마
+    $('#startDate, #endDate').change(function () { watchingDate() }); // 날짜 유효성 검사
+    $('input[type="checkbox"]').on('click', function() { validateCheckBox() }); // 이성이 등록
+    $('input[type="text"]').on('input', function() { validateText() }); // 이성이 등록
+    document.addEventListener('click', function(event) { validateMultipleChoiceSetting(event) }); // 이성이 등록
+    document.addEventListener('input', function(event) { validateMultipleChoiceEmpty(event) }); // 이성이 등록
 })

@@ -20,327 +20,6 @@ class Question {
     }
 }
 
-function shortHtml() {
-    const id = Date.now();
-    let html = '';
-    html =
-        html.concat(`<div class="frm-area short-answer form-div q-1">`)
-            .concat(`<div class="inp-group"><i class="number"></i>`)
-            .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
-            .concat(`<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
-            .concat(`<ol id="answer_wrap" class="frm-answer">`)
-            .concat(`<li class="add_item"><label for="answer-${id}" class="skip">질문 1의 정답</label><input type="text" name="answer" id="answer-${id}" placeholder="해당 주관식의 정답을 입력해주세요.">`)
-            .concat(`<button type="button" class="bt-add" onclick="addAnswer(event)">`)
-            .concat(`<span class="skip">추가</span></button></li>`)
-            .concat(`</ol>`)
-            .concat(`</div>`)
-            .concat(imageHtml(id)) // 이미지 등록 html 함수화
-            .concat(`<div class="bottom-sheets">`)
-            .concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
-            .concat(`</div>`)
-            .concat(`</div>`)
-    return html;
-}
-
-function subjectHtml() {
-    const id = Date.now();
-    let html = '';
-    html =
-        html.concat(`<div class="frm-area short-answer form-div q-2">`)
-            .concat(`<div class="inp-group"><i class="number"></i>`)
-            .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
-            .concat(`</ol>`)
-            .concat(`</div>`)
-            .concat(imageHtml(id)) // 이미지 등록 html 함수화
-            .concat(`<div class="bottom-sheets">`)
-            .concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
-            .concat(`</div>`)
-            .concat(`</div>`)
-    return html;
-}
-
-
-function multipleHtml() {
-    const id = Date.now();
-    let html = ''
-    html =
-        html.concat(`<div class="frm-area multiple-choice form-div q-3">`)
-            .concat(`<div class="inp-group"><i class="number"></i>`)
-                .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
-                .concat(`<ol class="subject-valid">`);
-            for (let i=1; i <=5 ; i++) { // 1~5문항 loop 생성
-                const id = 'q' + i;
-                html =
-                    html.concat(`<li>`)
-                            .concat(`<span class="ctm-chk">`)
-                            .concat(`<input type="checkbox" name="each" value="${i}"><label class="skip">객관식 ${i}</label>`)
-                            .concat(`</span>`)
-                            .concat(`<span class="inp" style="width: 100%">`)
-                            .concat(`<label class="skip">객관식 ${i} 내용</label><input type="text" class="${id}" name="${id}" placeholder="${i}. 객관식 내용을 입력하세요.">`)
-                            .concat(`</span>`)
-                        .concat(`</li>`)
-            }
-    html =
-        html.concat(`</ol>`)
-            .concat(`</div>`)
-            .concat(imageHtml(id)) // 이미지 등록 html 함수화
-            .concat(`<div class="bottom-sheets">`)
-                .concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
-            .concat(`</div>`)
-     .concat(`</div>`)
-    return html;
-}
-
-function lookHtml() {
-    const id = Date.now();
-    let html = ''
-    html =
-        html.concat(`<div class="frm-area multiple-choice form-div q-4">`)
-            .concat(`<div class="inp-group"><i class="number"></i>`)
-                .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
-
-    html =
-        html.concat(`<div class="que-viewitem">`)
-                .concat(`<p>보기</p>`)
-                .concat(`<ol>`)
-
-        for (let i=1; i <=5 ; i++) {
-            const id = 'e' + i;
-            html =
-                html.concat(`<li>`)
-                    .concat(`<label for="">${que_arr[i]}</label>`)
-                    .concat(`<input type="text" class="${id}" name="${id}" placeholder="보기 내용을 입력하세요.">`)
-                    .concat(`</li>`)
-        }
-
-    html =
-        html.concat(`</ol>`)
-        .concat(`</div>`)
-
-    html =
-        html.concat(`<ol class="subject-valid">`);
-            for (let i=1; i <=5 ; i++) { // 1~5문항 loop 생성
-                const id = 'q' + i;
-                html =
-                    html.concat(`<li>`)
-                        .concat(`<span class="ctm-chk">`)
-                        .concat(`<input type="checkbox" name="each" value="${i}"><label class="skip">객관식 ${i}</label>`)
-                        .concat(`</span>`)
-                        .concat(`<span class="inp" style="width: 100%">`)
-                        .concat(`<label class="skip">객관식 ${i} 내용</label><input type="text" class="${id}" name="${id}" placeholder="${i}. 객관식 내용을 입력하세요.">`)
-                        .concat(`</span>`)
-                        .concat(`</li>`)
-            }
-
-    html =
-        html.concat(`</ol>`)
-            .concat(`</div>`)
-            .concat(imageHtml(id)) // 이미지 등록 html 함수화
-            .concat(`<div class="bottom-sheets">`)
-                .concat(`<button type="button" class="bt-delete" title="삭제" onclick="deleteQuestion(event)"><span class="skip">삭제</span></button>`)
-            .concat(`</div>`)
-        .concat(`</div>`)
-    return html;
-}
-
-
-function imageHtml(id) {
-    let html = ''
-    html =
-        html.concat(`<div class="frm-upload">`)
-                .concat(`<canvas id="img-canvas-${id}" class="img-view" style="display: none"></canvas>`) // 이미지 등록
-                .concat(`<div id="img-div-${id}" class="img-view">`)
-                    .concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>`)
-                .concat(`</div>`)
-                .concat(`<label for="img-${id}">이미지 등록하기</label> <input type="file" name="" id="img-${id}" class="file-input" onchange="previewImg('${id}')">`)
-            .concat(`</div>`)
-    return html;
-}
-
-function emptyHtml() {
-    let html = ''
-    html =
-        html.concat(`<div class="not-result" id="not-result">`)
-            .concat(`<i class="ico"></i><p>앗 ! 등록된 질문이 없어요.<br>버튼을 클릭하여 질문을 등록해주세요.</p>`)
-            .concat(`<ul>`)
-                .concat(`<li><a onclick="appendQuestion(shortHtml())" class="st-ico"><i class="ico i-short-answer"></i> <span>단답형 문항</span></a></li>`)
-                .concat(`<li><a onclick="appendQuestion(subjectHtml())" class="st-ico"><i class="ico i-short-answer"></i> <span>서술형 문항</span></a></li>`)
-                .concat(`<li><a onclick="appendQuestion(multipleHtml())" class="st-ico"><i class="ico i-multiple"></i> <span>객관식 문항</span></a></li>`)
-                .concat(`<li><a onclick="appendQuestion(lookHtml())" class="st-ico"><i class="ico i-view-que"></i> <span>보기 문항</span></a></li>`)
-            .concat(`</ul>`)
-        .concat(`</div>`)
-    return html;
-}
-
-function modalHtml() {
-    let html = ''
-    html =
-        html.concat(`<div class="window_alert" id="modal_layer">`)
-                .concat(`<div class="modal-layer">`)
-                    .concat(`<div class="inner">`)
-                        .concat(`<i class="ico" id="modal-ico"></i>`)
-                        .concat(`<h2 class="skip" id="modal-title"></h2>`)
-                        .concat(`<p id="modal-content"></p>`)
-                    .concat(`</div>`)
-                    .concat(`<div class="bt-wrap">`)
-                        .concat(`<button type="button" class="st-ico" id="modal-cancel" onclick="closeModal()"><span>취소</span></button>`)
-                        .concat(`<button type="button" class="st-fill" id="modal-ok" onclick="okModal()"><span></span></button>`)
-                .concat(`</div>`)
-            .concat(`</div>`)
-    return html;
-}
-
-function appendQuestion (html) { // 문한 컨텐츠 추가
-    if (getTotalQuestionCnt() >= 20) {
-        openPopUp("질문 설정", "최대 등록(20개) 가능한 질문을 초과하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
-        return
-    }
-    removeEmptyHtml(); // empty html 제거
-    $("#first_content").append(html); // 문항 html append
-    updateNumbering() // 넘버링 업데이트
-    updateQuestionCnt() // 문항 집계수 변경
-}
-
-function deleteQuestion (event) { // 문항 컨텐츠 삭제
-    $(event.target).closest('.frm-area').remove(); // 삭제
-    appendEmptyHtml(); // empty html 처리
-    updateQuestionCnt() // 문항 집계수 변경
-}
-
-function appendEmptyHtml() { // empty html 처리
-    let formDivElements = document.querySelectorAll('.form-div'); // 문항 class
-    if (formDivElements.length < 1) $("#first_content").prepend(emptyHtml()); // 문항이 없는 경우 empty html append 처리
-    else updateNumbering(); // 넘버링 업데이트
-}
-
-function removeEmptyHtml () { // empty 문항 제거
-    let notResultElement = document.getElementById("not-result");
-    if (notResultElement) notResultElement.parentNode.removeChild(notResultElement); // empty html 있는 경우 삭제
-}
-
-function updateNumbering () { // 문항 넘버링
-    let questions = document.querySelectorAll('.inner#first_content .form-div');
-    questions.forEach(function (e, i) {
-        e.querySelector('.number').textContent = i + 1;
-    });
-};
-
-function updateQuestionCnt() { // 문항 수 집계 카운트 변경
-    const arr = document.querySelectorAll('.q-cnt')
-    arr[0].textContent = new String(document.querySelectorAll('.q-1').length);
-    arr[1].textContent = new String(document.querySelectorAll('.q-2').length);
-    arr[2].textContent = new String(document.querySelectorAll('.q-3').length);
-    arr[3].textContent = new String(document.querySelectorAll('.q-4').length);
-}
-
-function getTotalQuestionCnt() {
-    const arr = document.querySelectorAll('.q-cnt')
-    let cnt = 0;
-    cnt += document.querySelectorAll('.q-1') ? document.querySelectorAll('.q-1').length : 0;
-    cnt += document.querySelectorAll('.q-2') ? document.querySelectorAll('.q-2').length : 0;
-    cnt += document.querySelectorAll('.q-3') ? document.querySelectorAll('.q-3').length : 0;
-    cnt += document.querySelectorAll('.q-4') ? document.querySelectorAll('.q-4').length : 0;
-    return cnt;
-}
-
-function appendModalHtml() { // 모달 append
-    let modalElement = document.getElementById('modal_layer')
-    if (!modalElement)  $("#wrap").after(modalHtml());
-}
-
-function previewImg(id) { // 이미지 미리보기 처리
-    const imgId = "img-" + id;
-    const canvasId = "img-canvas-" + id;
-    const divId = "img-div-" + id
-    const input = document.getElementById(imgId);
-    const canvas = document.getElementById(canvasId);
-    const div = document.getElementById(divId)
-    const context = canvas.getContext('2d');
-    const file = input.files[0];
-    readFile(file, canvas, div, context) // 파일 읽기 후 미리보기 설정
-}
-
-function previewLogoImg(id) { // 로고 파일 등록
-    const imgId = "img-" + id;
-    const input = document.getElementById(imgId);
-    if (input.files.length > 0) {
-        previewImg(id);
-        document.getElementById('file_logo').checked = true;
-        document.getElementById("img-default-logo").src = '';
-    }
-}
-
-function deleteLogo() { // 로고 파일 이미지 삭제
-    const canvas = document.getElementById('img-canvas-logo');
-    const div = document.getElementById('img-div-logo')
-    let logo = document.getElementById("img-logo")
-    canvas.style.display = "none";
-    div.style.display = "flex";
-    logo.value = null;
-}
-
-function addAnswer(event) {
-    const answerMaxCount = 4;
-    const answerHtml = $(event.target).closest('#answer_wrap')[0];
-    if( answerHtml.querySelectorAll('.add_item' ).length > answerMaxCount ){
-        openPopUp("답안 설정", `최대 ${answerMaxCount + 1}개까지 생성 가능합니다.`, "flex", '닫기', false, 'C') // 팝업 오픈
-        return false;
-    }
-
-    let html = ''
-    html = html.concat(`<li class="add_item"><label class="skip"></label>`)
-        .concat(`<input type="text" name="answer" placeholder="해당 주관식의 정답을 입력해주세요.">`)
-        .concat(`<button type="button" class="bt-remove" onclick="removeAnswer(event)">`)
-        .concat(`<span class="skip">삭제</span></button></li>`)
-    $(answerHtml).append(html)
-}
-
-function removeAnswer(event){
-    $(event.target).closest('.add_item').remove()
-}
-
-function readFile(file, canvas, div, context) { // 파일 읽기 후 미리보기 설정
-    if (!file) return
-    const reader = new FileReader();
-    canvas.style.display = 'flex'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
-    div.style.display = 'none';
-    reader.onload = function (e) { // 파일 리드 후 설정 처리
-        const img = new Image();
-        img.src = e.target.result;
-        img.onload = function () {
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(img, 0, 0, canvas.width, canvas.height);
-        };
-    };
-    reader.readAsDataURL(file);
-}
-
-
-function openPopUpWithUser(t) { // 유저 클릭 오픈 팝업 이벤트
-    const title = t == 0 ? '임시 저장' : '등록 하기' // 타이틀 설정
-    const content = t == 0 ? '작성한 설문을 임시 저장 하시겠습니까?' : '설문을  등록하시겠습니까?'; // 컨텐츠 설정
-    const ico = t == 0 ? 'flex' : 'none'; // 이모티콘 on, off 처리
-    status = t; // 타입 설정 (0:임시저장, 1:등록)
-    openPopUp(title, content, ico, '예', true, 'R') // 팝업 오픈
-}
-
-function openPopUp(t, c, i, o, mc, mt) { // 팝업 오픈
-    document.getElementById("modal-title").innerText = t;
-    document.getElementById("modal-content").innerText = c;
-    document.getElementById("modal-ico").style.display = i;
-    document.getElementById('modal_layer').style.display = "flex";
-    document.getElementById('modal-ok').innerText = o;
-    document.getElementById('modal-cancel').style.display = mc ? 'flex' : 'none';
-    modal_type = mt;
-    document.body.style.overflow = "hidden";
-}
-
-function closeModal() { // 팝업 닫기
-    let element = document.getElementById('modal_layer');
-    element.style.display = "none";
-    document.body.style.overflow = "auto";
-}
-
 function okModal() { // 모달 예 클릭
     if (modal_type == 'R') {
         if (doubleSubmitPrevent) return // 중복 클릭 방지
@@ -355,113 +34,10 @@ function okModal() { // 모달 예 클릭
     }
 }
 
-function watchingDate() { // 날짜 선택 변경 시 이벤트 처리
-    beginDt = $('#startDate').val();
-    endDt = $('#endDate').val();
-    const bDt = new Date(beginDt + 'T00:00:00Z');
-    const eDt =  new Date(endDt + 'T00:00:00Z');
-    if (!isBeginDtOverEndDt(bDt, eDt)) return; // 종료일이 시작일 이후 설정 검사
-    if (!isPrevToday(bDt, eDt)) return; // 오늘 날짜 이후 설정
-}
-
-function isBeginDtOverEndDt (beginDt, endDt) { // 종료일이 시작일 이후 설정 검사
-    if (endDt < beginDt) {
-        openPopUp("시간 설정", "종료 날짜는 시작 날짜보다 늦게 설정해야 합니다.", "flex", '닫기', false, 'C') // 팝업 오픈
-        resetDate()
-        return false;
-    }
-    return true;
-}
-
-function isPrevToday (beginDt, endDt) { // 오늘 날짜 이후 설정
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (beginDt < today || endDt < today) {
-        openPopUp("시간 설정", "날짜는 오늘 날짜 이상으로 설정해야 합니다.", "flex", '닫기', false, 'C') // 팝업 오픈
-        resetDate()
-        return false;
-    }
-    return true;
-}
-
-function resetDate () { // 날짜 리셋 처리
-    const bDt = formatDateyyyyMMddWithHyphen(today)
-    const eDt = formatDateyyyyMMddWithHyphen(today_7)
-    $('#startDate').val(bDt);
-    $('#endDate').val(eDt);
-    beginDt = bDt;
-    endDt = eDt
-}
-
-
-function validateCheckbox(element) { // 이성이 등록
-    let checkbox = $(element).find('input[type="checkbox"]');
-    let inputField = $(element).find('input[type="text"]');
-    let inputValue = inputField.val();
-
-    if (inputValue === "") {
-        checkbox.prop("checked", false);
-        return false;
-    }
-    return true;
-}
-
-
-function validateCheckBox() { // 이성이 등록
-    if (!validateCheckbox($(this).closest('li'))) {
-        alert("객관식 내용을 입력해주세요.");
-        return false
-    }
-}
-
-function validateText() { // 이성이 등록
-    validateCheckbox($(this).closest('li'));
-}
-
-function validateMultipleChoiceSetting(event) { // 이성이 등록
-    if (event.target.classList.contains('ctm-check')) {
-        let listItem = event.target.closest('li');
-        let inputElement = listItem.querySelector('input[type="text"]');
-        let checkbox = listItem.querySelector('input[type="checkbox"]');
-        let inputValue = inputElement.value.trim();
-        if (inputValue === '') {
-            alert("객관식 항목이 비어있습니다.");  // 모달로 변경
-            checkbox.checked = false;
-            event.preventDefault();
-            return false;
-        }
-    }
-}
-
-function validateMultipleChoiceEmpty(event) { // 이성이 등록
-    let inputArr = ['q1', 'q2', 'q3', 'q4', 'q5']
-    if (event.target.type === 'text' && inputArr.includes(event.target.name)) {
-        let listItem = event.target.closest('li');
-        if (listItem) {
-            let checkbox = listItem.querySelector('input[type="checkbox"]');
-            if (checkbox) {
-                if (event.target.value.trim() === '') {
-                    checkbox.checked = false;  // 객관식 항목이 빈칸이 되버리면 체크 해제
-                }
-            }
-        }
-    }
-}
-
-function changeLogo(logo) { // 로고 변경
-    const dynamicImage = document.getElementById("img-default-logo");
-    dynamicImage.src = logo; // 로고 이미지 세팅
-    deleteLogo() // 등록된 파일 로고 삭제
-}
-
-function changeFileLogo() { // 로고 파일 선택
-    const logoImg = document.getElementById("img-default-logo");
-    if (logoImg.src && logoImg.src.includes(DEFAULT_BLANK_IMG_NAME)) { // 로고 없음
-        document.getElementById('not_logo').checked = true;
-    } else if (logoImg.src && logoImg.src.includes(DEFAULT_LOGO_URL)) { // 로고 기본
-        document.getElementById('my_logo').checked = true;
-    }
-    document.getElementById('img-logo').click(); // 로고 파일 등록 호출
+function closeModal() { // 팝업 닫기
+    let element = document.getElementById('modal_layer');
+    element.style.display = "none";
+    document.body.style.overflow = "auto";
 }
 
 async function startRegisterForm () { // 폼 등록하기
@@ -478,21 +54,10 @@ function generateData(s) { // 데이터 세팅
     let title = document.getElementById("subject").value; // 타이틀
     let detail = document.getElementById("explain").value; // 폼 설명
     let maxRespondent = document.getElementById("num-answer-sel").value; // 최대 답변 인원
-    let file = this.getLogo(); // 로고 정보 가져오기
+    let file = get_file_or_url_logo(); // 로고 정보 가져오기
     let arr = document.querySelectorAll('.inner#first_content .form-div');
     arr.forEach((question, idx) => { questions.push(extractData(question, idx)); }); // 질문 리스트 추출
     return new Form(formType, title, detail, formatDateToyyyyMMdd(beginDt), formatDateToyyyyMMdd(endDt), file, themeUrl, questions, s, maxRespondent);
-}
-
-function getLogo() { // 내 로고 조회하기 ( 파일 or URL 가져오기)
-    let logo = document.getElementById("img-logo"); // 로고 element
-    if (logo.files.length > 0) {
-        return  logo.files[0] // 등록 로고 파일 반환
-    } else {
-        const logoImg = document.getElementById("img-default-logo");
-        if (!logoImg || logoImg.src.includes(DEFAULT_BLANK_IMG_NAME)) return null // 로고 null or 로고 없음은 로고 url 없음
-        return logoImg.src // 로고 URL 반환
-    }
 }
 
 function extractData (question, idx) { // 질문 리스트 데이터 추출
@@ -554,50 +119,62 @@ function extractData (question, idx) { // 질문 리스트 데이터 추출
 function validateRequestData(request) { // 폼 설정 유효성 검사
 
     if (!request.beginDt || !request.endDt) { // 날짜 검사
-        openPopUp("날짜 설정", "날짜를 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+        modal_type = 'C';
+        open_popup("날짜 설정", "날짜를 입력해주세요.", "flex", '닫기', false) // 팝업 오픈
         return false;
     } else if (!request.title) { // 제목 검사
-        openPopUp("폼 제목", "폼 제목을 작성해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+        modal_type = 'C';
+        open_popup("폼 제목", "폼 제목을 작성해주세요.", "flex", '닫기', false) // 팝업 오픈
         return false;
     } else if (!request.detail) { // 폼 내용 검사
-        openPopUp("폼 설명", "폼 설명을 작성해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+        modal_type = 'C';
+        open_popup("폼 설명", "폼 설명을 작성해주세요.", "flex", '닫기', false) // 팝업 오픈
         return false;
     } else if (!request.question || request.question.length == 0) { //질문 입력 검사
-        openPopUp("질문 설정", "질문을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+        modal_type = 'C';
+        open_popup("질문 설정", "질문을 입력해주세요.", "flex", '닫기', false) // 팝업 오픈
         return false;
     }
 
     for (let q of request.question) {
         if (q.type == 0) {
             if (!q.title) { // 단답형 제목 검사
-                openPopUp("단답형 설정", "주관식 제목을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                modal_type = 'C';
+                open_popup("단답형 설정", "주관식 제목을 입력해주세요.", "flex", '닫기', false) // 팝업 오픈
                 return false;
             } else if (!q.answer || q.answer.length == 0) {
-                openPopUp("단답형 내용", "주관식 정답을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                modal_type = 'C';
+                open_popup("단답형 내용", "주관식 정답을 입력해주세요.", "flex", '닫기', false) // 팝업 오픈
                 return false;
             }
         } else if (q.type == 1) {
             if (!q.title) { // 서술형 제목 검사
-                openPopUp("서술형 설정", "주관식 제목을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                modal_type = 'C';
+                open_popup("서술형 설정", "주관식 제목을 입력해주세요.", "flex", '닫기', false) // 팝업 오픈
                 return false;
             }
         } else if (q.type == 2) {
             if (!q.title) { // 객관식 제목 검사
-                openPopUp("객관식 설정", "객관식 제목을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                modal_type = 'C';
+                open_popup("객관식 설정", "객관식 제목을 입력해주세요.", "flex", '닫기', false) // 팝업 오픈
                 return false;
             } else if(!q.detail || q.detail.length == 0) { // 객관식 내용 검사
-                openPopUp("객관식 내용", "객관식 내용을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                modal_type = 'C';
+                open_popup("객관식 내용", "객관식 내용을 입력해주세요.", "flex", '닫기', false) // 팝업 오픈
                 return false;
             }
         } else if (q.type == 3) {
             if (!q.title) { // 객관식 제목 검사
-                openPopUp("보기 설정", "객관식 제목을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                modal_type = 'C';
+                open_popup("보기 설정", "객관식 제목을 입력해주세요.", "flex", '닫기', false) // 팝업 오픈
                 return false;
             } else if(!q.detail || q.detail.length == 0) { // 객관식 내용 검사
-                openPopUp("보기 내용", "객관식 내용을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                modal_type = 'C';
+                open_popup("보기 내용", "객관식 내용을 입력해주세요.", "flex", '닫기', false) // 팝업 오픈
                 return false;
             } else if(!q.exampleDetail || q.exampleDetail.length == 0) { // 객관식 내용 검사
-                openPopUp("보기 내용", "보기 내용을 입력해주세요.", "flex", '닫기', false, 'C') // 팝업 오픈
+                modal_type = 'C';
+                open_popup("보기 내용", "보기 내용을 입력해주세요.", "flex", '닫기', false) // 팝업 오픈
                 return false;
             }
         }
@@ -621,19 +198,33 @@ async function uploadImage(request) { // 이미지 업로드 처리
 async function register(request) { // 폼 등록
     await fsa(request).then(res => {
         if (res && res.resultCode == '0') {
-            openPopUp("등록 성공", "등록에 성공했습니다. 메인 페이지로 이동합니다.", "none", '확인', false, 'S') // 팝업 오픈
+            modal_type = 'S';
+            open_popup("등록 성공", "등록에 성공했습니다. 메인 페이지로 이동합니다.", "none", '확인', false) // 팝업 오픈
         } else {
-            openPopUp("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+            modal_type = 'C';
+            open_popup("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false) // 팝업 오픈
         }
     })
     .catch(e => {
-        openPopUp("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+        modal_type = 'C';
+        open_popup("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false) // 팝업 오픈
     })
+}
+
+function enrollPopup() {
+    status = 1
+    modal_type = 'R';
+    open_popup('등록 하기', '폼을  등록하시겠습니까?', 'none', '예', true) // 팝업 오픈
+}
+
+function tempPopup() {
+    status = 0
+    modal_type = 'R';
+    open_popup('임시 저장', '작성한 폼을 임시 저장 하시겠습니까?', 'flex', '예', true) // 팝업 오픈
 }
 
 $(document).ready(() => { // 초기 설정
     essentialLogin(); // 로그인 여부 검사
-    appendModalHtml(); // 모달 붙이기
     appendEmptyHtml(); // 처음 빈 div 설정
     resetDate(); // 날짜 데이터 초기화
     formType = $('input[name="formType"]:checked').val(); // 초기 타입 설정

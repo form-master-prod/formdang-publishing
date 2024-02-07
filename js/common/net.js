@@ -1,3 +1,7 @@
+/**
+ * 네트워크 js
+ */
+
 // REST 상수
 const G = "GET" // GET 상수
 const P = "POST"; // POST 상수
