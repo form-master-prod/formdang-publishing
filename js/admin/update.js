@@ -149,7 +149,6 @@ function setCheckBox(question, data) { // 공통 객관식 처리
 $(document).ready(() => { // 초기 설정
     essentialLogin(); // 로그인 여부 검사
     append_empty_html(); // 처음 빈 div 설정
-    resetDate(); // 날짜 데이터 초기화
     formType = $('input[name="formType"]:checked').val(); // 초기 타입 설정
     $('.layer-sel').niceSelect(); // 퍼블 추가 내역
     let top_button = document.querySelector('.bt-top');
@@ -164,9 +163,4 @@ $(document).ready(() => { // 초기 설정
 $(window).load(() => {
     $('input[name="formType"]').change(function () { formType = $(this).val(); }); // 폼형태
     $('input[name="themeType"]').change(function() { themeUrl = $(this).val(); }); // 테마
-    $('#startDate, #endDate').change(function () { watchingDate() }); // 날짜 유효성 검사
-    $('input[type="checkbox"]').on('click', function() { validateCheckBox() }); // 이성이 등록
-    $('input[type="text"]').on('input', function() { validateText() }); // 이성이 등록
-    document.addEventListener('click', function(event) { validateMultipleChoiceSetting(event) }); // 이성이 등록
-    document.addEventListener('input', function(event) { validateMultipleChoiceEmpty(event) }); // 이성이 등록
 })

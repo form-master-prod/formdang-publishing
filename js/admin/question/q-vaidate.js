@@ -1,4 +1,8 @@
-function resetDate () { // 날짜 리셋 처리
+const today = new Date();
+const today_7 = new Date(today);
+today_7.setDate(today_7.getDate() + 7);
+
+function reset_date () { // 날짜 리셋 처리
     const bDt = formatDateyyyyMMddWithHyphen(today)
     const eDt = formatDateyyyyMMddWithHyphen(today_7)
     $('#startDate').val(bDt);
@@ -8,38 +12,38 @@ function resetDate () { // 날짜 리셋 처리
 }
 
 
-function watchingDate() { // 날짜 선택 변경 시 이벤트 처리
+function watching_date() { // 날짜 선택 변경 시 이벤트 처리
     beginDt = $('#startDate').val();
     endDt = $('#endDate').val();
     const bDt = new Date(beginDt + 'T00:00:00Z');
     const eDt =  new Date(endDt + 'T00:00:00Z');
-    if (!isBeginDtOverEndDt(bDt, eDt)) return; // 종료일이 시작일 이후 설정 검사
-    if (!isPrevToday(bDt, eDt)) return; // 오늘 날짜 이후 설정
+    if (!is_begin_dt_over_End_dt(bDt, eDt)) return; // 종료일이 시작일 이후 설정 검사
+    if (!is_prev_today(bDt, eDt)) return; // 오늘 날짜 이후 설정
 }
 
-function isBeginDtOverEndDt (beginDt, endDt) { // 종료일이 시작일 이후 설정 검사
+function is_begin_dt_over_End_dt (beginDt, endDt) { // 종료일이 시작일 이후 설정 검사
     if (endDt < beginDt) {
         modal_type = 'C';
         open_popup("시간 설정", "종료 날짜는 시작 날짜보다 늦게 설정해야 합니다.", "flex", '닫기', false) // 팝업 오픈
-        resetDate()
+        reset_date()
         return false;
     }
     return true;
 }
 
-function isPrevToday (beginDt, endDt) { // 오늘 날짜 이후 설정
+function is_prev_today (beginDt, endDt) { // 오늘 날짜 이후 설정
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     if (beginDt < today || endDt < today) {
         modal_type = 'C';
         open_popup("시간 설정", "날짜는 오늘 날짜 이상으로 설정해야 합니다.", "flex", '닫기', false) // 팝업 오픈
-        resetDate()
+        reset_date()
         return false;
     }
     return true;
 }
 
-function validateCheckbox(element) { // 이성이 등록
+function validate_checkbox(element) { // 이성이 등록
     let checkbox = $(element).find('input[type="checkbox"]');
     let inputField = $(element).find('input[type="text"]');
     let inputValue = inputField.val();
@@ -52,18 +56,18 @@ function validateCheckbox(element) { // 이성이 등록
 }
 
 
-function validateCheckBox() { // 이성이 등록
-    if (!validateCheckbox($(this).closest('li'))) {
+function validate_checkbox() { // 이성이 등록
+    if (!validate_checkbox($(this).closest('li'))) {
         alert("객관식 내용을 입력해주세요.");
         return false
     }
 }
 
 function validateText() { // 이성이 등록
-    validateCheckbox($(this).closest('li'));
+    validate_checkbox($(this).closest('li'));
 }
 
-function validateMultipleChoiceSetting(event) { // 이성이 등록
+function validate_multiple_choice_setting(event) { // 이성이 등록
     if (event.target.classList.contains('ctm-check')) {
         let listItem = event.target.closest('li');
         let inputElement = listItem.querySelector('input[type="text"]');
@@ -78,7 +82,7 @@ function validateMultipleChoiceSetting(event) { // 이성이 등록
     }
 }
 
-function validateMultipleChoiceEmpty(event) { // 이성이 등록
+function validate_multiple_choice_empty(event) { // 이성이 등록
     let inputArr = ['q1', 'q2', 'q3', 'q4', 'q5']
     if (event.target.type === 'text' && inputArr.includes(event.target.name)) {
         let listItem = event.target.closest('li');
@@ -92,3 +96,12 @@ function validateMultipleChoiceEmpty(event) { // 이성이 등록
         }
     }
 }
+
+$(document).ready(() => { // 초기 설정
+    reset_date(); // 날짜 데이터 초기화
+    $('#startDate, #endDate').change(function () { watching_date() }); // 날짜 유효성 검사
+    $('input[type="checkbox"]').on('click', function() { validate_checkbox() }); // 이성이 등록
+    $('input[type="text"]').on('input', function() { validateText() }); // 이성이 등록
+    document.addEventListener('click', function(event) { validate_multiple_choice_setting(event) }); // 이성이 등록
+    document.addEventListener('input', function(event) { validate_multiple_choice_empty(event) }); // 이성이 등록
+})
