@@ -18,7 +18,7 @@ function img_html(id) {
         html.concat(`<div class="frm-upload">`)
             .concat(`<canvas id="img-canvas-${id}" class="img-view" style="display: none"></canvas>`) // 이미지 등록
             .concat(`<div id="img-div-${id}" class="img-view">`)
-            .concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>`)
+            .concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt="" class="i-1" id="img-src-${id}"></span>`)
             .concat(`</div>`)
             .concat(`<label for="img-${id}">이미지 등록하기</label> <input type="file" name="" id="img-${id}" class="file-input" onchange="set_preview_img('${id}')">`)
             .concat(`</div>`)
@@ -32,12 +32,14 @@ function img_html(id) {
 function set_preview_img(id) { // 이미지 미리보기 처리
     const imgId = "img-" + id;
     const canvasId = "img-canvas-" + id;
-    const divId = "img-div-" + id
+    const divId = "img-div-" + id;
+    const srcId = "img-src-" + id;
     const input = document.getElementById(imgId);
     const canvas = document.getElementById(canvasId);
     const div = document.getElementById(divId)
     const context = canvas.getContext('2d');
     const file = input.files[0];
+    document.getElementById(srcId).src = '' // 이미지 src 세팅 제거
     readFile(file, canvas, div, context) // 파일 읽기 후 미리보기 설정
 }
 
@@ -74,6 +76,7 @@ function set_question_url_to_img(question, src) {
     const context = canvas.getContext('2d');
     canvas.style.display = 'flex'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
     div.style.display = 'none';
+    $(question.querySelector('.i-1'))[0].src = src
     set_canvas_preview_img(context, canvas,  src);
 }
 
