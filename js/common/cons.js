@@ -17,10 +17,7 @@ const ACCESS_TOKEN = "accessToken"; // 토큰명 상수
 const REFRESH_TOKEN = "refreshToken"; // 리프뤠시 토큰명 상수
 
 // 공통 상수
-const DEFAULT_LOGO_URL = "https://formmaster-s3.s3.ap-northeast-2.amazonaws.com/logo/d5e6f7a8-9b10-c111-d2e3-4455f6778899.jpg"; // 로고 이미지 상수
 const ri = '../image/icon/gallery-remove.svg'
-const DEFAULT_BLANK_IMG_NAME = 'gallery-remove.svg';
-const DEFAULT_LOG_IMG = 'img-default-logo'
 const KKO = "KKO"; // 카카오 로그인 타입 상수
 const GOOGLE = "GOOGLE"; // 구글 로그인 타입 상수
 

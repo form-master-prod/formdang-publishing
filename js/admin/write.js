@@ -223,7 +223,7 @@ $(document).ready(() => { // 초기 설정
     essentialLogin(); // 로그인 여부 검사
     append_empty_html(); // 처음 빈 div 설정
     formType = $('input[name="formType"]:checked').val(); // 초기 타입 설정
-    document.getElementById("img-default-logo").src = DEFAULT_LOGO_URL; // default 로고 이미지 세팅
+    set_default_log(); // default 로고 이미지 세팅
     $('.layer-sel').niceSelect(); // 퍼블 추가 내역
     let top_button = document.querySelector('.bt-top');
     top_button.addEventListener('click', function(e){

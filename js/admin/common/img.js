@@ -3,6 +3,9 @@
  *
  */
 
+const DEFAULT_LOG_IMG = 'img-default-logo'
+const DEFAULT_BLANK_IMG_NAME = 'gallery-remove.svg';
+const DEFAULT_LOGO_URL = "https://formmaster-s3.s3.ap-northeast-2.amazonaws.com/logo/d5e6f7a8-9b10-c111-d2e3-4455f6778899.jpg"; // 로고 이미지 상수
 
 /**
  * 이미지 HTML 처리
@@ -43,12 +46,35 @@ function set_preview_img(id) { // 이미지 미리보기 처리
  * @param logo
  */
 function set_logo_url_to_img(logo) { // 로고 이미지 세팅
-    const canvas = document.getElementById(`img-canvas-logo`);
-    const div = document.getElementById(`img-div-logo`)
+    document.getElementById(DEFAULT_LOG_IMG).src = logo
+    if (!logo || logo == ri) { // 로고 없음
+        document.getElementById('not_logo').checked = true;
+    } else if (logo == DEFAULT_LOGO_URL) { // 기본 로고
+        document.getElementById('my_logo').checked = true;
+    } else { // 로고 등록
+        document.getElementById('file_logo').checked = true;
+        const canvas = document.getElementById(`img-canvas-logo`);
+        const div = document.getElementById(`img-div-logo`)
+        const context = canvas.getContext('2d');
+        canvas.style.display = 'flex'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
+        div.style.display = 'none';
+        set_canvas_preview_img(context, canvas, logo);
+    }
+}
+
+/**
+ * 질문 이미지 URL 세팅 처리
+ * @param question
+ * @param src
+ */
+function set_question_url_to_img(question, src) {
+    if (!src) return
+    const canvas = question.querySelector('canvas');
+    const div = question.querySelector('.frm-upload div')
     const context = canvas.getContext('2d');
     canvas.style.display = 'flex'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
     div.style.display = 'none';
-    set_canvas_preview_img(context, canvas, logo);
+    set_canvas_preview_img(context, canvas,  src);
 }
 
 /**
@@ -156,4 +182,11 @@ function set_canvas_preview_img(context, canvas, src) { // canvas 이미지 미�
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.drawImage(img, 0, 0, canvas.width, canvas.height);
     };
+}
+
+/**
+ * 기본 로고 이미지 default 세팅
+ */
+function set_default_log() {
+    document.getElementById(DEFAULT_LOG_IMG).src = DEFAULT_LOGO_URL; // default 로고 이미지 세팅
 }
