@@ -3,7 +3,7 @@
  *
  */
 
-const DEFAULT_LOG_IMG = 'img-default-logo'
+const DEFAULT_LOG_IMG = 'img-src-logo'
 const DEFAULT_BLANK_IMG_NAME = 'gallery-remove.svg';
 const DEFAULT_LOGO_URL = "https://formmaster-s3.s3.ap-northeast-2.amazonaws.com/logo/d5e6f7a8-9b10-c111-d2e3-4455f6778899.jpg"; // 로고 이미지 상수
 
@@ -86,9 +86,8 @@ function set_question_url_to_img(question, src) {
 function set_preview_main_logo_img() { // 로고 파일 등록
     const input = document.getElementById('img-logo');
     if (input.files.length > 0) {
-        set_preview_img('logo');
         document.getElementById('file_logo').checked = true; // 로고 체크 박스 `등록` 선택 처리
-        document.getElementById(DEFAULT_LOG_IMG).src = ''; // 파일 등록으로 src 빈값 처리
+        set_preview_img('logo');
     }
 }
 
