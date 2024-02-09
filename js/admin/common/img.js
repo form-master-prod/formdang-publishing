@@ -203,7 +203,12 @@ function set_default_log() {
 async function upload_image(request) { // 이미지 업로드 처리
     for (const question of request.question) { // 질문 리스트
         if (question.file && question.file instanceof File) { // 로고 파일 등록
-            if (question.file) question.imageUrl = await upload(question.file);
+            if (question.file) {
+                question.imageUrl = await upload(question.file);
+            }
+            delete question.file
+        } else if (question.file){
+            question.imageUrl = question.file
             delete question.file
         }
     }

@@ -214,10 +214,11 @@ function get_look_question(order, question, file) {
  */
 function get_question_file(question) {
     const files = question.querySelector('input[type=file]').files
-    if (files && files.length > 0) { // 파일이 있는 경우 파일처리
+    if (files && files.length > 0 && files[0]) { // 파일이 있는 경우 파일처리
         return files[0];
     } else { // 파일이 없는 경우
         const src = $(question.querySelector('.i-1'))[0].src;
+        console.log(src)
         if (src.includes('gallery-remove.svg')) { // 파일 없음
             return null;
         } else {
