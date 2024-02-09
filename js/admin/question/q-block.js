@@ -18,17 +18,17 @@ function short_html() {
     html =
         html.concat(`<div class="frm-area short-answer form-div q-1">`)
                 .concat(`<div class="inp-group"><i class="number"></i>`)
-                    .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
-                    .concat(`<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
+                    .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject readOnly-item" placeholder="질문 제목을 입력해주세요.">`)
+                    .concat(`<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain readOnly-item" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
                     .concat(`<ol id="answer_wrap" class="frm-answer">`)
-                        .concat(`<li class="add_item"><label for="answer-${id}" class="skip">질문 1의 정답</label><input type="text" name="answer" id="answer-${id}" placeholder="해당 주관식의 정답을 입력해주세요.">`)
-                        .concat(`<button type="button" class="bt-add" onclick="add_answer(event, 4)">`)
+                        .concat(`<li class="add_item"><label for="answer-${id}" class="skip">질문 1의 정답</label><input type="text" name="answer" id="answer-${id}" class="readOnly-item" placeholder="해당 주관식의 정답을 입력해주세요.">`)
+                        .concat(`<button type="button" class="bt-add disabled-item"  onclick="add_answer(event, 4)">`)
                         .concat(`<span class="skip">추가</span></button></li>`)
                     .concat(`</ol>`)
                 .concat(`</div>`)
                 .concat(img_html(id)) // 이미지 등록 html
                 .concat(`<div class="bottom-sheets">`)
-                    .concat(`<button type="button" class="bt-delete" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
+                    .concat(`<button type="button" class="bt-delete disabled-item" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
                 .concat(`</div>`)
             .concat(`</div>`)
     return html;
@@ -46,12 +46,12 @@ function subject_html() {
     html =
         html.concat(`<div class="frm-area short-answer form-div q-2">`)
                 .concat(`<div class="inp-group"><i class="number"></i>`)
-                    .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
+                    .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject readOnly-item" placeholder="질문 제목을 입력해주세요.">`)
                     .concat(`</ol>`)
                 .concat(`</div>`)
                 .concat(img_html(id)) // 이미지 등록 html 함수화
                 .concat(`<div class="bottom-sheets">`)
-                .   concat(`<button type="button" class="bt-delete" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
+                .   concat(`<button type="button" class="bt-delete disabled-item" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
                 .concat(`</div>`)
             .concat(`</div>`)
     return html;
@@ -70,7 +70,7 @@ function multiple_html() {
     html =
         html.concat(`<div class="frm-area multiple-choice form-div q-3">`)
                 .concat(`<div class="inp-group"><i class="number"></i>`)
-                    .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
+                    .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject readOnly-item" placeholder="질문 제목을 입력해주세요.">`)
                     .concat(`<ol class="subject-valid">`);
     html = html.concat(loop_checkbox())
     html =
@@ -78,7 +78,7 @@ function multiple_html() {
                 .concat(`</div>`)
                 .concat(img_html(id)) // 이미지 등록 html 함수화
                 .concat(`<div class="bottom-sheets">`)
-                    .concat(`<button type="button" class="bt-delete" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
+                    .concat(`<button type="button" class="bt-delete disabled-item" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
                 .concat(`</div>`)
             .concat(`</div>`)
     return html;
@@ -95,10 +95,10 @@ function loop_checkbox() {
         html =
             html.concat(`<li>`)
                     .concat(`<span class="ctm-chk">`)
-                        .concat(`<input type="checkbox" name="each" value="${i}" onclick="validate_checkbox(event)"><label class="skip">객관식 ${i}</label>`)
+                        .concat(`<input type="checkbox" name="each" value="${i}" class="disabled-item" onclick="validate_checkbox(event)"><label class="skip">객관식 ${i}</label>`)
                     .concat(`</span>`)
                     .concat(`<span class="inp" style="width: 100%">`)
-                        .concat(`<label class="skip">객관식 ${i} 내용</label><input type="text" class="${id}" name="${id}" placeholder="${i}. 객관식 내용을 입력하세요.">`)
+                        .concat(`<label class="skip">객관식 ${i} 내용</label><input type="text" class="${id} readOnly-item" name="${id}" placeholder="${i}. 객관식 내용을 입력하세요.">`)
                     .concat(`</span>`)
                 .concat(`</li>`)
     }
@@ -134,7 +134,7 @@ function look_html() {
     html =
         html.concat(`<div class="frm-area multiple-choice form-div q-4">`)
                 .concat(`<div class="inp-group"><i class="number"></i>`)
-                    .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject" placeholder="질문 제목을 입력해주세요.">`)
+                    .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject readOnly-item" placeholder="질문 제목을 입력해주세요.">`)
                      .concat(`<div class="que-viewitem">`)
                         .concat(`<p>보기</p>`)
                         .concat(`<ol>`)
@@ -149,7 +149,7 @@ function look_html() {
                 .concat(`</div>`)
                 .concat(img_html(id)) // 이미지 등록 html 함수화
                 .concat(`<div class="bottom-sheets">`)
-                    .concat(`<button type="button" class="bt-delete" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
+                    .concat(`<button type="button" class="bt-delete disabled-item" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
                 .concat(`</div>`)
             .concat(`</div>`)
 
@@ -167,7 +167,7 @@ function loop_input() {
         html =
             html.concat(`<li>`)
                     .concat(`<label for="">${que_arr[i]}</label>`)
-                    .concat(`<input type="text" class="${id}" name="${id}" placeholder="보기 내용을 입력하세요.">`)
+                    .concat(`<input type="text" class="${id} readOnly-item" name="${id}" placeholder="보기 내용을 입력하세요.">`)
                 .concat(`</li>`)
     }
     return html;
@@ -284,8 +284,8 @@ function add_answer(event, maxCnt) {
         let html = ''
         html =
             html.concat(`<li class="add_item"><label class="skip"></label>`)
-                .concat(`<input type="text" name="answer" placeholder="해당 주관식의 정답을 입력해주세요.">`)
-                .concat(`<button type="button" class="bt-remove" onclick="remove_answer(event)">`)
+                .concat(`<input type="text" name="answer" class="readOnly-item" placeholder="해당 주관식의 정답을 입력해주세요.">`)
+                .concat(`<button type="button" class="bt-remove disabled-item" onclick="remove_answer(event)">`)
                 .concat(`<span class="skip">삭제</span></button></li>`)
         $(answerHtml).append(html)
     }

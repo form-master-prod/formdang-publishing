@@ -61,17 +61,17 @@
 									<li>
 										<i class="ico"></i>
 										<em class="q-cnt">0</em>
+										<p>서술형</p>
+									</li>
+									<li>
+										<i class="ico"></i>
+										<em class="q-cnt">0</em>
 										<p>객관식</p>
 									</li>
 									<li>
 										<i class="ico"></i>
 										<em class="q-cnt">0</em>
 										<p>보기</p>
-									</li>
-									<li>
-										<i class="ico"></i>
-										<em class="q-cnt">0</em>
-										<p>서술형</p>
 									</li>
 								</ul>
 							</div>
@@ -82,7 +82,7 @@
 									<em>최대 답변 인원</em>
 									<div class="frm-area">
 										<label for="num-answer-sel" class="skip">최대 답변 인원 선택</label>
-										<select name="" id="num-answer-sel" class="layer-sel">
+										<select name="" id="num-answer-sel" class="layer-sel" >
 											<option value="0">제한없음</option>
 											<option value="30">30명</option>
 											<option value="50">50명</option>
@@ -96,28 +96,28 @@
 								<li>
 									<em>폼 형태</em>
 									<div class="frm-area">
-										<label for="quiz"><span class="ctm-radio"><input type="radio" name="formType" id="quiz" value="1" >퀴즈</span></label>
-										<label for="survey"><span class="ctm-radio"><input type="radio" name="formType" id="survey" value="0">설문조사</span></label>
+										<label for="quiz"><span class="ctm-radio"><input type="radio" name="formType" id="quiz" value="1" class="disabled-item" >퀴즈</span></label>
+										<label for="survey"><span class="ctm-radio"><input type="radio" name="formType" id="survey" value="0" class="disabled-item">설문조사</span></label>
 									</div>
 								</li>
 								<li>
 									<em>기간</em>
 									<div class="frm-area">
-										<input type="date" id="startDate"> <input type="date" id="endDate">
+										<input type="date" id="startDate" class="disabled-item"> <input type="date" id="endDate" class="disabled-item">
 									</div>
 								</li>
 								<li>
 									<em>로고</em>
 									<div class="frm-area">
-										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="not_logo" onclick="change_logo_img(0)"> <label for="not_logo">없음</label></span>
-										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="my_logo" onclick="change_logo_img(1)"> <label for="my_logo">기본</label></span>
-										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="file_logo" onclick="change_logo_img(2)"><label for="file_logo">등록</label></span>
+										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="not_logo" onclick="change_logo_img(0)" class="disabled-item"> <label for="not_logo">없음</label></span>
+										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="my_logo" onclick="change_logo_img(1)" class="disabled-item"> <label for="my_logo">기본</label></span>
+										<span class="ctm-radio-chips"><input type="radio" name="logoType" id="file_logo" onclick="change_logo_img(2)" class="disabled-item"><label for="file_logo">등록</label></span>
 									</div>
 								</li>
 								<li>
 									<em>테마</em>
 									<div class="frm-area">
-										<span class="ctm-radio-chips"><input type="radio" name="themeType" id="empty" value=""> <label for="empty">없음</label></span>
+										<span class="ctm-radio-chips"><input type="radio" name="themeType" id="empty" value="" class="disabled-item"> <label for="empty">없음</label></span>
 <!--										<span class="ctm-radio-chips"><input type="radio" name="themeType" id="basic_thema" value="1"> <label for="basic_thema">산뜻한</label></span>-->
 <!--										<span class="ctm-radio-chips"><input type="radio" name="themeType" id="my_thema" value="2"> <label for="my_thema">내 테마</label></span>-->
 									</div>
@@ -132,15 +132,15 @@
 							<div class="frm-area subject">
 								<div class="inp-group">
 									<i class="ico i-quiz-fill"><span class="skip">퀴즈</span></i>
-									<label for="subject" class="skip">폼 제목</label><input type="text" name="" id="subject">
-									<label for="explain" class="skip">폼 설명</label><input type="text" name="" id="explain" placeholder="폼 설명을 입력하세요.">
+									<label for="subject" class="skip">폼 제목</label><input type="text" name="" id="subject" class="readOnly-item">
+									<label for="explain" class="skip">폼 설명</label><input type="text" name="" id="explain" placeholder="폼 설명을 입력하세요." class="readOnly-item">
 								</div>
 								<div class="frm-upload">
 									<canvas id="img-canvas-logo" class="img-view" style="display: none"></canvas>
 									<div id="img-div-logo" class="img-view">
 										<span class="not-img"><img id="img-src-logo" src="" alt=""></span>
 									</div>
-									<label for="img-logo">로고(상호) 변경하기</label> <input type="file" name="" id="img-logo" oninput="set_preview_main_logo_img()">
+									<label for="img-logo">로고(상호) 변경하기</label> <input type="file" name="" id="img-logo" oninput="set_preview_main_logo_img()" class="disabled-item">
 								</div>
 							</div>
 							<div class="container" id="form_container">

@@ -21,7 +21,7 @@ function img_html(id) {
             .concat(`<div id="img-div-${id}" class="img-view">`)
             .concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt="" class="i-1" id="img-src-${id}"></span>`)
             .concat(`</div>`)
-            .concat(`<label for="img-${id}">이미지 등록하기</label> <input type="file" name="" id="img-${id}" class="file-input" onchange="set_preview_img('${id}')">`)
+            .concat(`<label for="img-${id}">이미지 등록하기</label> <input type="file" name="" id="img-${id}" class="file-input disabled-item" onchange="set_preview_img('${id}')">`)
             .concat(`</div>`)
     return html;
 }

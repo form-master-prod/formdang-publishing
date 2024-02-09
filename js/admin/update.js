@@ -64,9 +64,8 @@ async function update_form() {
 }
 
 /**
- * 폼 등록하기
+ * 폼 수정하기
  * 성공: 메인페이지 redirect
- * 실패: ToDo 실패 시 처리 추가
  * @param data
  * @returns {Promise<void>}
  */
@@ -74,6 +73,8 @@ async function update(data, fid) { // 폼 등록
     await update_form_api(data, fid).then(res => {
         if (res && res.resultCode == '0') {
             open_popup("수정 성공", "수정에 성공했습니다. 메인 페이지로 이동합니다.", "none", '확인', false, 'S') // 팝업 오픈
+        } else if (res && res.resultCode == REFUSE_ALREADY_START_FORM) {
+            open_popup("수정 실패", "이미 시작된 폼은 수정 불가합니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
         } else {
             open_popup("수정 실패", "폼 수정에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
         }
@@ -252,6 +253,7 @@ function set_form_data(data) { // 데이터 세팅
     set_header_data(data.title, data.detail, data.beginDt, data.endDt); // 헤더 데이터 설정
     set_logo_url_to_img(data?.logoUrl || ri); // 로고 설정
     set_question(data.question.sort((a, b) => a.order - b.order)); // 질문 리스트 붙이기
+    set_update_btn(data.status);
 }
 
 /**
@@ -303,6 +305,25 @@ function set_header_data(title, detail, beginDt, endDt) { // 헤더 설정
 function set_question(questions) { // 질문 등록
     append_question_forms(questions); // 질문 폼 html append
     set_question_data(questions); // 질문 폼 html 데이터 세팅
+}
+
+/**
+ * 폼 수정하기 버튼 able / dis able 검사 처리
+ * @param status
+ */
+function set_update_btn(status) {
+    if (status == 1) {
+        document.querySelectorAll('.bt-wrap').forEach(e => {
+            e.style.display = 'none'
+        })
+        document.querySelectorAll('.disabled-item').forEach(e => {
+            e.disabled = true
+        })
+        document.querySelectorAll('.readOnly-item').forEach(e => {
+            e.readOnly = true
+        })
+        $(document).off('.nice_select');
+    }
 }
 
 /**
@@ -386,7 +407,7 @@ function set_look(question, data) { // 보기 문항 추가
     for (let i=0; i < 5; i++) { // 보기 처리
         const id = 'e' + (i+1);
         const text = question.querySelector(`input[name="${id}"]`); // 체크박스 답
-        text.value = data.exampleDetail[i];
+        text.value = data?.exampleDetail[i] || '';
     }
     set_question_url_to_img(question, data.imageUrl) // 이미지 세팅
 }
