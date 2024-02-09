@@ -95,7 +95,7 @@ function loop_checkbox() {
         html =
             html.concat(`<li>`)
                     .concat(`<span class="ctm-chk">`)
-                        .concat(`<input type="checkbox" name="each" value="${i}"><label class="skip">객관식 ${i}</label>`)
+                        .concat(`<input type="checkbox" name="each" value="${i}" onclick="validate_checkbox(event)"><label class="skip">객관식 ${i}</label>`)
                     .concat(`</span>`)
                     .concat(`<span class="inp" style="width: 100%">`)
                         .concat(`<label class="skip">객관식 ${i} 내용</label><input type="text" class="${id}" name="${id}" placeholder="${i}. 객관식 내용을 입력하세요.">`)
@@ -103,6 +103,21 @@ function loop_checkbox() {
                 .concat(`</li>`)
     }
     return html;
+}
+
+/**
+ * 객관식 문항 체크 처리
+ * @param event
+ */
+function validate_checkbox(event) {
+    const li = $(event.target).closest('li');
+    let checkbox = $(li).find('input[type="checkbox"]');
+    let inputValue = $(li).find('input[type="text"]').val();
+
+    if (inputValue === "") {
+        checkbox.prop("checked", false);
+        open_popup("답 설정", `내용을 입력 후 체크해주세요.`, "flex", '닫기', false, 'C') // 팝업 오픈
+    }
 }
 
 /**
@@ -185,8 +200,7 @@ function empty_html() {
  */
 function append_question (html) { // 문한 컨텐츠 추가
     if (get_total_question_cnt() >= MAX_COUNT) {
-        modal_type = 'C';
-        open_popup("질문 설정", "최대 등록(20개) 가능한 질문을 초과하였습니다.", "flex", '닫기', false) // 팝업 오픈
+        open_popup("질문 설정", "최대 등록(20개) 가능한 질문을 초과하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
     } else {
         remove_empty_html(); // empty html 제거
         $("#first_content").append(html); // 문항 html append
@@ -265,8 +279,7 @@ function get_total_question_cnt() {
 function add_answer(event, maxCnt) {
     const answerHtml = $(event.target).closest('#answer_wrap')[0];
     if( answerHtml.querySelectorAll('.add_item' ).length > maxCnt ){
-        modal_type = 'C';
-        open_popup("답안 설정", `최대 ${maxCnt + 1}개까지 생성 가능합니다.`, "flex", '닫기', false) // 팝업 오픈
+        open_popup("답안 설정", `최대 ${maxCnt + 1}개까지 생성 가능합니다.`, "flex", '닫기', false, 'C') // 팝업 오픈
     } else {
         let html = ''
         html =

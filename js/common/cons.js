@@ -33,7 +33,6 @@ const PAGE  = { // 환경에 따른 페이지 URL
         GOOGLE: getApiURL("/api/sp/public/google/login"),
     },
 }
-let modal_type = 'R';
 
 function isProduction() { return window.location.host == PROD_DOMAIN_NAME; }; // 운영 여부 함수
 function getURL(p, d) { return isProduction() ? p : d; }; // 환경에 따른 URL 생성 함수
