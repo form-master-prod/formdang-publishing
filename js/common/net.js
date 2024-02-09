@@ -20,7 +20,7 @@ function fda(d) {
     return ajaxForm(getApiURL(ccatPfx(`/form/detail/${d}/find`)), null, G, gt(), DF_CT, true, true)
 }
 
-function fsa(d) { // 폼 제출
+function register_form_api(d) { // 폼 제출
     return ajaxForm(getApiURL(ccatPfx('/form/submit')), JSON.stringify(d), P, gt(), J_CT, false, true)
 }
 

@@ -90,6 +90,9 @@ function validate_write_request(request) { // 폼 설정 유효성 검사
     } else if (!request.question || request.question.length == 0) { // 질문 입력 검사
         short_open_popup("질문 설정", "한개 이상의 질문을 작성해주세요.")
         return false;
+    } else if (!request.type) {
+        short_open_popup("폼 형태", "폼 형태를 선택해주세요.")
+        return false;
     }
 
     for (let q of request.question) {

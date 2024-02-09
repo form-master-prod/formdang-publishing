@@ -145,7 +145,7 @@ function change_logo_img(type) {
 function get_file_or_url_logo() { // 내 로고 조회하기 ( 파일 or URL 가져오기)
     let logo = document.getElementById("img-logo"); // 로고 element
     if (logo.files && logo.files.length > 0) {
-        return  logo.files[0] // 등록 로고 파일 반환
+        return logo.files[0] // 등록 로고 파일 반환
     } else {
         const logoImg = document.getElementById(DEFAULT_LOG_IMG);
         if (!logoImg || logoImg.src.includes(DEFAULT_BLANK_IMG_NAME)) return null // 로고 null or 로고 없음은 로고 url 없음
