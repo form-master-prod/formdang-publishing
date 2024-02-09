@@ -26,7 +26,7 @@ function ok_popup() {
         doubleSubmitPrevent = true;
         update_form().then(() => doubleSubmitPrevent = false);
     } else if (modal_type == 'S') { // 폼 등록 완료 버튼
-        window.location.replace(PAGE.ADMIN_MAIN)
+        window.history.back()
     } else if (modal_type == 'C') { // 모달 닫기 버튼
         close_popup();
     } else if (modal_type == 'CB') { // 모달 닫기 redirect
@@ -72,9 +72,9 @@ async function update_form() {
 async function update(data, fid) { // 폼 등록
     await update_form_api(data, fid).then(res => {
         if (res && res.resultCode == '0') {
-            open_popup("수정 성공", "수정에 성공했습니다. 메인 페이지로 이동합니다.", "none", '확인', false, 'S') // 팝업 오픈
+            open_popup("수정 성공", "폼 수정을 성공했습니다.", "none", '확인', false, 'S') // 팝업 오픈
         } else if (res && res.resultCode == REFUSE_ALREADY_START_FORM) {
-            open_popup("수정 실패", "이미 시작된 폼은 수정 불가합니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
+            open_popup("수정 실패", "이미 조사 시작된 폼은 수정 불가합니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
         } else {
             open_popup("수정 실패", "폼 수정에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
         }
