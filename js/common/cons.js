@@ -17,7 +17,6 @@ const ACCESS_TOKEN = "accessToken"; // 토큰명 상수
 const REFRESH_TOKEN = "refreshToken"; // 리프뤠시 토큰명 상수
 
 // 공통 상수
-const ri = '../image/icon/gallery-remove.svg'
 const KKO = "KKO"; // 카카오 로그인 타입 상수
 const GOOGLE = "GOOGLE"; // 구글 로그인 타입 상수
 
@@ -77,16 +76,4 @@ function essentialLogin() { // 로그인 필수 체크
 function isUnAuthorized(e) { // 401 토큰 유효성 실패 상태
     if (e && e.status == 401) logoutAuto() // 토큰 유효성 오류
     else return null;
-}
-
-function upload (file) { // 파일 업로드 공통 API
-    let form = new FormData();
-    form.append("file", file); // 파일
-    return ufa(form).then(res => {
-        if (res && res.resultCode == '0') {
-            return res.file.path;
-        } else {
-            return null;
-        }
-    })
 }

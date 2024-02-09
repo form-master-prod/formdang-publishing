@@ -1,3 +1,4 @@
+let beginDt, endDt;
 const today = new Date();
 const today_7 = new Date(today);
 today_7.setDate(today_7.getDate() + 7);

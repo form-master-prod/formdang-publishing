@@ -6,6 +6,7 @@
 const DEFAULT_LOG_IMG = 'img-src-logo'
 const DEFAULT_BLANK_IMG_NAME = 'gallery-remove.svg';
 const DEFAULT_LOGO_URL = "https://formmaster-s3.s3.ap-northeast-2.amazonaws.com/logo/d5e6f7a8-9b10-c111-d2e3-4455f6778899.jpg"; // 로고 이미지 상수
+const ri = '../image/icon/gallery-remove.svg'
 
 /**
  * 이미지 HTML 처리
@@ -191,4 +192,34 @@ function set_canvas_preview_img(context, canvas, src) { // canvas 이미지 미�
  */
 function set_default_log() {
     document.getElementById(DEFAULT_LOG_IMG).src = DEFAULT_LOGO_URL; // default 로고 이미지 세팅
+}
+
+/**
+ * 이미지 등록 처리
+ * ToDo 현재 단건 처리, 다량 처리 필요
+ * @param request
+ * @returns {Promise<void>}
+ */
+async function upload_image(request) { // 이미지 업로드 처리
+    for (const question of request.question) { // 질문 리스트
+        if (question.file && question.file instanceof File) { // 로고 파일 등록
+            if (question.file) question.imageUrl = await upload(question.file);
+            delete question.file
+        }
+    }
+    if (request.logoUrl && request.logoUrl instanceof File) { // 로고 파일 등록
+        request.logoUrl = await upload(request.logoUrl);
+    }
+}
+
+function upload (file) { // 파일 업로드 공통 API
+    let form = new FormData();
+    form.append("file", file); // 파일
+    return upload_file_api(form).then(res => {
+        if (res && res.resultCode == '0') {
+            return res.file.path;
+        } else {
+            return null;
+        }
+    })
 }

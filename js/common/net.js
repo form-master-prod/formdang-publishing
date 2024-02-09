@@ -16,15 +16,19 @@ function fla(d) { // 폼 리스트 조회
     return ajaxForm(getApiURL(ccatPfx('/form/list/find')), d, G, gt(), DF_CT, true , true)
 }
 
-function fda(d) {
-    return ajaxForm(getApiURL(ccatPfx(`/form/detail/${d}/find`)), null, G, gt(), DF_CT, true, true)
+function find_form_api(fid) {
+    return ajaxForm(getApiURL(ccatPfx(`/form/detail/${fid}/find`)), null, G, gt(), DF_CT, true, true)
 }
 
 function register_form_api(d) { // 폼 제출
     return ajaxForm(getApiURL(ccatPfx('/form/submit')), JSON.stringify(d), P, gt(), J_CT, false, true)
 }
 
-function ufa(d) { // 파일 업로드
+function update_form_api(d, fid) { // 폼 업데이트
+    return ajaxForm(getApiURL(ccatPfx(`/form/${fid}/update`)), JSON.stringify(d), P, gt(), J_CT, false, true)
+}
+
+function upload_file_api(d) { // 파일 업로드
     if (!(d instanceof FormData)) return null;
     return ajaxForm(getApiURL(ccatPfx('/public/file/upload')), d, P, gt(), false, false, true);
 }

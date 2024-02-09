@@ -39,7 +39,7 @@ function cardHtml (h, c, s, i, t, r, ef) { // 설문 카드 HTML
 function imgHtml (i) { // 로고 이미지 HTML
     let html = '';
     if (i) html = html.concat(`<span><img src="${i}" alt=""></span>`) // 로고 이미지가 있는경우
-    else html = html.concat(`<span class="not-img"><img src="${ri}" alt=""></span>`) // 로고 이미지가 없는 경우
+    else html = html.concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>`) // 로고 이미지가 없는 경우
     return html;
 }
 

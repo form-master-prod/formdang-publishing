@@ -1,21 +1,6 @@
-let beginDt, endDt, status, doubleSubmitPrevent = false; // 시작일, 종료일, 상태, 더블 체크 방지 처리
+let status, doubleSubmitPrevent = false; // 시작일, 종료일, 상태, 더블 체크 방지 처리
 const checkbox_id_arr = ['q1', 'q2', 'q3', 'q4', 'q5'];
 const look_id_arr = ['e1', 'e2', 'e3', 'e4', 'e5'];
-
-class Form {
-    type; title; detail; beginDt; endDt; questionCount; status; maxRespondent; logoUrl; themeUrl; question;
-    constructor(type, title, detail, beginDt, endDt, logUrl, themeUrl, question, status, maxRespondent) {
-        this.type = type; this.title= title; this.detail = detail; this.beginDt = beginDt; this.endDt = endDt; this.logoUrl = logUrl; this.themeUrl = themeUrl; this.question = question;
-        this.questionCount = question ? question.length : 0; this.maxRespondent = maxRespondent; this.status = status
-    }
-}
-
-class Question {
-    type; order; title; placeholder; imageUrl; detail; exampleDetail; count; answer; file;
-    constructor(type, count, order, title, placeholder, detail, exampleDetail, answer, file) {
-        this.type = type; this.count = count; this.order = order; this.title = title; this.placeholder = placeholder; this.detail = detail; this.exampleDetail = exampleDetail; this.answer = answer; this.file = file;
-    }
-}
 
 /**
  * 폼 등록하기 함수
@@ -194,25 +179,6 @@ async function register(data) { // 폼 등록
         open_popup("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
     })
 }
-
-/**
- * 이미지 등록 처리
- * ToDo 현재 단건 처리, 다량 처리 필요
- * @param request
- * @returns {Promise<void>}
- */
-async function upload_image(request) { // 이미지 업로드 처리
-    for (const question of request.question) { // 질문 리스트
-        if (question.file && question.file instanceof File) { // 로고 파일 등록
-            if (question.file) question.imageUrl = await upload(question.file);
-            delete question.file
-        }
-    }
-    if (request.logoUrl && request.logoUrl instanceof File) { // 로고 파일 등록
-        request.logoUrl = await upload(request.logoUrl);
-    }
-}
-
 
 /**
  * 등록 하기 모달 처리
