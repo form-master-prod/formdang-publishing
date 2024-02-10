@@ -247,6 +247,7 @@ function generate_request_image_data(request) {
         form.append("files", request.logoUrl)
         form.append("orders", 0)
         form.append("types", 0)
+        request.logoUrl = ''
     }
 
     return form;

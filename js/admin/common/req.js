@@ -12,10 +12,3 @@ class Question {
         this.type = type; this.count = count; this.order = order; this.title = title; this.placeholder = placeholder; this.detail = detail; this.exampleDetail = exampleDetail; this.answer = answer; this.file = file;
     }
 }
-
-class FormImage {
-    type; order;
-    constructor(type, order) {
-        this.type = type; this.order = order;
-    }
-}
