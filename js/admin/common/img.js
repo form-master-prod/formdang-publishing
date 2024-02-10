@@ -227,6 +227,31 @@ async function upload_image(request) { // 이미지 업로드 처리
     }
 }
 
+function generate_request_image_data(request) {
+    let form = new FormData();
+
+    for (const question of request.question) { // 질문 리스트
+        if (question.file && question.file instanceof File) { // 로고 파일 등록
+            if (question.file) {
+                form.append("files", question.file)
+                form.append("orders", question.order)
+                    form.append("types", 1)
+            }
+            delete question.file
+        } else if (question.file){
+            question.imageUrl = question.file
+            delete question.file
+        }
+    }
+    if (request.logoUrl && request.logoUrl instanceof File) { // 로고 파일 등록
+        form.append("files", request.logoUrl)
+        form.append("orders", 0)
+        form.append("types", 0)
+    }
+
+    return form;
+}
+
 function upload (file) { // 파일 업로드 공통 API
     let form = new FormData();
     form.append("file", file); // 파일

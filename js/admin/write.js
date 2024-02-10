@@ -5,14 +5,19 @@ const look_id_arr = ['e1', 'e2', 'e3', 'e4', 'e5'];
 /**
  * 폼 등록하기 함수
  * 이미지등록 -> 폼등록 순서로 async 처리
- * ToDo 이미지 대량 등록 처리
  * @returns {Promise<void>}
  */
 async function enroll_form () { // 폼 등록하기
-    const request = generate_request_data(formatDateToyyyyMMdd(beginDt), formatDateToyyyyMMdd(endDt), status) // 파라미터 만들기
-    if (validate_write_request(request)) { // validate 체크
-        await upload_image(request) // 이미지 업로드
-        await register(request) // 폼 업로드
+    const formReq = generate_request_data(formatDateToyyyyMMdd(beginDt), formatDateToyyyyMMdd(endDt), status) // 파라미터 만들기
+    if (validate_write_request(formReq)) { // validate 체크
+        const fileReq = generate_request_image_data(formReq);
+        const res = await register(formReq) // 폼 업로드
+        if (res) {
+            uploadImg(fileReq, res.fid); // 이미지 대량 업로드
+            open_popup("등록 성공", "등록에 성공했습니다. 메인 페이지로 이동합니다.", "none", '확인', false, 'S') // 팝업 오픈
+        } else {
+            open_popup("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+        }
     }
 }
 
@@ -163,21 +168,30 @@ function get_question_file(question) {
 /**
  * 폼 등록하기
  * 성공: 메인페이지 redirect
- * 실패: ToDo 실패 시 처리 추가
  * @param data
  * @returns {Promise<void>}
  */
 async function register(data) { // 폼 등록
-    await register_form_api(data).then(res => {
+    return await register_form_api(data).then(res => {
         if (res && res.resultCode == '0') {
-            open_popup("등록 성공", "등록에 성공했습니다. 메인 페이지로 이동합니다.", "none", '확인', false, 'S') // 팝업 오픈
+            return res
         } else {
-            open_popup("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+            return null
         }
     })
     .catch(e => {
-        open_popup("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+        return null
     })
+}
+
+/**
+ * 폼 업로드 이후 fid 기준으로 이미지 업로드 처리
+ * 서버 내부적으로 비동기 블로킹 방식 처리
+ * @param data
+ * @param fid
+ */
+function uploadImg(data, fid) {
+    upload_file_list_api(data, fid).then(r => console.log('이미지 업로드'))
 }
 
 /**
