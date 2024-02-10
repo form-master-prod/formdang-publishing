@@ -237,4 +237,7 @@ function upload (file) { // 파일 업로드 공통 API
             return null;
         }
     })
+    .catch(e => {
+        return null;
+    })
 }
