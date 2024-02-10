@@ -10,37 +10,44 @@ const ri = '../image/icon/gallery-remove.svg'
 
 /**
  * 이미지 HTML 처리
- * @param id
  * @returns {string}
  */
-function img_html(id) {
+function img_html() {
     let html = ''
     html =
         html.concat(`<div class="frm-upload">`)
-            .concat(`<canvas id="img-canvas-${id}" class="img-view" style="display: none"></canvas>`) // 이미지 등록
-            .concat(`<div id="img-div-${id}" class="img-view">`)
-            .concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt="" class="i-1" id="img-src-${id}"></span>`)
+            .concat(`<canvas class="img-view" style="display: none"></canvas>`) // 이미지 등록
+            .concat(`<div class="img-view">`)
+            .concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt="" class="i-1" ></span>`)
             .concat(`</div>`)
-            .concat(`<label for="img-${id}">이미지 등록하기</label> <input type="file" name="" id="img-${id}" class="file-input disabled-item" onchange="set_preview_img('${id}')">`)
+            .concat(`<label onclick="find_file(event)">이미지 등록하기</label>`)
+            .concat(`<input type="file" name="img" class="file-input disabled-item" onchange="set_preview_img(event)">`)
             .concat(`</div>`)
     return html;
 }
 
 /**
+ * 파일 등록 창 호출
+ * @param event
+ */
+function find_file(event) {
+    const root = $(event.target).closest('div');
+    $(root).find('input[type=file]')[0].click() // 파일 등록 창 호출
+}
+
+
+/**
  * 이미지 미리보기 처리
  * @param id
  */
-function set_preview_img(id) { // 이미지 미리보기 처리
-    const imgId = "img-" + id;
-    const canvasId = "img-canvas-" + id;
-    const divId = "img-div-" + id;
-    const srcId = "img-src-" + id;
-    const input = document.getElementById(imgId);
-    const canvas = document.getElementById(canvasId);
-    const div = document.getElementById(divId)
+function set_preview_img(event) { // 이미지 미리보기 처리
+    const root = $(event.target).closest('div');
+    const input = $(root).find('input[type=file]')[0];
+    const canvas = $(root).find('canvas')[0];
+    const div = $(root).find('div')[0]
     const context = canvas.getContext('2d');
     const file = input.files[0];
-    document.getElementById(srcId).src = '' // 이미지 src 세팅 제거
+    $(root).find('img')[0].src = '' // 이미지 src 세팅 제거
     readFile(file, canvas, div, context) // 파일 읽기 후 미리보기 설정
 }
 
@@ -83,12 +90,13 @@ function set_question_url_to_img(question, src) {
 
 /**
  * 로고(상호) 변경하기 파일 등록 처리
+ * 파일 등록 여부에 따라 로고 체크박스 체크를 위해 기능 확장
  */
-function set_preview_main_logo_img() { // 로고 파일 등록
+function set_preview_main_logo_img(event) { // 로고 파일 등록
     const input = document.getElementById('img-logo');
     if (input.files.length > 0) {
         document.getElementById('file_logo').checked = true; // 로고 체크 박스 `등록` 선택 처리
-        set_preview_img('logo');
+        set_preview_img(event);
     }
 }
 
@@ -129,6 +137,7 @@ function change_logo_img(type) {
         } else if (logo.src.includes(DEFAULT_LOGO_URL)) { // 로고 기본 체크박스 유지
             document.getElementById('my_logo').checked = true;
         }
+        console.log('??')
         document.getElementById('img-logo').click(); // 로고 파일 등록 호출
     }
 }
@@ -162,6 +171,7 @@ function get_file_or_url_logo() { // 내 로고 조회하기 ( 파일 or URL 가
  * @param context
  */
 function readFile(file, canvas, div, context) { // 파일 읽기 후 미리보기 설정
+    console.log(canvas)
     if (!file) return
     const reader = new FileReader();
     canvas.style.display = 'flex'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음

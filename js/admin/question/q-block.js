@@ -13,7 +13,6 @@ const MAX_COUNT = 20;
  * @returns {string}
  */
 function short_html() {
-    const id = Date.now();
     let html = '';
     html =
         html.concat(`<div class="frm-area short-answer form-div q-1">`)
@@ -21,12 +20,12 @@ function short_html() {
                     .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject readOnly-item" placeholder="질문 제목을 입력해주세요.">`)
                     .concat(`<label class="skip">질문 내용</label><input type="text" name="" class="sub_explain readOnly-item" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
                     .concat(`<ol id="answer_wrap" class="frm-answer">`)
-                        .concat(`<li class="add_item"><label for="answer-${id}" class="skip">질문 1의 정답</label><input type="text" name="answer" id="answer-${id}" class="readOnly-item" placeholder="해당 주관식의 정답을 입력해주세요.">`)
+                        .concat(`<li class="add_item"><label for="answer" class="skip">질문 1의 정답</label><input type="text" name="answer" id="answer" class="readOnly-item" placeholder="해당 주관식의 정답을 입력해주세요.">`)
                         .concat(`<button type="button" class="bt-add disabled-item"  onclick="add_answer(event, 4)">`)
                         .concat(`<span class="skip">추가</span></button></li>`)
                     .concat(`</ol>`)
                 .concat(`</div>`)
-                .concat(img_html(id)) // 이미지 등록 html
+                .concat(img_html()) // 이미지 등록 html
                 .concat(`<div class="bottom-sheets">`)
                     .concat(`<button type="button" class="bt-delete disabled-item" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
                 .concat(`</div>`)
@@ -41,7 +40,6 @@ function short_html() {
  * @returns {string}
  */
 function subject_html() {
-    const id = Date.now();
     let html = '';
     html =
         html.concat(`<div class="frm-area short-answer form-div q-2">`)
@@ -49,7 +47,7 @@ function subject_html() {
                     .concat(`<label class="skip">질문 제목</label><input type="text" name="" class="sub_subject readOnly-item" placeholder="질문 제목을 입력해주세요.">`)
                     .concat(`</ol>`)
                 .concat(`</div>`)
-                .concat(img_html(id)) // 이미지 등록 html 함수화
+                .concat(img_html()) // 이미지 등록 html 함수화
                 .concat(`<div class="bottom-sheets">`)
                 .   concat(`<button type="button" class="bt-delete disabled-item" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
                 .concat(`</div>`)
@@ -65,7 +63,6 @@ function subject_html() {
  * @returns {string}
  */
 function multiple_html() {
-    const id = Date.now();
     let html = ''
     html =
         html.concat(`<div class="frm-area multiple-choice form-div q-3">`)
@@ -76,7 +73,7 @@ function multiple_html() {
     html =
                 html.concat(`</ol>`)
                 .concat(`</div>`)
-                .concat(img_html(id)) // 이미지 등록 html 함수화
+                .concat(img_html()) // 이미지 등록 html 함수화
                 .concat(`<div class="bottom-sheets">`)
                     .concat(`<button type="button" class="bt-delete disabled-item" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
                 .concat(`</div>`)
@@ -129,7 +126,6 @@ function validate_checkbox(event) {
  * @returns {string}
  */
 function look_html() {
-    const id = Date.now();
     let html = ''
     html =
         html.concat(`<div class="frm-area multiple-choice form-div q-4">`)
@@ -147,7 +143,7 @@ function look_html() {
             html =
                 html.concat(`</ol>`)
                 .concat(`</div>`)
-                .concat(img_html(id)) // 이미지 등록 html 함수화
+                .concat(img_html()) // 이미지 등록 html 함수화
                 .concat(`<div class="bottom-sheets">`)
                     .concat(`<button type="button" class="bt-delete disabled-item" title="삭제" onclick="delete_question(event)"><span class="skip">삭제</span></button>`)
                 .concat(`</div>`)
