@@ -4,7 +4,7 @@ function answerDetail(sid) {
 
     if(sid && fidValue) {
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             url: 'https://formdang-api.com/api/dj/answers/detail',
             data: {fid: fidValue, sid: sid},
             headers: {
