@@ -155,15 +155,20 @@ $(document).ready(function() {
     group_my_info();
 
     $("#all_remove_chk").change(function(){
-      var isChecked = $(this).prop("checked");
-      $(".group_remove_chk").prop("checked", isChecked);
+      if($(this).prop("checked")){
+        $(".group_remove_chk").prop("checked", true);
+      } else {
+        $(".group_remove_chk").prop("checked", false);
+      }
     });
 
     $(".group_remove_chk").change(function(){
-      if($(".group_remove_chk:not(:checked)").length === 0){
-        $("#all_remove_chk").prop("checked", true);
-      } else {
+      if(!$(this).prop("checked")){
         $("#all_remove_chk").prop("checked", false);
+      } else {
+        if($(".group_remove_chk:checked").length === $(".group_remove_chk").length) {
+          $("#all_remove_chk").prop("checked", true);
+        }
       }
     });
 });
