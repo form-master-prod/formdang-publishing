@@ -43,9 +43,9 @@ function answerDetail() {
                         // 버튼 HTML
                         let html_btn = ''
                         if(data[i].ok_flag == 1) {
-                            html_btn = `<button type="button" class="st-ico" onclick="okFlagChange('${data[i].awid}')"><span>오답처리</span></button>`;
+                            html_btn = `<button type="button" class="st-ico" onclick="okFlagChange('${data[i].awid}')"><span id="answer_${data[i].awid}">오답처리</span></button>`;
                         }else {
-                            html_btn = `<button type="button" class="st-ico" onclick="okFlagChange('${data[i].awid}')"><span>정답처리</span></button>`;
+                            html_btn = `<button type="button" class="st-ico" onclick="okFlagChange('${data[i].awid}')"><span id="answer_${data[i].awid}">정답처리</span></button>`;
                         }
 
 
@@ -170,7 +170,7 @@ function answerDetail() {
 function okFlagChange(awid) {
     const urlParams = new URLSearchParams(window.location.search);
     const fidValue = urlParams.get('fid');
-    let button = $(this).find("span").text();
+    let button = $("#answer_" + String(awid)).text();
     console.log(button)
     if(awid && button) {
           $.ajax({
@@ -185,10 +185,10 @@ function okFlagChange(awid) {
 
                        if(button == "오답처리") {
                             openModal('오답처리', '오답처리로 변경되었습니다.');
-                            $(this).find("span").text('정답처리');
+                            $("#answer_" + String(awid)).text('정답처리');
                        }else if(button == "정답처리") {
                             openModal('오답처리', '오답처리로 변경되었습니다.');
-                            $(this).find("span").text('오답처리');
+                            $("#answer_" + String(awid)).text('오답처리');
                        }else {
 
                            openModal('처리실패', '문제가 발생했습니다.');
@@ -199,11 +199,8 @@ function okFlagChange(awid) {
                        alert("처리 중 문제가 발생했습니다.");
                        return false;
                   }
-
-
               },
               error: function (error) {
-                  doubleSubmit("#create-btn")
                   console.error('AJAX 요청 실패:', error);
               }
           });
