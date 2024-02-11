@@ -155,22 +155,20 @@ $(document).ready(function() {
     group_my_info();
 
     $("#all_remove_chk").change(function(){
-      if($(this).prop("checked")){
-        $(".group_remove_chk").prop("checked", true);
-      } else {
-        $(".group_remove_chk").prop("checked", false);
-      }
+      var isChecked = $(this).prop("checked");
+      $(".group_remove_chk").prop("checked", isChecked);
     });
 
     $(".group_remove_chk").change(function(){
-      if($(".group_remove_chk:checked").length === $(".group_remove_chk").length){
+      if($(".group_remove_chk:not(:checked)").length === 0){
         $("#all_remove_chk").prop("checked", true);
       } else {
         $("#all_remove_chk").prop("checked", false);
       }
     });
 });
- const group_layer = document.getElementById("group_layer");
+
+const group_layer = document.getElementById("group_layer");
 
 function openModal() {
   group_layer.style.display = "flex";
