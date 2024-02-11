@@ -190,10 +190,10 @@ function okFlagChange(awid) {
                   if(response.proc == "success") {
 
                        if(button == "오답처리") {
-                            openModal('오답처리', '오답처리로 변경되었습니다.');
+                            openModal('처리완료', '오답처리로 변경되었습니다.');
                             $("#answer_" + String(awid)).text('정답처리');
                        }else if(button == "정답처리") {
-                            openModal('오답처리', '오답처리로 변경되었습니다.');
+                            openModal('처리완료', '정답처리로 변경되었습니다.');
                             $("#answer_" + String(awid)).text('오답처리');
                        }else {
 
