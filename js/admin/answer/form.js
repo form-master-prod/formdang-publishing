@@ -10,7 +10,7 @@ function answerDetail() {
     const sidValue = urlParams.get('sid');
     const aidValue = urlParams.get('aid');
 
-    if(sidValue && fidValue) {
+    if(fidValue && (sidValue || aidValue)) {
         $.ajax({
             type: 'GET',
             url: 'https://formdang-api.com/api/dj/answers/detail',
