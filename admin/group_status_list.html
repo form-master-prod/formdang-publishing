@@ -165,12 +165,16 @@ $(document).ready(function() {
     $(".group_remove_chk").change(function(){
         var checkboxes = document.querySelectorAll('.group_remove_chk');
         var allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+        console.log("test0")
         if (allChecked) {
             $("#all_remove_chk").prop("checked", true);
+            console.log("test")
         } else {
             if($("#all_remove_chk").prop("checked")) {
                 $(".group_remove_chk").prop("checked", false);
+                console.log("test1")
             }
+            console.log("test2")
         }
     });
 });
