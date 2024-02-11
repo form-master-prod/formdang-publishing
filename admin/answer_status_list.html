@@ -183,7 +183,7 @@
                       let html = "";
                       for(let i = 0; i < length; i++) {
                           html += `
-                                <li onclick="answerDetail('${data[i].sid}')">
+                                <li onclick="location.href='answer_form.html?fid=${fidValue}&sid=${data[i].sid}'">
                                     <i class="ico i-chart"></i>
                                     <a href="javascript:void(0)">
                                         <span class="status-num"><mark>${data[i].ok_flag_count}</mark> / ${question}</span>
