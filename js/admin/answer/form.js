@@ -26,7 +26,7 @@ function answerDetail() {
                 $("#form_title").text(response.title)
                 $("#form_sub_title").text(response.sub_title)
                 if (![null, undefined, '', 'None', 'null'].includes(response.logo)) {
-                    $("#form_logo").append(`<img src="${response.logo}" alt="">`)
+                    $("#form_logo").append(`<img src="${response.logo}" alt="" style="width: 160px; height: 160px;">`)
                 }
 
                 if(length > 0) {
@@ -36,7 +36,7 @@ function answerDetail() {
                         // 이미지 HTML
                         let html_img = ''
                         if (![null, undefined, '', 'None', 'null'].includes(data[i].image)) {
-                            html_img = `<img src="${data[i].image}" alt="">`
+                            html_img = `<img src="${data[i].image}" alt="" style="width: 160px; height: 160px;">`
                         }
 
 
