@@ -22,6 +22,13 @@ function answerDetail() {
                 const length = response.answer_list.length;
                 const data = response.answer_list;
                 let html = ''
+
+                $("#form_title").text(response.title)
+                $("#form_sub_title").text(response.sub_title)
+                if (![null, undefined, '', 'None', 'null'].includes(response.logo)) {
+                    $("#form_logo").append(`<img src="${response.logo}" alt="">`)
+                }
+
                 if(length > 0) {
                     for(let i=0; i<length; i++) {
                         //  ( 0: 단답형, 1: 서술형, 2: 객관식, 3: 보기문 )
@@ -108,6 +115,7 @@ function answerDetail() {
                             let example = String(data[i].example).split('|');
                             let detail = '';
                             let example_detail = '';
+
                             for(let j=0; j < arr.length; j++) {
                                 detail += `
                                     <li>
