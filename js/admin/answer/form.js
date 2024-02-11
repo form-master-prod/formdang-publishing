@@ -167,6 +167,44 @@ function answerDetail() {
 }
 
 
-function okFlagChange() {
+function okFlagChange(awid) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fidValue = urlParams.get('fid');
+    let button = $(this).find("span").text();
+    console.log(button)
+    if(awid && button) {
+          $.ajax({
+              type: 'GET',
+              url: 'https://formdang-api.com/api/dj/answers/flag',
+              data: {awid: awid, flag: button, fid: fidValue},
+              headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+              },
+              success: function (response) {
+                  if(response.proc == "success") {
+                       alert(`${button} 되었습니다.`);
+
+                       if(button == "오답처리") {
+                            $(this).find("span").text('정답처리');
+                       }else if(button == "정답처리") {
+                            $(this).find("span").text('오답처리');
+                       }else {
+                           alert("문제가 발생했습니다.");
+                       }
+
+                       return false;
+                  }else {
+
+                  }
+
+
+              },
+              error: function (error) {
+                  doubleSubmit("#create-btn")
+                  console.error('AJAX 요청 실패:', error);
+              }
+          });
+    }
+
 
 }
