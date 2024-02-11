@@ -84,7 +84,7 @@
                             </div>
                         </div>
                         <div class="bt-group">
-                            <button id="create-btn" onclick="groupCreate()" class="st-fill"><span>저장하기</span> <i class="ico"></i></button>
+                            <button id="create-btn" onclick="groupUpdate()" class="st-fill"><span>저장하기</span> <i class="ico"></i></button>
                         </div>
                     </fieldset>
             </div>
@@ -100,7 +100,7 @@ $(document).ready(function() {
     groupDetail();
 });
 
-function groupCreate() {
+function groupUpdate() {
       const urlParams = new URLSearchParams(window.location.search);
       const gidValue = urlParams.get('gid');
       const groupSession = urlParams.get('group_session');
