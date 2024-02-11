@@ -35,7 +35,7 @@ function answerDetail() {
                         let number = i + 1
                         // 이미지 HTML
                         let html_img = ''
-                        if ([null, undefined, '', 'None', 'null'].includes(data[i].image)) {
+                        if (![null, undefined, '', 'None', 'null'].includes(data[i].image)) {
                             html_img = `<img src="${data[i].image}" alt="">`
                         }
 
