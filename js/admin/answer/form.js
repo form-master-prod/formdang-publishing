@@ -128,8 +128,14 @@ function answerDetail() {
                             }
 
                             for(let k=0; k < example.length; k++) {
-                                let example_idx = String.fromCharCode(12593 + (k*3));
-                                example_detail += `
+                                let example_idx = String.fromCharCode(
+                                    k == 0 ? 12593 :
+                                    k == 1 ? 12596 :
+                                    k == 2 ? 12599 :
+                                    k == 3 ? 12601 :
+                                    k == 4 ? 12609 : ''
+                                );
+                                    example_detail += `
                                     <li>${example_idx}. ${example[k]}
                                 `
                             }
