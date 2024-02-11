@@ -78,6 +78,17 @@ function answerDetail() {
                                 </div>
                             `
                         }else if(data[i].type == 2) {
+                            let arr = String(data[i].detail).split('|');
+                            let detail = '';
+                            for(let j=0; j < arr.length; j++) {
+                                detail += `
+                                    <li>
+                                        <span class="ctm-chk"><input type="checkbox" name="each" value="${j+1}"><label class="skip">객관식 ${j+1}</label></span>
+                                        <span class="inp">${j+1}. ${arr[j]}</span>
+                                    </li>
+                                `
+                            }
+
                             html += `
                                 <div class="frm-area multiple-choice">
                                     <div class="inp-group">
@@ -85,26 +96,7 @@ function answerDetail() {
                                         <h4>${data[i].question}</h4>
                                         <p class="img-view">${html_img}</p>
                                         <ol class="subject-valid">
-                                            <li>
-                                                <span class="ctm-chk"><input type="checkbox" name="each" value="1"><label class="skip">객관식 1</label></span>
-                                                <span class="inp">1. 객관식 내용을 입력하세요.</span>
-                                            </li>
-                                            <li>
-                                                <span class="ctm-chk"><input type="checkbox" name="each" value="2"> <label class="skip">객관식 2</label></span>
-                                                <span class="inp">2. 객관식 내용을 입력하세요.</span>
-                                            </li>
-                                            <li>
-                                                <span class="ctm-chk"><input type="checkbox" name="each" value="3"> <label class="skip">객관식 3</label></span>
-                                                <span class="inp">3. 객관식 내용을 입력하세요.</span>
-                                            </li>
-                                            <li>
-                                                <span class="ctm-chk"><input type="checkbox" name="each" value="4"> <label class="skip">객관식 4</label></span>
-                                                <span class="inp">4. 객관식 내용을 입력하세요.</span>
-                                            </li>
-                                            <li>
-                                                <span class="ctm-chk"><input type="checkbox" name="each" value="5"> <label class="skip">객관식 5</label></span>
-                                                <span class="inp">5. 객관식 내용을 입력하세요.</span>
-                                            </li>
+                                            ${detail}
                                         </ol>
                                     </div>
                                     ${html_btn}
@@ -112,6 +104,26 @@ function answerDetail() {
                             `
 
                         }else if(data[i].type == 3) {
+                            let arr = String(data[i].detail).split('|');
+                            let example = String(data[i].example).split('|');
+                            let detail = '';
+                            let example_detail = '';
+                            for(let j=0; j < arr.length; j++) {
+                                detail += `
+                                    <li>
+                                        <span class="ctm-chk"><input type="checkbox" name="each" value="${j+1}"><label class="skip">객관식 ${j+1}</label></span>
+                                        <span class="inp">${j+1}. ${arr[j]}</span>
+                                    </li>
+                                `
+                            }
+
+                            for(let k=0; k< example; k++) {
+                                let example_idx = (k*3) + String.fromCharCode(12593);
+                                example_detail += `
+                                    <li>${example_idx}. ${example[k]}
+                                `
+                            }
+
                             html += `
                                 <div class="frm-area multiple-choice">
                                     <div class="inp-group">
@@ -121,34 +133,11 @@ function answerDetail() {
                                         <div class="que-viewitem">
                                             <p>보기</p>
                                             <ol>
-                                                <li>ㄱ. 보기 내용을 입력하세요.</li>
-                                                <li>ㄴ. 보기 내용을 입력하세요.</li>
-                                                <li>ㄷ. 보기 내용을 입력하세요.</li>
-                                                <li>ㄹ. 보기 내용을 입력하세요.</li>
-                                                <li>ㅁ. 보기 내용을 입력하세요.</li>
+                                                  ${example_detail}
                                             </ol>
                                         </div>
                                         <ol class="subject-valid">
-                                            <li>
-                                                <span class="ctm-chk"><input type="checkbox" name="each" value="1"><label class="skip">객관식 1</label></span>
-                                                <span class="inp">1. 객관식 내용을 입력하세요.</span>
-                                            </li>
-                                            <li>
-                                                <span class="ctm-chk"><input type="checkbox" name="each" value="2"> <label class="skip">객관식 2</label></span>
-                                                <span class="inp">2. 객관식 내용을 입력하세요.</span>
-                                            </li>
-                                            <li>
-                                                <span class="ctm-chk"><input type="checkbox" name="each" value="3"> <label class="skip">객관식 3</label></span>
-                                                <span class="inp">3. 객관식 내용을 입력하세요.</span>
-                                            </li>
-                                            <li>
-                                                <span class="ctm-chk"><input type="checkbox" name="each" value="4"> <label class="skip">객관식 4</label></span>
-                                                <span class="inp">4. 객관식 내용을 입력하세요.</span>
-                                            </li>
-                                            <li>
-                                                <span class="ctm-chk"><input type="checkbox" name="each" value="5"> <label class="skip">객관식 5</label></span>
-                                                <span class="inp">5. 객관식 내용을 입력하세요.</span>
-                                            </li>
+                                            ${detail}
                                         </ol>
                                     </div>
                                     ${html_btn}
