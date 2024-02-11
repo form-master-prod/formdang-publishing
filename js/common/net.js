@@ -31,11 +31,6 @@ function update_form_api(d, fid) { // 폼 업데이트
     return ajaxForm(getApiURL(ccatPfx(`/form/${fid}/update`)), JSON.stringify(d), P, gt(), J_CT, false, true)
 }
 
-function upload_file_api(d) { // 파일 업로드
-    if (!(d instanceof FormData)) return null;
-    return ajaxForm(getApiURL(ccatPfx('/public/file/upload')), d, P, gt(), false, false, true);
-}
-
 function upload_file_list_api(d, fid) { // 파일 업로드
     return ajaxForm(getApiURL(ccatPfx(`/public/file/list/upload/${fid}`)), d, P, gt(), false, false, true);
 }

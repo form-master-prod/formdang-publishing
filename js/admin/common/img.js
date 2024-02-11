@@ -137,7 +137,6 @@ function change_logo_img(type) {
         } else if (logo.src.includes(DEFAULT_LOGO_URL)) { // 로고 기본 체크박스 유지
             document.getElementById('my_logo').checked = true;
         }
-        console.log('??')
         document.getElementById('img-logo').click(); // 로고 파일 등록 호출
     }
 }
@@ -171,7 +170,6 @@ function get_file_or_url_logo() { // 내 로고 조회하기 ( 파일 or URL 가
  * @param context
  */
 function readFile(file, canvas, div, context) { // 파일 읽기 후 미리보기 설정
-    console.log(canvas)
     if (!file) return
     const reader = new FileReader();
     canvas.style.display = 'flex'; // 예시로 보여주는 방식, 실제로 사용하는 방식에 따라 다를 수 있음
@@ -205,37 +203,33 @@ function set_default_log() {
 }
 
 /**
- * 이미지 등록 처리
- * ToDo 현재 단건 처리, 다량 처리 필요
- * @param request
- * @returns {Promise<void>}
+ * 폼 업로드 이후 fid 기준으로 이미지 업로드 처리
+ * 서버 내부적으로 비동기 블로킹 방식 처리
+ * @param data
+ * @param fid
  */
-async function upload_image(request) { // 이미지 업로드 처리
-    for (const question of request.question) { // 질문 리스트
-        if (question.file && question.file instanceof File) { // 로고 파일 등록
-            if (question.file) {
-                question.imageUrl = await upload(question.file);
-            }
-            delete question.file
-        } else if (question.file){
-            question.imageUrl = question.file
-            delete question.file
-        }
-    }
-    if (request.logoUrl && request.logoUrl instanceof File) { // 로고 파일 등록
-        request.logoUrl = await upload(request.logoUrl);
-    }
+function uploadImg(data, fid) {
+    upload_file_list_api(data, fid).then(r => console.log('이미지 업로드'))
 }
 
+/**
+ * 이미지 등록 요청값 생성
+ * - 폼 등록, 수정 요청값에 파일 정보를 제거하고 해당 정보로 이미지 등록 요청 값 생성
+ * - 폼 질문의 순번 기준으로 업데이트 처리
+ * @param request
+ * @returns {FormData}
+ */
 function generate_request_image_data(request) {
     let form = new FormData();
+    const question_type = "1"
+    const logo_type = "0";
 
     for (const question of request.question) { // 질문 리스트
         if (question.file && question.file instanceof File) { // 로고 파일 등록
             if (question.file) {
                 form.append("files", question.file)
                 form.append("orders", question.order)
-                    form.append("types", 1)
+                    form.append("types", question_type)
             }
             delete question.file
         } else if (question.file){
@@ -245,25 +239,10 @@ function generate_request_image_data(request) {
     }
     if (request.logoUrl && request.logoUrl instanceof File) { // 로고 파일 등록
         form.append("files", request.logoUrl)
-        form.append("orders", 0)
-        form.append("types", 0)
+        form.append("orders", "0") // 로고는 해당 값 필요없지만 규격 맞춰 세팅 over fetching
+        form.append("types", logo_type)
         request.logoUrl = ''
     }
 
     return form;
-}
-
-function upload (file) { // 파일 업로드 공통 API
-    let form = new FormData();
-    form.append("file", file); // 파일
-    return upload_file_api(form).then(res => {
-        if (res && res.resultCode == '0') {
-            return res.file.path;
-        } else {
-            return null;
-        }
-    })
-    .catch(e => {
-        return null;
-    })
 }

@@ -24,7 +24,8 @@ function ok_popup() {
     if (modal_type == 'R') { // 폼 등록 버튼
         if (doubleSubmitPrevent) return // 중복 클릭 방지
         doubleSubmitPrevent = true;
-        update_form().then(() => doubleSubmitPrevent = false);
+        update_form().then(() => doubleSubmitPrevent = false)
+            .catch(() => doubleSubmitPrevent = false);
     } else if (modal_type == 'S') { // 폼 등록 완료 버튼
         window.history.back()
     } else if (modal_type == 'C') { // 모달 닫기 버튼
@@ -56,10 +57,18 @@ function redirect_close_popup() { // 팝업 닫기
  * @returns {Promise<void>}
  */
 async function update_form() {
-    const request = generate_request_data(formatDateToyyyyMMdd(beginDt), formatDateToyyyyMMdd(endDt), status) // 파라미터 만들기
-    if (validate_write_request(request)) {
-        await upload_image(request) // 이미지 업로드
-        await update(request, fid)
+    const formReq = generate_request_data(formatDateToyyyyMMdd(beginDt), formatDateToyyyyMMdd(endDt), status) // 파라미터 만들기
+    if (validate_write_request(formReq)) {
+        const fileReq = generate_request_image_data(formReq);
+        const res = await update(formReq, fid)
+        if (res && res.resultCode == '0') {
+            uploadImg(fileReq, fid); // 이미지 대량 업로드
+            open_popup("수정 성공", "폼 수정을 성공했습니다.", "none", '확인', false, 'S') // 팝업 오픈
+        } else if (res && res.resultCode == REFUSE_ALREADY_START_FORM) {
+            open_popup("수정 실패", "이미 조사 시작된 폼은 수정 불가합니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
+        } else {
+            open_popup("수정 실패", "폼 수정에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+        }
     }
 }
 
@@ -70,18 +79,18 @@ async function update_form() {
  * @returns {Promise<void>}
  */
 async function update(data, fid) { // 폼 등록
-    await update_form_api(data, fid).then(res => {
+    return await update_form_api(data, fid).then(res => {
         if (res && res.resultCode == '0') {
-            open_popup("수정 성공", "폼 수정을 성공했습니다.", "none", '확인', false, 'S') // 팝업 오픈
+            return res
         } else if (res && res.resultCode == REFUSE_ALREADY_START_FORM) {
-            open_popup("수정 실패", "이미 조사 시작된 폼은 수정 불가합니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
+            return res
         } else {
-            open_popup("수정 실패", "폼 수정에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+            return null
         }
     })
-        .catch(e => {
-            open_popup("수정 실패", "폼 수정에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
-        })
+    .catch(e => {
+        return null
+    })
 }
 
 /**
@@ -218,8 +227,7 @@ function get_question_file(question) {
         return files[0];
     } else { // 파일이 없는 경우
         const src = $(question.querySelector('.i-1'))[0].src;
-        console.log(src)
-        if (src.includes('gallery-remove.svg')) { // 파일 없음
+        if (src.includes(DEFAULT_BLANK_IMG_NAME)) { // 파일 없음
             return null;
         } else {
             return src

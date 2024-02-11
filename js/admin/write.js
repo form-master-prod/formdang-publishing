@@ -184,15 +184,15 @@ async function register(data) { // 폼 등록
     })
 }
 
-/**
- * 폼 업로드 이후 fid 기준으로 이미지 업로드 처리
- * 서버 내부적으로 비동기 블로킹 방식 처리
- * @param data
- * @param fid
- */
-function uploadImg(data, fid) {
-    upload_file_list_api(data, fid).then(r => console.log('이미지 업로드'))
-}
+// /**
+//  * 폼 업로드 이후 fid 기준으로 이미지 업로드 처리
+//  * 서버 내부적으로 비동기 블로킹 방식 처리
+//  * @param data
+//  * @param fid
+//  */
+// function uploadImg(data, fid) {
+//     upload_file_list_api(data, fid).then(r => console.log('이미지 업로드'))
+// }
 
 /**
  * 등록 하기 모달 처리
@@ -218,6 +218,7 @@ function ok_popup() {
         if (doubleSubmitPrevent) return // 중복 클릭 방지
         doubleSubmitPrevent = true;
         enroll_form().then(() => { doubleSubmitPrevent = false; }) // 등록
+            .catch(() => doubleSubmitPrevent = false);
     } else if (modal_type == 'S') { // 폼 등록 완료 버튼
         window.location.replace(PAGE.ADMIN_MAIN)
     } else if (modal_type == 'C') { // 모달 닫기 버튼
