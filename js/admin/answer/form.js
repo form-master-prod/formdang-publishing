@@ -91,7 +91,7 @@ function answerDetail() {
                             for(let j=0; j < arr.length; j++) {
                                 detail += `
                                     <li>
-                                        <span class="ctm-chk"><input ${m_answer[j] == true ? 'checked': ''} disabled readonly type="checkbox" name="each" value="${j+1}"><label class="skip">객관식 ${j+1}</label></span>
+                                        <span class="ctm-chk"><input ${m_answer[j] == 'true' ? 'checked': ''} disabled readonly type="checkbox" name="each" value="${j+1}"><label class="skip">객관식 ${j+1}</label></span>
                                         <span class="inp">${j+1}. ${arr[j]}</span>
                                     </li>
                                 `
@@ -121,13 +121,13 @@ function answerDetail() {
                             for(let j=0; j < arr.length; j++) {
                                 detail += `
                                     <li>
-                                        <span class="ctm-chk"><input ${m_answer[j] == true ? 'checked': ''} disabled readonly type="checkbox" name="each" value="${j+1}"><label class="skip">객관식 ${j+1}</label></span>
+                                        <span class="ctm-chk"><input ${m_answer[j] == 'true' ? 'checked': ''} disabled readonly type="checkbox" name="each" value="${j+1}"><label class="skip">객관식 ${j+1}</label></span>
                                         <span class="inp">${j+1}. ${arr[j]}</span>
                                     </li>
                                 `
                             }
 
-                            for(let k=0; k< example; k++) {
+                            for(let k=0; k < example.length; k++) {
                                 let example_idx = (k*3) + String.fromCharCode(12593);
                                 example_detail += `
                                     <li>${example_idx}. ${example[k]}
