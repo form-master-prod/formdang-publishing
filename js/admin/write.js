@@ -1,6 +1,7 @@
 let status, doubleSubmitPrevent = false; // 시작일, 종료일, 상태, 더블 체크 방지 처리
 const checkbox_id_arr = ['q1', 'q2', 'q3', 'q4', 'q5'];
 const look_id_arr = ['e1', 'e2', 'e3', 'e4', 'e5'];
+let move_path = ''
 
 /**
  * 폼 등록하기 함수
@@ -211,6 +212,13 @@ function tempPopup() {
 }
 
 /**
+ * 작성 취소 모달 처리
+ */
+function cancelPopup() {
+    open_popup('작성 취소', '현재 작성 중이던 폼이 삭제됩니다. 그래도 이동하시겠습니까?', 'flex', '예', true, 'CF') // 팝업 오픈
+}
+
+/**
  * 모달 창 확인 버튼 처리
  */
 function ok_popup() {
@@ -223,6 +231,12 @@ function ok_popup() {
         window.location.replace(PAGE.ADMIN_MAIN)
     } else if (modal_type == 'C') { // 모달 닫기 버튼
         close_popup();
+    } else if (modal_type == 'CF') { // notice 페이지 이동 처리
+        let path = move_path || 'index.html'
+        move_path = '' // 초기화
+        window.location.replace(path)
+    } else if (modal_type == 'LO') { // 팝업 로그아웃 처리
+        logout();
     }
 }
 
@@ -243,6 +257,34 @@ function purple_script() { // 퍼블 추가 내역
         e.preventDefault();
         window.scrollTo({top: 0, behavior: 'smooth'});
     });
+}
+
+/**
+ * 팝업 페이지 이동처리
+ * 작성하고있는 질문이 있으면 팝업 처리 이외는 그냥 이동
+ * @param path
+ */
+function move(path) {
+    if (get_total_question_cnt() > 0) {
+        move_path = path;
+        cancelPopup()
+    } else {
+        window.location.replace(path)
+    }
+}
+
+/**
+ * 폼 형태에 따른 클래스 변경 (폼제목 위에 아이코이 변경이 된다)
+ * @param type
+ */
+function change_class(type) {
+    if (type == 0) {
+        document.getElementById('ico-form').classList.remove('i-quiz-fill')
+        document.getElementById('ico-form').classList.add('i-survey-fill')
+    } else if (type == 1) {
+        document.getElementById('ico-form').classList.remove('i-survey-fill')
+        document.getElementById('ico-form').classList.add('i-quiz-fill')
+    }
 }
 
 $(document).ready(() => { // 초기 설정

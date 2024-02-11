@@ -126,7 +126,7 @@ function appendPage(curPage, totalPage) { // 페이징 바 붙이기
     }
     // ToDo 마지막페이지 비활성화 처리
     html = html.concat(`<a class="next" onclick="moveNext()"><span class="skip">끝</span> <i class="ico"></i></a>`) // 오른쪽 화살표
-    $('.inner').append(html)
+    $('.pagenate .inner').append(html)
 }
 
 function movePrev() { // 왼쪽 화살표 이동
