@@ -86,11 +86,12 @@ function answerDetail() {
                             `
                         }else if(data[i].type == 2) {
                             let arr = String(data[i].detail).split('|');
+                            let m_answer = String(data[i].m_answer).split('|');
                             let detail = '';
                             for(let j=0; j < arr.length; j++) {
                                 detail += `
                                     <li>
-                                        <span class="ctm-chk"><input type="checkbox" name="each" value="${j+1}"><label class="skip">객관식 ${j+1}</label></span>
+                                        <span class="ctm-chk"><input ${m_answer[j] == true ? 'checked': ''} disabled readonly type="checkbox" name="each" value="${j+1}"><label class="skip">객관식 ${j+1}</label></span>
                                         <span class="inp">${j+1}. ${arr[j]}</span>
                                     </li>
                                 `
@@ -112,6 +113,7 @@ function answerDetail() {
 
                         }else if(data[i].type == 3) {
                             let arr = String(data[i].detail).split('|');
+                            let m_answer = String(data[i].m_answer).split('|');
                             let example = String(data[i].example).split('|');
                             let detail = '';
                             let example_detail = '';
@@ -119,7 +121,7 @@ function answerDetail() {
                             for(let j=0; j < arr.length; j++) {
                                 detail += `
                                     <li>
-                                        <span class="ctm-chk"><input type="checkbox" name="each" value="${j+1}"><label class="skip">객관식 ${j+1}</label></span>
+                                        <span class="ctm-chk"><input ${m_answer[j] == true ? 'checked': ''} disabled readonly type="checkbox" name="each" value="${j+1}"><label class="skip">객관식 ${j+1}</label></span>
                                         <span class="inp">${j+1}. ${arr[j]}</span>
                                     </li>
                                 `
