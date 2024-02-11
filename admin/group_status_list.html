@@ -198,7 +198,7 @@ function group_my_info() {
                 const list = response.group_info
                 $("#group_activity_name").text(data.name);
                 $("#group_count").text(`${list.length}명`)
-                $("#group_name").append(`${data.group_name} <a href="#" class="bt-modify" title="그룹 이름 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
+                $("#group_name").append(`${data.group_name} <a href="group_update.html?gid=${data.gid}" class="bt-modify" title="그룹 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
                 $("#group_form").text(`${data.form_count}개`);
                 $("#group_reg").text(`${data.reg_dt}`)
                 $("#group_join_url").val(`https://formdang.com/admin/group_login.html?gid=${data.gid}&group_session=${data.url}`)
