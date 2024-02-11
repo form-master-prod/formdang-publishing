@@ -181,11 +181,18 @@
                   if(length > 0) {
                       let html = "";
                       for(let i = 0; i < length; i++) {
+						  let group_html = ''
+						  if ([null, undefined, '', 'None', 'null'].includes(data[i].sid)) {
+							  group_html += '<br>'
+							  group_html += `<p>${data[i].group_name}</p>`
+						  }
+
                           html += `
-                                <li onclick="location.href='answer_form.html?fid=${fidValue}&sid=${data[i].sid}'">
+                                <li onclick="location.href='answer_form.html?fid=${fidValue}&sid=${data[i].sid}&aid=${data[i].aid}'">
                                     <i class="ico i-chart"></i>
                                     <a href="javascript:void(0)">
                                         <span class="status-num"><mark>${data[i].ok_flag_count}</mark> / ${question}</span>
+                                        ${group_html}
                                         <em>${data[i].name}</em>
                                         <p><i class="ico"></i> ${String(data[i].reg_dt).replace("T", "  ")}</p>
                                         <i class="ico i-answer-view"><span class="skip">상세 보기</span></i>
