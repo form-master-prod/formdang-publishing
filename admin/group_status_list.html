@@ -162,7 +162,7 @@ $(document).ready(function() {
       }
     });
 
-    $(".group_remove_chk").change(function(){
+    $(document).on('change', '.group_remove_chk', function(){
         var checkboxes = document.querySelectorAll('.group_remove_chk');
         var allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
         console.log("test0")
@@ -177,6 +177,7 @@ $(document).ready(function() {
             console.log("test2")
         }
     });
+
 });
 
 const group_layer = document.getElementById("group_layer");
