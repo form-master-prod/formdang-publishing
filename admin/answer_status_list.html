@@ -181,18 +181,20 @@
                   if(length > 0) {
                       let html = "";
                       for(let i = 0; i < length; i++) {
-						  let group_html = ''
+						  let group_class = ''
+						  let url = ''
 						  if ([null, undefined, '', 'None', 'null'].includes(data[i].sid)) {
-							  group_html += '<br>'
-							  group_html += `<p>${data[i].group_name}</p>`
+							  group_class = `group_${data[i].gid}`
+							  url = `answer_form.html?fid=${fidValue}&aid=${data[i].aid}&gid=${data[i].gid}&gmid=${data[i].gmid}`
+						  }else {
+							  url = `answer_form.html?fid=${fidValue}&sid=${data[i].sid}`
 						  }
 
                           html += `
-                                <li onclick="location.href='answer_form.html?fid=${fidValue}&sid=${data[i].sid}&aid=${data[i].aid}'">
+                                <li onclick="location.href='${url}'" class="${group_class}" data-grp-name="${data[i].group_name}">
                                     <i class="ico i-chart"></i>
                                     <a href="javascript:void(0)">
                                         <span class="status-num"><mark>${data[i].ok_flag_count}</mark> / ${question}</span>
-                                        ${group_html}
                                         <em>${data[i].name}</em>
                                         <p><i class="ico"></i> ${String(data[i].reg_dt).replace("T", "  ")}</p>
                                         <i class="ico i-answer-view"><span class="skip">상세 보기</span></i>
