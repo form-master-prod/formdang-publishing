@@ -95,7 +95,7 @@
                     </table>
                 </div>
                 <div class="bt-group">
-                    <button type="button" class="st-ico"><i class="ico i-trash" onclick="groupMemberRemove()"></i> <span>그룹원 삭제</span></button>
+                    <button type="button" class="st-ico" onclick="groupMemberRemove()"><i class="ico i-trash"></i> <span>그룹원 삭제</span></button>
                     <button type="button" class="st-ico open_modal" onclick=""><span>그룹원 추가</span> <i class="ico i-add"></i></button>
                 </div>
             </div>
@@ -163,7 +163,11 @@ $(document).ready(function() {
     });
 
     $(".group_remove_chk").change(function(){
-      $("#all_remove_chk").prop("checked", false);
+      if($(".group_remove_chk:checked").length === $(".group_remove_chk").length){
+        $("#all_remove_chk").prop("checked", true);
+      } else {
+        $("#all_remove_chk").prop("checked", false);
+      }
     });
 });
  const group_layer = document.getElementById("group_layer");
