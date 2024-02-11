@@ -13,7 +13,7 @@ function answerDetail() {
         $.ajax({
             type: 'GET',
             url: 'https://formdang-api.com/api/dj/answers/detail',
-            data: {fid: fidValue, sid: sid},
+            data: {fid: fidValue, sid: sidValue},
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
             },
