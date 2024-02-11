@@ -312,7 +312,8 @@ body {background-color: var(--bg-blue);}
 .forms-list .list-wrap ul li a {display: block; width: 100%; height: 100%; padding: 1.5em; background-color: #fff; border: 1px solid #fff; border-radius: 1em; position: relative;}
 .forms-list .list-wrap ul li a:hover {border: 1px solid var(--primary-color); box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, .10);}
 .forms-list .list-wrap ul li a > .ico {width: 1.75em; height: 1.75em; border-radius: 100%; position: absolute; top: 1.5em; left: 1em; background-color: #fff;}
-.forms-list .list-wrap ul li .thumb {display: block; width: 12.5em; height: 14.375em; margin: 0 auto; border: 1px solid #F4F6FB; border-radius: 1em; overflow:hidden;}
+/*.forms-list .list-wrap ul li .thumb {display: block; width: 12.5em; height: 14.375em; margin: 0 auto; border: 1px solid #F4F6FB; border-radius: 1em; overflow:hidden;}*/
+.forms-list .list-wrap ul li .thumb {display: flex; align-items: center; width: 12.5em; height: 14.375em; margin: 0 auto; border: 1px solid #F4F6FB; border-radius: 1em; overflow:hidden;}
 .forms-list .list-wrap ul li .thumb .not-img {display: block; width: 100%; height: 100%; background-color: #F4F6FB; display: flex; justify-content: center; align-items: center;}
 .forms-list .list-wrap ul li .thumb .not-img img {width: 2em;}
 .forms-list .list-wrap ul li a h3 {width: 100%; height: 3.25em; margin: 1.5em 0 2.5em; font-weight: 500; line-height: 1.5; overflow: hidden; white-space: normal; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; word-break: keep-all;}
