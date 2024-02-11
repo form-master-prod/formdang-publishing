@@ -128,7 +128,7 @@ function answerDetail() {
                             }
 
                             for(let k=0; k < example.length; k++) {
-                                let example_idx = (k*3) + String.fromCharCode(12593);
+                                let example_idx = String.fromCharCode(12593 + (k*3));
                                 example_detail += `
                                     <li>${example_idx}. ${example[k]}
                                 `
