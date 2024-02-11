@@ -82,7 +82,7 @@
                         <colgroup><col style="width: 7%" /><col style="width: 25%" /><col style="width: 25%" /><col /><col style="width: 10%" /></colgroup>
                         <thead>
                             <tr>
-                                <th scope="col" class="chkbox"><span class="ctm-chk"><input type="checkbox" name="" value=""><label class="skip">전체선택</label></span></th>
+                                <th scope="col" class="chkbox"><span class="ctm-chk"><input type="checkbox" name="" value="" id="all_remove_chk"><label class="skip">전체선택</label></span></th>
                                 <th scope="col" class="name">이름 <button type="button" onlick="alert('링크를 연결하세요!');"><i class="ico i-align"></i><span class="skip">정렬</span></button></th>
                                 <th scope="col" class="form">참여한 폼 <button type="button" onlick="alert('링크를 연결하세요!');"><i class="ico i-align"></i><span class="skip">정렬</span></button></th>
                                 <th scope="col" class="date">그룹 가입일 <button type="button" onlick="alert('링크를 연결하세요!');"><i class="ico i-align"></i><span class="skip">정렬</span></button></th>
@@ -95,19 +95,8 @@
                     </table>
                 </div>
                 <div class="bt-group">
-                    <button type="button" class="st-ico"><i class="ico i-trash"></i> <span>그룹원 삭제</span></button>
+                    <button type="button" class="st-ico"><i class="ico i-trash" onclick="groupMemberRemove()"></i> <span>그룹원 삭제</span></button>
                     <button type="button" class="st-ico open_modal" onclick=""><span>그룹원 추가</span> <i class="ico i-add"></i></button>
-                </div>
-                <div class="pagenate">
-                    <div class="inner">
-                        <a href="javascript:alert('링크를 연결하세요!');" class="prev"><span class="skip">처음</span> <i class="ico"></i></a>
-                        <a href="javascript:alert('링크를 연결하세요!');" class="current"><strong>1</strong></a>
-                        <a href="javascript:alert('링크를 연결하세요!');">2</a>
-                        <a href="javascript:alert('링크를 연결하세요!');">3</a>
-                        <a href="javascript:alert('링크를 연결하세요!');">4</a>
-                        <a href="javascript:alert('링크를 연결하세요!');">5</a>
-                        <a href="javascript:alert('링크를 연결하세요!');" class="next"><span class="skip">끝</span> <i class="ico"></i></a>
-                    </div>
                 </div>
             </div>
 		</div>
@@ -164,6 +153,18 @@
 $(document).ready(function() {
     $('.layer-sel').niceSelect();
     group_my_info();
+
+    $("#all_remove_chk").change(function(){
+      if($(this).prop("checked")){
+        $(".group_remove_chk").prop("checked", true);
+      } else {
+        $(".group_remove_chk").prop("checked", false);
+      }
+    });
+
+    $(".group_remove_chk").change(function(){
+      $("#all_remove_chk").prop("checked", false);
+    });
 });
  const group_layer = document.getElementById("group_layer");
 
@@ -208,7 +209,7 @@ function group_my_info() {
                         if(list[i].role == 0) {
                             html += `
                                 <tr>
-                                    <th scope="row" class="chkbox"><span class="ctm-chk"><input type="checkbox" name="" value="${list[i].gmid}"><label class="skip">선택</label></span></th>
+                                    <th scope="row" class="chkbox"><span class="ctm-chk"><input type="checkbox" name="" value="${list[i].gmid}" class="group_remove_chk"><label class="skip">선택</label></span></th>
                                     <td class="name">${list[i].name}</td>
                                     <td class="form">${list[i].form_count}</td>
                                     <td class="date">${String(list[i].reg_dt).replace("T", " ")}</td>
@@ -253,6 +254,15 @@ function shareURL() {
     alert('해당 브라우저에서는 공유가 지원되지 않습니다.\n복사하기를 이용해주세요 !');
     return false;
   }
+}
+
+
+function groupMemberRemove() {
+      var selectedValues = [];
+      $(".group_remove_chk:checked").each(function(){
+        selectedValues.push($(this).val());
+      });
+      console.log(selectedValues);
 }
 </script>
 </body>
