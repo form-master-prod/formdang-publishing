@@ -156,6 +156,8 @@ function answerDetail() {
                             `
                         }
                     }
+
+                    $("#answer_form").append(html);
                 }
             },
             error: function (error) {
