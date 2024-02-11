@@ -8,12 +8,13 @@ function answerDetail() {
     const urlParams = new URLSearchParams(window.location.search);
     const fidValue = urlParams.get('fid');
     const sidValue = urlParams.get('sid');
+    const aidValue = urlParams.get('aid');
 
     if(sidValue && fidValue) {
         $.ajax({
             type: 'GET',
             url: 'https://formdang-api.com/api/dj/answers/detail',
-            data: {fid: fidValue, sid: sidValue},
+            data: {fid: fidValue, sid: sidValue, aid: aidValue},
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
             },
