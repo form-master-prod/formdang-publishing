@@ -62,6 +62,18 @@
 		</div>
 	</div>
 </div>
+
+<div class="window_alert" id="status_layer">
+	<div class="modal-layer">
+		<div class="inner">
+			<h2 id="flag_status"></h2>
+			<p id="status_comment"></p>
+		</div>
+		<div class="bt-wrap">
+			<button type="button" class="st-fill" id="close_modal" onclick="closeModal()"><span>확인</span></button>
+		</div>
+	</div>
+</div>
 <script src="../js/admin/answer/form.js"></script>
 <script>
     let user = document.querySelector('.user_login');
@@ -86,6 +98,25 @@
         e.preventDefault();
         window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
     });
+
+
+
+const status_layer = document.getElementById("status_layer");
+
+function openModal(t, c) {
+	$("#flag_status").text(t);
+	$("#status_comment").text(c);
+  status_layer.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  status_layer.style.display = "none";
+  document.body.style.overflow = "auto";
+
+  	$("#flag_status").text('');
+	$("#status_comment").text('');
+}
 </script>
 </body>
 </html>

@@ -182,19 +182,22 @@ function okFlagChange(awid) {
               },
               success: function (response) {
                   if(response.proc == "success") {
-                       alert(`${button} 되었습니다.`);
 
                        if(button == "오답처리") {
+                            openModal('오답처리', '오답처리로 변경되었습니다.');
                             $(this).find("span").text('정답처리');
                        }else if(button == "정답처리") {
+                            openModal('오답처리', '오답처리로 변경되었습니다.');
                             $(this).find("span").text('오답처리');
                        }else {
-                           alert("문제가 발생했습니다.");
+
+                           openModal('처리실패', '문제가 발생했습니다.');
                        }
 
                        return false;
                   }else {
-
+                       alert("처리 중 문제가 발생했습니다.");
+                       return false;
                   }
 
 
