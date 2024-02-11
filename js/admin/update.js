@@ -262,7 +262,7 @@ function set_form_data(data) { // 데이터 세팅
     set_header_data(data.title, data.detail, data.beginDt, data.endDt); // 헤더 데이터 설정
     set_logo_url_to_img(data?.logoUrl || ri); // 로고 설정
     set_question(data.question.sort((a, b) => a.order - b.order)); // 질문 리스트 붙이기
-    set_update_btn(data.status);
+    set_update_btn(data.status, data.endFlag, data.delFlag);
 }
 
 /**
@@ -320,8 +320,8 @@ function set_question(questions) { // 질문 등록
  * 폼 수정하기 버튼 able / dis able 검사 처리
  * @param status
  */
-function set_update_btn(status) {
-    if (status == 1) {
+function set_update_btn(status, endFlag, delFlag) {
+    if (status == 1 || endFlag == 1 || delFlag == 1) {
         document.querySelectorAll('.bt-wrap').forEach(e => {
             e.style.display = 'none'
         })
