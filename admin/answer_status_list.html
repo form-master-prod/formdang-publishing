@@ -190,14 +190,24 @@
 							  url = `answer_form.html?fid=${fidValue}&sid=${data[i].sid}`
 						  }
 
+						  let active_style = ''
+						  let icon = ''
+						  if(data[i].name == "탈퇴회원") {
+							  if(data[i].active == false || data[i].active == 'false') {
+									active_style = `opacity:0.5`;
+							  }
+						  }else {
+							  icon = `<i class="ico i-answer-view"><span class="skip">상세 보기</span></i>`
+						  }
+
                           html += `
-                                <li onclick="location.href='${url}'" class="${group_class}" data-grp-name="${data[i].group_name}">
+                                <li onclick="location.href='${url}'" class="${group_class}" data-grp-name="${data[i].group_name}" style="${active_style}">
                                     <i class="ico i-chart"></i>
                                     <a href="javascript:void(0)">
                                         <span class="status-num"><mark>${data[i].ok_flag_count}</mark> / ${question}</span>
                                         <em>${data[i].name}</em>
                                         <p><i class="ico"></i> ${String(data[i].reg_dt).replace("T", "  ")}</p>
-                                        <i class="ico i-answer-view"><span class="skip">상세 보기</span></i>
+										${icon}
                                     </a>
                                 </li>
                           `
