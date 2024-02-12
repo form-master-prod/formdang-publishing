@@ -149,8 +149,8 @@
 <div class="window_alert" id="remove_layer">
 	<div class="modal-layer">
 		<div class="inner">
-			<h2>삭제 완료</h2>
-			<p>그룹원이 삭제되었습니다.</p>
+			<h2 id="remove_modal_title"></h2>
+			<p id="remove_modal_content"></p>
 		</div>
 		<div class="bt-wrap">
 			<button type="button" class="st-fill" id="close_remove_modal" onclick="closeRemoveModal()"><span>확인</span></button>
@@ -196,10 +196,11 @@ function openModal() {
   document.body.style.overflow = "hidden";
 }
 
-function removeModal() {
+function removeModal(title, content) {
+  $("#remove_modal_title").text(title)
+  $("#remove_modal_content").text(content)
   remove_layer.style.display = "flex";
   document.body.style.overflow = "hidden";
-  location.reload();
 }
 
 function closeModal() {
@@ -210,6 +211,7 @@ function closeModal() {
 function closeRemoveModal() {
   remove_layer.style.display = "none";
   document.body.style.overflow = "auto";
+  location.reload();
 }
 
 var clipboard = new ClipboardJS('#url_copy');
@@ -303,25 +305,26 @@ function groupMemberRemove() {
 
     if (selectedValues.length > 0) {
         const url = "https://formdang-api.com/api/dj/group/member/delete";
-        fetch(url + '?group_session=' + groupSession + '&gid=' + gidValue + '&removeArr=' + selectedValues.join(','), {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-            },
-        })
-        .then(response => response.json())  // Parse the response as JSON
-        .then(data => {
-            if (data.proc === "success") {
-                removeModal();
-            } else {
-                throw new Error('Server response indicates failure');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        $.ajax({
+          type: 'GET',
+          url: url,
+          data: {group_session:groupSession, gid:gidValue, removeArr:selectedValues.join(',')},
+          headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+          },
+          success: function (response) {
+                if(response.proc == "success") {
+                    removeModal('삭제 완료', '그룹원이 삭제되었습니다.');
+                }else {
+                    removeModal('삭제 실패', '문제가 발생했습니다.');
+                }
+          },
+          error: function (error) {
+              doubleSubmit("#create-btn")
+              console.error('AJAX 요청 실패:', error);
+          }
+      });
 
-        console.log(selectedValues);
     } else {
         return false;
     }
