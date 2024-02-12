@@ -293,37 +293,40 @@ function shareURL() {
 
 
 function groupMemberRemove() {
-      const selectedValues = [];
-      const urlParams = new URLSearchParams(window.location.search);
-      const gidValue = urlParams.get('gid');
-      const groupSession = urlParams.get('group_session');
-      $(".group_remove_chk:checked").each(function(){
+    const selectedValues = [];
+    const urlParams = new URLSearchParams(window.location.search);
+    const gidValue = urlParams.get('gid');
+    const groupSession = urlParams.get('group_session');
+    $(".group_remove_chk:checked").each(function(){
         selectedValues.push($(this).val());
-      });
-      if(selectedValues > 0) {
-        const url = "https://formdang-api.com/api/dj/group/member/delete"
+    });
+
+    if (selectedValues.length > 0) {
+        const url = "https://formdang-api.com/api/dj/group/member/delete";
         fetch(url + '?group_session=' + groupSession + '&gid=' + gidValue + '&removeArr=' + selectedValues.join(','), {
             method: 'GET',
             headers: {
-                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
             },
         })
-        .then(response => {
-            if(response.proc == "success") {
+        .then(response => response.json())  // Parse the response as JSON
+        .then(data => {
+            if (data.proc === "success") {
                 removeModal();
-            }else {
-                throw new Error('Network response was not ok');
+            } else {
+                throw new Error('Server response indicates failure');
             }
         })
         .catch(error => {
             console.error('Error:', error);
         });
 
-        console.log(selectedValues)
-  }else {
-      return false;
-  }
+        console.log(selectedValues);
+    } else {
+        return false;
+    }
 }
+
 </script>
 </body>
 </html>
