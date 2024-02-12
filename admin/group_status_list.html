@@ -145,6 +145,18 @@
 		</div>
 	</div>
 </div>
+
+<div class="window_alert" id="remove_layer">
+	<div class="modal-layer">
+		<div class="inner">
+			<h2>삭제 완료</h2>
+			<p>그룹원이 삭제되었습니다.</p>
+		</div>
+		<div class="bt-wrap">
+			<button type="button" class="st-fill" id="close_remove_modal" onclick="closeRemoveModal()"><span>확인</span></button>
+		</div>
+	</div>
+</div>
 <script src="../js/common/cons.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/common/util.js"></script>
@@ -177,16 +189,29 @@ $(document).ready(function() {
 });
 
 const group_layer = document.getElementById("group_layer");
+const remove_layer = document.getElementById("remove_layer");
 
 function openModal() {
   group_layer.style.display = "flex";
   document.body.style.overflow = "hidden";
 }
 
+function removeModal() {
+  remove_layer.style.display = "flex";
+  document.body.style.overflow = "hidden";
+  location.reload();
+}
+
 function closeModal() {
   group_layer.style.display = "none";
   document.body.style.overflow = "auto";
 }
+
+function closeRemoveModal() {
+  remove_layer.style.display = "none";
+  document.body.style.overflow = "auto";
+}
+
 var clipboard = new ClipboardJS('#url_copy');
 
 clipboard.on('success', function(e) {
@@ -268,11 +293,36 @@ function shareURL() {
 
 
 function groupMemberRemove() {
-      var selectedValues = [];
+      const selectedValues = [];
+      const urlParams = new URLSearchParams(window.location.search);
+      const gidValue = urlParams.get('gid');
+      const groupSession = urlParams.get('group_session');
       $(".group_remove_chk:checked").each(function(){
         selectedValues.push($(this).val());
       });
-      console.log(selectedValues);
+      if(selectedValues > 0) {
+        const url = "https://formdang-api.com/api/dj/group/member/delete"
+        fetch(url + '?group_session=' + groupSession + '&gid=' + gidValue + '&removeArr=' + selectedValues.join(','), {
+            method: 'GET',
+            headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+            },
+        })
+        .then(response => {
+            if(response.proc == "success") {
+                removeModal();
+            }else {
+                throw new Error('Network response was not ok');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+        console.log(selectedValues)
+  }else {
+      return false;
+  }
 }
 </script>
 </body>
