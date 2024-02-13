@@ -51,7 +51,7 @@
 						<p>내 활동 닉네임</p>
 						<em id="group_activity_name"></em>
 					</div>
-                    <a href="#" class="bt-modify" title="닉네임 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>
+                    <a href="" class="bt-modify" id="name_modify" title="닉네임 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>
                 </li>
                 <li>
                     <i class="ico"></i>
@@ -234,12 +234,14 @@ function group_my_info() {
             success: function (response) {
                 const data = response.group_my_info
                 const list = response.group_info
+                const name_modify = `member_newname.html?gid=${gidValue}&group_session=${group_session}&group_name=${encodeURIComponent(data.group_name)}&name=${encodeURIComponent(data.group_name)}`
                 $("#group_activity_name").text(data.name);
                 $("#group_count").text(`${list.length}명`)
                 $("#group_name").append(`${data.group_name} <a href="group_update.html?gid=${data.gid}&group_session=${group_session}" class="bt-modify" title="그룹 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
                 $("#group_form").text(`${data.form_count}개`);
                 $("#group_reg").text(`${data.reg_dt}`)
                 $("#group_join_url").val(`https://formdang.com/admin/group_login.html?gid=${data.gid}&group_session=${data.url}`)
+                $("#name_modify").attr("href", name_modify);
                 if(list.length > 0) {
                     let html = "";
                     for(let i =0; i<list.length; i++) {
