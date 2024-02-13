@@ -234,7 +234,7 @@ function group_my_info() {
             success: function (response) {
                 const data = response.group_my_info
                 const list = response.group_info
-                const name_modify = `member_newname.html?gid=${gidValue}&group_session=${group_session}&group_name=${encodeURIComponent(data.group_name)}&name=${encodeURIComponent(data.group_name)}`
+                const name_modify = `member_newname.html?gid=${gidValue}&group_session=${group_session}&group_name=${encodeURIComponent(data.group_name)}&name=${encodeURIComponent(data.name)}`
                 $("#group_activity_name").text(data.name);
                 $("#group_count").text(`${list.length}명`)
                 $("#group_name").append(`${data.group_name} <a href="group_update.html?gid=${data.gid}&group_session=${group_session}" class="bt-modify" title="그룹 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
