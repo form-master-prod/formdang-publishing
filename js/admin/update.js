@@ -88,11 +88,11 @@ async function update(data, fid) { // 폼 등록
     return await update_form_api(data, fid).then(res => {
         if (res && res.resultCode == '0') {
             return res
-        } else if (res && (
-            res.resultCode == REFUSE_ALREADY_START_FORM ||
-            res.resultCode == REFUSE_ALREADY_DELETE_FORM ||
-            res.resultCode == REFUSE_ALREADY_END_FORM
-        )) {
+        } else if (res && res.resultCode == REFUSE_ALREADY_START_FORM ) {
+            return res
+        } else if (res && res.resultCode == REFUSE_ALREADY_DELETE_FORM ) {
+            return res
+        } else if (res && res.resultCode == REFUSE_ALREADY_END_FORM ) {
             return res
         } else {
             return null
