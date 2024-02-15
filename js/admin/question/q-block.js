@@ -139,7 +139,7 @@ function look_html() {
                     html.concat(`</ol>`)
                     .concat(`</div>`)
                     .concat(`<ol class="subject-valid">`);
-            html = html.concat(loop_checkbox());
+            html = html.concat(loop_checkbox2());
             html =
                 html.concat(`</ol>`)
                 .concat(`</div>`)
@@ -149,6 +149,28 @@ function look_html() {
                 .concat(`</div>`)
             .concat(`</div>`)
 
+    return html;
+}
+
+/**
+ * 체크 박스 loop html 처리
+ * 보기문항 input 정규식 처리로 분리
+ * @returns {string}
+ */
+function loop_checkbox2() {
+    let html = '';
+    for (let i=1; i <=5 ; i++) { // 1~5문항 loop 생성
+        const id = 'q' + i;
+        html =
+            html.concat(`<li>`)
+                .concat(`<span class="ctm-chk">`)
+                .concat(`<input type="checkbox" name="each" value="${i}" class="disabled-item" onclick="validate_checkbox(event)"><label class="skip">객관식 ${i}</label>`)
+                .concat(`</span>`)
+                .concat(`<span class="inp" style="width: 100%">`)
+                .concat(`<label class="skip">객관식 ${i} 내용</label><input type="text" maxlength="64" oninput="validateInput(event)" class="${id} readOnly-item" name="${id}" placeholder="${i}. 객관식 내용을 입력하세요.">`)
+                .concat(`</span>`)
+                .concat(`</li>`)
+    }
     return html;
 }
 
@@ -168,6 +190,17 @@ function loop_input() {
     }
     return html;
 }
+
+function validateInput(event) {
+    const allowedCharacters = /^[ㄱ-ㅁ,\s]+$/;
+    const inputText = event.target.value;
+
+    if (!allowedCharacters.test(inputText)) {
+        // 허용되지 않는 문자가 입력되었을 때 처리할 내용
+        event.target.value = inputText.replace(/[^ㄱ-ㅁ,\s]/g, ' ');
+    }
+}
+
 
 /**
  * 데이터 빈값 html

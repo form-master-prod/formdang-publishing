@@ -61,6 +61,7 @@ async function update_form() {
     if (validate_write_request(formReq)) {
         const fileReq = generate_request_image_data(formReq);
         const res = await update(formReq, fid)
+        console.log(res)
         if (res && res.resultCode == '0') {
             if (isFileInFormData(fileReq)) {
                 uploadImg(fileReq, fid); // 이미지 대량 업로드
