@@ -229,7 +229,7 @@ function generate_request_image_data(request) {
             if (question.file) {
                 form.append("files", question.file)
                 form.append("orders", question.order)
-                    form.append("types", question_type)
+                form.append("types", question_type)
             }
             delete question.file
         } else if (question.file){
@@ -245,4 +245,14 @@ function generate_request_image_data(request) {
     }
 
     return form;
+}
+
+
+function isFileInFormData(formData) {
+    for (const value of formData.values()) {
+        if (value instanceof File) {
+            return true;
+        }
+    }
+    return false;
 }

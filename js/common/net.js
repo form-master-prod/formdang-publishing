@@ -10,7 +10,9 @@ const J_CT = "application/json; charset=utf-8";
 const DF_CT = "application/x-www-form-urlencoded; charset=utf-8";
 
 // Error Code
-const REFUSE_ALREADY_START_FORM = '30007'
+const REFUSE_ALREADY_START_FORM = '30007';
+const REFUSE_ALREADY_DELETE_FORM = '30008';
+const REFUSE_ALREADY_END_FORM = '30009';
 
 function ccatPfx(u) { return SP_PFX + u } // 스프링 API prefix 생성 함수
 function gt() { return { 'Authorization': `Bearer ${window.localStorage.getItem(ACCESS_TOKEN)}` } } // 헤더 토큰 적용 함수

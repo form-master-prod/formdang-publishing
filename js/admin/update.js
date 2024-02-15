@@ -49,7 +49,7 @@ function close_popup() { // 팝업 닫기
 function redirect_close_popup() { // 팝업 닫기
     document.getElementById('modal_layer').style.display = "none";
     document.body.style.overflow = "auto";
-    window.location.replace(PAGE.ADMIN_MAIN);
+    window.history.back()
 }
 
 /**
@@ -62,11 +62,17 @@ async function update_form() {
         const fileReq = generate_request_image_data(formReq);
         const res = await update(formReq, fid)
         if (res && res.resultCode == '0') {
-            uploadImg(fileReq, fid); // 이미지 대량 업로드
+            if (isFileInFormData(fileReq)) {
+                uploadImg(fileReq, fid); // 이미지 대량 업로드
+            }
             open_popup("수정 성공", "폼 수정을 성공했습니다.", "none", '확인', false, 'S') // 팝업 오픈
         } else if (res && res.resultCode == REFUSE_ALREADY_START_FORM) {
             open_popup("수정 실패", "이미 조사 시작된 폼은 수정 불가합니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
-        } else {
+        } else if (res && res.resultCode == REFUSE_ALREADY_DELETE_FORM) {
+            open_popup("수정 실패", "삭제 된 폼은 수정 불가합니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
+        } else if (res && res.resultCode == REFUSE_ALREADY_END_FORM) {
+            open_popup("수정 실패", "종료 된 폼은 수정 불가합니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
+        }  else {
             open_popup("수정 실패", "폼 수정에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
         }
     }
@@ -82,7 +88,11 @@ async function update(data, fid) { // 폼 등록
     return await update_form_api(data, fid).then(res => {
         if (res && res.resultCode == '0') {
             return res
-        } else if (res && res.resultCode == REFUSE_ALREADY_START_FORM) {
+        } else if (res && (
+            res.resultCode == REFUSE_ALREADY_START_FORM ||
+            res.resultCode == REFUSE_ALREADY_DELETE_FORM ||
+            res.resultCode == REFUSE_ALREADY_END_FORM
+        )) {
             return res
         } else {
             return null
@@ -247,6 +257,7 @@ function find_form (fid) { // 설문 리스트 조회 함수
         }
     })
     .catch(e => {
+        console.log(e)
         open_popup("폼 조회 실패", "폼 내용을 불러오는데 실패하였습니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
     })
 }
@@ -262,7 +273,7 @@ function set_form_data(data) { // 데이터 세팅
     set_header_data(data.title, data.detail, data.beginDt, data.endDt); // 헤더 데이터 설정
     set_logo_url_to_img(data?.logoUrl || ri); // 로고 설정
     set_question(data.question.sort((a, b) => a.order - b.order)); // 질문 리스트 붙이기
-    set_update_btn(data.status, data.endFlag, data.delFlag);
+    set_update_btn(data.answerCount, data.delFlag, data.endFlag);
 }
 
 /**
@@ -320,8 +331,8 @@ function set_question(questions) { // 질문 등록
  * 폼 수정하기 버튼 able / dis able 검사 처리
  * @param status
  */
-function set_update_btn(status, endFlag, delFlag) {
-    if (status == 1 || endFlag == 1 || delFlag == 1) {
+function set_update_btn(answerCount, delFlag, endFlag) {
+    if (answerCount > 0 || delFlag == 1 || endFlag == 1) {
         document.querySelectorAll('.bt-wrap').forEach(e => {
             e.style.display = 'none'
         })
@@ -374,12 +385,14 @@ function set_question_data(data) {
 function set_short(form, data) { // 단답형 추가
     form.querySelector('.sub_subject').value = data.title // 제목
     form.querySelector('.sub_explain').value = data?.placeholder || '' // placeholder
-    for (let i = 0 ; i < data.answer.length - 1; i++) { // 첫번째 답 html은 생성되어있어 한개 최대 크기 - 1
-        form.querySelector('.bt-add').click(); // 질문 답 추가
-    }
-    let answers = form.querySelectorAll('.add_item');
-    for (let i=0; i < answers.length; i++) {
-        answers[i].querySelector('input[name="answer"]').value = data.answer[i]; // 답 내용 세팅
+    if (data.answer) {
+        for (let i = 0 ; i < data.answer.length - 1; i++) { // 첫번째 답 html은 생성되어있어 한개 최대 크기 - 1
+            form.querySelector('.bt-add').click(); // 질문 답 추가
+        }
+        let answers = form.querySelectorAll('.add_item');
+        for (let i=0; i < answers.length; i++) {
+            answers[i].querySelector('input[name="answer"]').value = data.answer[i]; // 답 내용 세팅
+        }
     }
     set_question_url_to_img(form, data.imageUrl) // 이미지 세팅
 }

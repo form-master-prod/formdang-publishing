@@ -14,7 +14,9 @@ async function enroll_form () { // 폼 등록하기
         const fileReq = generate_request_image_data(formReq);
         const res = await register(formReq) // 폼 업로드
         if (res) {
-            uploadImg(fileReq, res.fid); // 이미지 대량 업로드
+            if (isFileInFormData(fileReq)) {
+                uploadImg(fileReq, res.fid); // 이미지 대량 업로드
+            }
             open_popup("등록 성공", "등록에 성공했습니다. 메인 페이지로 이동합니다.", "none", '확인', false, 'S') // 팝업 오픈
         } else {
             open_popup("등록 실패", "폼 등록에 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
