@@ -36,9 +36,7 @@ function cardHtml (h, c, s, i, t, r, ef, e) { // 설문 카드 HTML
 
     if (e.delFlag == 1) {
         html = html.concat(`<i class="trash"></i>`)
-    } else if (e.endFlag == 1) {
-        html = html.concat(`<i class="end"></i>`)
-    } else {
+    } else if (e.endFlag == 0) {
         if (e.status == 0) {
             html = html.concat(`<i class="edit"></i>`)
         } else if (e.status == 1) {

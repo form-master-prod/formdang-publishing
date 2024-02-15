@@ -322,7 +322,6 @@ body {background-color: var(--bg-blue);}
 .forms-list .list-wrap ul li p .edit {width: 1.25em; height: 1.25em; background-image:url("../image/icon/outline_edit.svg"); background-size: cover;}
 .forms-list .list-wrap ul li p .trash {width: 1.25em; height: 1.25em; background-image:url("../image/icon/outline_trash_blue.svg"); background-size: cover;}
 .forms-list .list-wrap ul li p .send {width: 1.25em; height: 1.25em; background-image:url("../image/icon/fill_send_color.svg"); background-size: cover;}
-.forms-list .list-wrap ul li p .end {width: 1.25em; height: 1.25em; background-image:url("../image/icon/outline_board.svg"); background-size: cover;}
 .forms-list .list-wrap ul li.disalbed-item {opacity: .75;}
 .forms-list .list-wrap ul li.disalbed-item a {pointer-events: none;} /* not click */
 .forms-list .list-wrap ul li.disalbed-item .thumb .not-img {background-color: #f5f5f5;}
