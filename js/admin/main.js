@@ -18,10 +18,10 @@ function generateCard(e) { // 카드 생성전 개별 값 세팅
     const t = e.title; // 제목
     const r = e.regDt; // 등록일
     const ef = e.delFlag == 1 ? 'disalbed-item' : ''; // 삭제 여부 ( 0: 미삭제, 1: 삭제)
-    return cardHtml(h, c, s, i, t, r, ef, e);
+    return cardHtml(h, c, s, i, t, r, ef);
 }
 
-function cardHtml (h, c, s, i, t, r, ef, e) { // 설문 카드 HTML
+function cardHtml (h, c, s, i, t, r, ef) { // 설문 카드 HTML
     let html = '';
     html =
         html.concat(`<li class="${ef}">`)
@@ -33,19 +33,7 @@ function cardHtml (h, c, s, i, t, r, ef, e) { // 설문 카드 HTML
 
     html =
         html.concat(`<p>`)
-
-    if (e.delFlag == 1) {
-        html = html.concat(`<i class="trash"></i>`)
-    } else if (e.endFlag == 0) {
-        if (e.status == 0) {
-            html = html.concat(`<i class="edit"></i>`)
-        } else if (e.status == 1) {
-            html = html.concat(`<i class="send"></i>`)
-        }
-    }
-
-    html =
-        html.concat(`<i class="ico"></i>${r}</p>`)
+            .concat(`<i class="ico"></i>${r}</p>`)
             .concat(`</a>`)
             .concat(`</li>`)
     return html;
