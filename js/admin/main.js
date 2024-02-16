@@ -187,11 +187,32 @@ async function queryStringTokenParse (p) { // 로그인 후 받은 인증 토큰
     }
 }
 
+function disableQueryString() {
+    let currentUrl = window.location.href;
+    let queryStringIndex = currentUrl.indexOf('?');
+
+    if (queryStringIndex !== -1) {
+        let queryString = currentUrl.substring(queryStringIndex + 1);
+        let paramsArray = queryString.split('&');
+        let updatedParams = [];
+        for (let i = 0; i < paramsArray.length; i++) {
+            let param = paramsArray[i];
+            let paramName = param.split('=')[0];
+            if (paramName !== ACCESS_TOKEN && paramName !== REFRESH_TOKEN) {
+                updatedParams.push(param);
+            }
+        }
+        let updatedUrl = currentUrl.substring(0, queryStringIndex) + '?' + updatedParams.join('&');
+        history.replaceState({}, document.title, updatedUrl);
+    }
+}
+
 $(document).ready(() => {
     queryStringTokenParse(new URLSearchParams(window.location.search)) // 로그인 인증 토큰 파싱 처리
         .then(() => {
             essentialLogin() // 로그인 필수 체크
         });
+    disableQueryString();
     document.getElementById(ts).value = type;
     document.getElementById(ss).value = status;
     document.getElementById(as).value = order;
