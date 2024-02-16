@@ -286,6 +286,7 @@ function handel_profile(event) {
                     imgElement.src = res.file.path;
                 })
                 window.localStorage.setItem(ACCESS_TOKEN, res.accessToken)
+                open_popup("업로드 성공", "프로필 업로드를 성공했습니다.", "none", '닫기', false, 'C') // 팝업 오픈
             } else {
                 open_popup("업로드 실패", "프로필 업로드를 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
             }

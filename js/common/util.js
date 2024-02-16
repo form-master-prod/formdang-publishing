@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     let token = isLogin()
     let html = ""
-    console.log(window.localStorage.getItem(ACCESS_TOKEN))
     if(token) {
         let payload = getUserFromToken(token)  // 닉네임으로 교체 예정
         let name = `${payload.name}님`
