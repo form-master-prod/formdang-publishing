@@ -446,10 +446,10 @@ function goUpdate() {
 				  let proc = response.proc
 				  if(proc == "success") {
 					  //$("#form_title").text()
-					  openModal("폼이 종료되었습니다.");
+					  openModal("폼이 종료되었습니다.", `my_forms.html?fid=${fidValue}`);
 					  return false;
 				  }else if(proc == "applied") {
-					  openModal("이미 종료된 폼입니다.");
+					  openModal("이미 종료된 폼입니다.", `my_forms.html?fid=${fidValue}`);
 					  return false;
 				  }else {
 					  openModal("잘못된 접근입니다.", "../admin/index.html")
