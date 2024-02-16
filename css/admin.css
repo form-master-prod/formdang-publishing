@@ -14,6 +14,8 @@
 .i-quiz-line {background-image: url("../image/icon/outline_question.svg");}
 .i-logout {background-image: url("../image/icon/outline_logout.svg");}
 .i-user-fill {background-image: url("../image/icon/fill_user3.svg") !important; background-color: var(--primary-color);}
+.i-circle-o {background-image: url("../image/icon/circle-o.svg") !important; background-color: var(--primary-color);}
+.i-circle-x {background-image: url("../image/icon/circle-x.svg") !important; background-color: var(--primary-color);}
 
 /* button icon */
 .i-form {background-image: url("../image/icon/outline_edit_blue.svg");}
