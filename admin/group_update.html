@@ -30,11 +30,12 @@
         <button type="button" class="bt-menu"><span class="skip">메뉴</span></button>
 		<div class="member-logout">
 			<div class="user_login">
-				<figure><img src="../image/common/not_profile.svg" alt="profile"></figure>
+                <input type="file" id="profile-img" onchange="handel_profile(event)" style="display: none;">
+                <figure><img src="../image/common/not_profile.svg" alt="profile"></figure>
 				<span><em id="user_name1"></em> <i class="ico"></i></span>
 			</div>
             <div class="modal-layer mem_info">
-				<figure><img src="../image/common/not_profile.svg" alt=""> <button type="button" onclick="alert('프로필 이미지 등록 버튼 입니다. 필요 시 사용하세요.');"><i class="ico"></i> <span class="skip">프로필 사진 등록</span></button></figure>
+                <figure ><img src="../image/common/not_profile.svg" alt=""> <button type="button" onclick="open_profile_upload();"><i class="ico"></i> <span class="skip">프로필 사진 등록</span></button></figure>
 				<strong id="user_name2"></strong>
 				<a onclick="logout()" class="bt-logout"><i class="ico i-logout"></i> Logout</a>
                 <button type="button" class="bt-close"><span class="skip">닫기</span></button>
@@ -94,6 +95,10 @@
 <script src="../js/common/cons.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/common/util.js"></script>
+<script src="../js/admin/common/modal.js"></script>
+<script src="../js/admin/common/img.js"></script>
+<script src="../js/common/net.js"></script>
+
 <script>
 $(document).ready(function() {
     $('.layer-sel').niceSelect();
@@ -200,6 +205,21 @@ function groupDetail() {
               }
           });
       }
+}
+
+
+function ok_popup() {
+    if (modal_type == 'C') { // 모달 닫기 버튼
+        close_popup();
+    }
+}
+
+/**
+ * 모달 닫기 처리
+ */
+function close_popup() { // 팝업 닫기
+    document.getElementById('modal_layer').style.display = "none";
+    document.body.style.overflow = "auto";
 }
 </script>
 </body>

@@ -257,7 +257,6 @@ function find_form (fid) { // 설문 리스트 조회 함수
         }
     })
     .catch(e => {
-        console.log(e)
         open_popup("폼 조회 실패", "폼 내용을 불러오는데 실패하였습니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
     })
 }
