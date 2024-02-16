@@ -13,7 +13,8 @@ let modal = document.querySelector('.mem_info');
 let modal_close = document.querySelector('.bt-close');
 
 user.addEventListener('click', function(){
-    modal.classList.add('open');
+    modal.classList.toggle('open');
+    this.classList.toggle('close');
 });
 modal_close.addEventListener('click', function(){
     modal.classList.remove('open');

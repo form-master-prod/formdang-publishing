@@ -37,6 +37,10 @@ function upload_file_list_api(d, fid) { // 파일 업로드
     return ajaxForm(getApiURL(ccatPfx(`/public/file/list/upload/${fid}`)), d, P, gt(), false, false, true);
 }
 
+function upload_profile_api(d) { // 프로필 업로드
+    return ajaxForm(getApiURL(ccatPfx(`/public/file/upload/profile`)), d, P, gt(), false, false, true);
+}
+
 function uva() { // 토큰 유효성 검사
     return ajaxForm(getApiURL(ccatPfx('/admin/validate')), {}, G, gt(), DF_CT, true, true)
 }

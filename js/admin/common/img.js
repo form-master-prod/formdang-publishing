@@ -247,12 +247,51 @@ function generate_request_image_data(request) {
     return form;
 }
 
-
-function isFileInFormData(formData) {
+/**
+ * 등록할 파일이 있는지 검사 로직
+ * @param formData
+ * @returns {boolean}
+ */
+function is_file_in_formData(formData) {
     for (const value of formData.values()) {
         if (value instanceof File) {
             return true;
         }
     }
     return false;
+}
+
+/**
+ * 프로필 파일 업로드 오픈
+ */
+function open_profile_upload() {
+    const fileInput = document.getElementById('profile-img');
+    fileInput.click();
+}
+
+/**
+ * 프로필 파일 업로드 처리
+ * @param event
+ */
+function handel_profile(event) {
+    const fileList = event.target.files; // 선택된 파일 목록 가져오기
+    if (fileList.length === 0) {
+        return;
+    } else {
+        let form = new FormData();
+        form.append("profile", fileList[0])
+        upload_profile_api(form).then(res => {
+            if (res && res.resultCode == '0') {
+                document.querySelectorAll('.member-logout img').forEach((imgElement) => {
+                    imgElement.src = res.file.path;
+                })
+                window.localStorage.setItem(ACCESS_TOKEN, res.accessToken)
+            } else {
+                open_popup("업로드 실패", "프로필 업로드를 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+            }
+        })
+        .catch(e => {
+            open_popup("업로드 실패", "프로필 업로드를 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+        })
+    }
 }

@@ -62,7 +62,7 @@ async function update_form() {
         const fileReq = generate_request_image_data(formReq);
         const res = await update(formReq, fid)
         if (res && res.resultCode == '0') {
-            if (isFileInFormData(fileReq)) {
+            if (is_file_in_formData(fileReq)) {
                 uploadImg(fileReq, fid); // 이미지 대량 업로드
             }
             open_popup("수정 성공", "폼 수정을 성공했습니다.", "none", '확인', false, 'S') // 팝업 오픈

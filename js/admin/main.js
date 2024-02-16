@@ -21,6 +21,20 @@ function generateCard(e) { // 카드 생성전 개별 값 세팅
     return cardHtml(h, c, s, i, t, r, ef);
 }
 
+function ok_popup() {
+    if (modal_type == 'C') { // 모달 닫기 버튼
+        close_popup();
+    }
+}
+
+/**
+ * 모달 닫기 처리
+ */
+function close_popup() { // 팝업 닫기
+    document.getElementById('modal_layer').style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
 function cardHtml (h, c, s, i, t, r, ef) { // 설문 카드 HTML
     let html = '';
     html =
