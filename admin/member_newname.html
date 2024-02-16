@@ -69,6 +69,16 @@
 		</div>
 	</div>
 </div>
+<div class="window_alert" id="update_layer">
+	<div class="modal-layer">
+		<div class="inner">
+			<p id="modal_content"></p>
+		</div>
+		<div class="bt-wrap">
+			<button type="button" class="st-fill" id="close_modal" onclick="closeModal()"><span>확인</span></button>
+		</div>
+	</div>
+</div>
 <script src="../js/common/cons.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/common/util.js"></script>
@@ -82,16 +92,29 @@ $(document).ready(function() {
     $("#my_name").val(name)
 });
 
+const update_layer = document.getElementById("update_layer");
+function openModal(content) {
+      $("#modal_content").text(content)
+      update_layer.style.display = "flex";
+      document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+      update_layer.style.display = "none";
+      document.body.style.overflow = "auto";
+}
+
+
 function nameUpdate() {
       const name = $("#my_name").val()
 
 	  if ([null, undefined, ''].includes(name)) {
-			alert("활동 닉네임을 작성해주세요.");
+			openModal("닉네임을 작성해주세요.");
 			return false;
       }
 
     if (name.includes(" ")) {
-			alert("닉네임에 공백이 있습니다.");
+			openModal("닉네임에 공백이 있습니다.");
 			return false;
     }
 
@@ -113,10 +136,9 @@ function nameUpdate() {
           },
           success: function (response) {
                 if(response.proc == "success") {
-                    alert("변경 성공");
                     location.replace(`group_status_list.html?gid=${gidValue}&group_session=${group_session}`)
                 }else {
-                    alert('변경 실패');
+                    openModal("닉네임 변경에 실패했습니다.");
                     doubleSubmit("#create-btn")
                     return false;
                 }
