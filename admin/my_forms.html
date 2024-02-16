@@ -346,7 +346,7 @@
 				  }
               },
               error: function (error) {
-				  alert("잘못된 접근입니다.")
+				  alert("잘못된 접근입니다.");
 				  location.replace("../admin/index.html")
                   console.error('AJAX 요청 실패:', error);
               }
@@ -424,7 +424,7 @@ function goUpdate() {
       const fidValue = urlParams.get('fid');
 	  const endFlag = $("#end_flag").val();
 	  if(endFlag == 1) {
-			alert("이미 종료된 폼입니다.");
+			openModal("이미 종료된 폼입니다.");
 			return false;
 	  }
 
@@ -440,18 +440,17 @@ function goUpdate() {
 				  let proc = response.proc
 				  if(proc == "success") {
 					  //$("#form_title").text()
-					  alert("폼이 종료되었습니다.");
+					  openModal("폼이 종료되었습니다.");
 					  return false;
 				  }else if(proc == "applied") {
-					  alert("이미 종료된 폼입니다.");
+					  openModal("이미 종료된 폼입니다.");
 					  return false;
 				  }else {
-					  alert("잘못된 접근입니다.")
-					  location.replace("../admin/index.html")
+					  openModal("잘못된 접근입니다.", "../admin/index.html")
 				  }
               },
               error: function (error) {
-				  alert("잘못된 접근입니다.")
+				  alert("잘못된 접근입니다.");
 				  location.replace("../admin/index.html")
                   console.error('AJAX 요청 실패:', error);
               }
