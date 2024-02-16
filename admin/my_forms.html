@@ -366,7 +366,6 @@ function formShareAdd() {
 		$("#share-group").val('');
 		$("#share-list").append(`<option value="${gid}">${name}</option>`);
 		$('.layer-sel').niceSelect('update');
-		openModal(`${name} 그룹에 공유되었습니다.`, "");
 		titleOpenModal(`${name} 공유 성공`, "그룹 커뮤니티를 확인해주세요.");
 	}
 }
