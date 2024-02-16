@@ -42,68 +42,69 @@
         </div>
     </header>
 	<div id="container">
-		<h2 class="sub-tit">내 그룹</h2>
+		<h2 class="sub-tit" id="group_name"></h2>
 		<div id="contents" class="group-wrap">
-            <div class="group-list">
+            <div class="group-status-list">
+                <div class="tbl-wrap ctm-st2">
+                    <table>
+                        <caption>폼 공유 목록</caption>
+                        <colgroup><col style="width: 7%" /><col style="width: 25%" /><col style="width: 25%" /><col /><col style="width: 10%" /></colgroup>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="chkbox"><span class="ctm-chk"><input type="checkbox" name="" value="" id="all_remove_chk"><label class="skip">전체선택</label></span></th>
+                                <th scope="col" class="name">이름 <button type="button" onlick="alert('링크를 연결하세요!');"><i class="ico i-align"></i><span class="skip">정렬</span></button></th>
+                                <th scope="col" class="form">문항 수 <button type="button" onlick="alert('링크를 연결하세요!');"><i class="ico i-align"></i><span class="skip">정렬</span></button></th>
+                                <th scope="col" class="date">폼 공유일 <button type="button" onlick="alert('링크를 연결하세요!');"><i class="ico i-align"></i><span class="skip">정렬</span></button></th>
+                                <th scope="col" class="detail">상세보기</th>
+                            </tr>
+                        </thead>
+                        <tbody id="form_list">
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
+		</div>
 	</div>
+</div>
+<div class="window_alert" id="group_layer">
+	<div class="modal-layer">
+		<div class="inner">
+			<h2>복사 완료</h2>
+			<p id="group_comment">그룹에 초대해보세요 !</p>
+		</div>
+		<div class="bt-wrap">
+			<button type="button" class="st-fill" id="close_modal" onclick="closeModal()"><span>확인</span></button>
+		</div>
 	</div>
 </div>
 <script src="../js/common/cons.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/common/util.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
 <script>
 $(document).ready(function() {
-	groupList()
+    $('.layer-sel').niceSelect();
+    const urlParams = new URLSearchParams(window.location.search);
+    // const gidValue = urlParams.get('gid');
+    // const group_session = urlParams.get('group_session');
+    const group_name = urlParams.get('group_name');
+    $("#group_name").text(group_name);
+
 });
-	
-function groupList() {
 
-  $.ajax({
-      type: 'GET',
-      url: 'https://formdang-api.com/api/dj/group/list',
-      headers: {
-	  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-      },
-      success: function (response) {
-	  const data = response.group_list;
-	  const length = response.group_count;
-	  if(length > 0) {
-	      let html = "";
-	      for(let i = 0; i < length; i++) {
-		  html += `
-	                <div class="group-item">
-	                    <h3>${data[i].group_name}</h3>
-	                    <p><span><i class="ico"></i> ${data[i].category}</span> ${data[i].group_intro}</p>
-	                    <div class="bt-group">
-	                        <a href="../admin/group_status_list.html?gid=${data[i].gid}&group_session=${data[i].group_url}" class="st-fill"><span>상세보기</span> <i class="ico i-preview"></i></a>
-	                        <a href="group_form_list.html?gid=${data[i].gid}&group_session=${data[i].group_url}&group_name=${encodeURIComponent(data[i].group_name)}" class="st-ico"><span>커뮤니티</span></a>
-	                    </div>
-	                </div>
-		  `
-	      }
-	      $(".group-list").empty();
-	      $(".group-list").append(html);
-	  }else {
-	      let html = `
-	            <div class="not-result">
-	                <i class="ico"></i>
-	                <p>아직 가입된 그룹이 없습니다.<br>그룹을 새로 만들어보세요!</p>
-	                <ul>
-	                    <li><a href="../admin/group_write.html" class="st-ico"><i class="ico i-group"></i> <span>그룹 등록하기</span></a></li>
-	                </ul>
-	            </div>
-	      `
-	      $(".group-list").remove();
-	      $("#contents").append(html);
-	  }
+const group_layer = document.getElementById("group_layer");
 
-      },
-      error: function (error) {
-	  console.error('AJAX 요청 실패:', error);
-      }
-  });
+function openModal() {
+  group_layer.style.display = "flex";
+  document.body.style.overflow = "hidden";
 }
+function closeModal() {
+  group_layer.style.display = "none";
+  document.body.style.overflow = "auto";
+}
+
+
 </script>
 </body>
 </html>
