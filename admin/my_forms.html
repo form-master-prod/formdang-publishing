@@ -201,6 +201,19 @@
 		</div>
 	</div>
 </div>
+
+
+<div class="window_alert" id="group_share_layer">
+	<div class="modal-layer">
+		<div class="inner">
+			<h2 id="group_share_title"></h2>
+			<p id="group_share_comment"></p>
+		</div>
+		<div class="bt-wrap">
+			<button type="button" class="st-fill" id="close_modal2" onclick="closeShareModal()"><span>확인</span></button>
+		</div>
+	</div>
+</div>
 <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 <script src="../js/common/cons.js"></script>
 <script src="../js/common.js"></script>
@@ -212,6 +225,7 @@
   });
 
  const group_layer = document.getElementById("group_layer");
+ const group_share_layer = document.getElementById("group_share_layer");
 
  function openModal(text, url) {
 	  group_layer.style.display = "flex";
@@ -223,7 +237,13 @@
 		   $("#close_modal").data("url", "");
 	  }
  }
-
+ 
+ function titleOpenModal(title, content) {
+	  group_share_layer.style.display = "flex";
+	  document.body.style.overflow = "hidden";
+	  $("#group_share_title").text(title);
+	  $("#group_share_comment").text(content);
+ }
   function closeModal() {
 	  group_layer.style.display = "none";
 	  document.body.style.overflow = "auto";
@@ -231,6 +251,11 @@
 	  if (![null, undefined, ''].includes(url)) {
 		   location.replace(url);
       }
+  }
+
+  function closeShareModal() {
+	  group_share_layer.style.display = "none";
+	  document.body.style.overflow = "auto";
   }
 
   function FormDetail() {
@@ -341,7 +366,7 @@ function formShareAdd() {
 		$("#share-group").val('');
 		$("#share-list").append(`<option value="${gid}">${name}</option>`);
 		$('.layer-sel').niceSelect('update');
-		openModal(`${name} 그룹에 공유되었습니다.`, "");
+		titleOpenModal(`${name} 공유 성공`, "그룹 커뮤니티를 확인해주세요.");
 	}
 }
 
@@ -357,7 +382,7 @@ function formShareSub() {
 		$("#share-list").val('');
 		$("#share-group").append(`<option value="${gid}">${name}</option>`);
 		$('.layer-sel').niceSelect('update');
-		openModal("공유가 해제되었습니다.", "");
+		titleOpenModal(`${name} 공유 해제`, "그룹 커뮤니티를 확인해주세요.");
 	}
 }
 

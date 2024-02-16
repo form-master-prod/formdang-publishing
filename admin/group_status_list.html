@@ -94,8 +94,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="bt-group">
-                    <button type="button" class="st-ico" onclick="groupMemberRemove()"><i class="ico i-trash"></i> <span>그룹원 삭제</span></button>
+                <div class="bt-group" id="bt-group-add">
                     <button type="button" class="st-ico open_modal" onclick=""><span>그룹원 추가</span> <i class="ico i-add"></i></button>
                 </div>
             </div>
@@ -157,6 +156,19 @@
 		</div>
 	</div>
 </div>
+
+<div class="window_alert" id="confirm_layer">
+	<div class="modal-layer">
+		<div class="inner">
+			<i class="ico"></i>
+			<h2 class="skip">그룹원 삭제</h2>
+			<p>선택된 그룹원을 삭제합니다.</p>
+		</div>
+		<div class="bt-wrap">
+			<button type="button" class="st-ico" id="bt_close" onclick="closeConfirm()"><span>취소</span></button> <button type="button" class="st-fill" onclick="groupMemberRemove()"><span>예</span></button>
+		</div>
+	</div>
+</div>
 <script src="../js/common/cons.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/common/util.js"></script>
@@ -190,6 +202,7 @@ $(document).ready(function() {
 
 const group_layer = document.getElementById("group_layer");
 const remove_layer = document.getElementById("remove_layer");
+const confirm_layer = document.getElementById("confirm_layer");
 
 function openModal() {
   group_layer.style.display = "flex";
@@ -212,6 +225,24 @@ function closeRemoveModal() {
   remove_layer.style.display = "none";
   document.body.style.overflow = "auto";
   location.reload();
+}
+
+function closeConfirm() {
+  confirm_layer.style.display = "none";
+  document.body.style.overflow = "auto";
+}
+
+
+function removeConfirmModal() {
+
+    const selectedValues = [];
+    $(".group_remove_chk:checked").each(function(){
+        selectedValues.push($(this).val());
+    });
+    if(selectedValues.length > 0) {
+        confirm_layer.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }
 }
 
 var clipboard = new ClipboardJS('#url_copy');
@@ -237,11 +268,17 @@ function group_my_info() {
                 const name_modify = `member_newname.html?gid=${gidValue}&group_session=${group_session}&group_name=${encodeURIComponent(data.group_name)}&name=${encodeURIComponent(data.name)}`
                 $("#group_activity_name").text(data.name);
                 $("#group_count").text(`${list.length}명`)
-                $("#group_name").append(`${data.group_name} <a href="group_update.html?gid=${data.gid}&group_session=${group_session}" class="bt-modify" title="그룹 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
                 $("#group_form").text(`${data.form_count}개`);
                 $("#group_reg").text(`${data.reg_dt}`)
                 $("#group_join_url").val(`https://formdang.com/admin/group_login.html?gid=${data.gid}&group_session=${data.url}`)
                 $("#name_modify").attr("href", name_modify);
+                if(data.role == 1) {
+                    $("#bt-group-add").prepend(`<button type="button" class="st-ico" onclick="removeConfirmModal()"><i class="ico i-trash"></i> <span>그룹원 삭제</span></button>`)
+                    $("#group_name").append(`${data.group_name} <a href="group_update.html?gid=${data.gid}&group_session=${group_session}" class="bt-modify" title="그룹 수정하기"><i class="ico i-pencil"></i> <span class="skip">수정하기</span></a>`)
+                }else {
+                    $("#group_name").append(`${data.group_name}`)
+                }
+
                 if(list.length > 0) {
                     let html = "";
                     for(let i =0; i<list.length; i++) {
@@ -306,6 +343,7 @@ function groupMemberRemove() {
     });
 
     if (selectedValues.length > 0) {
+        closeConfirm();
         const url = "https://formdang-api.com/api/dj/group/member/delete";
         $.ajax({
           type: 'GET',
@@ -327,8 +365,6 @@ function groupMemberRemove() {
           }
       });
 
-    } else {
-        return false;
     }
 }
 
