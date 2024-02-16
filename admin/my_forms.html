@@ -366,7 +366,7 @@ function formShareAdd() {
 		$("#share-group").val('');
 		$("#share-list").append(`<option value="${gid}">${name}</option>`);
 		$('.layer-sel').niceSelect('update');
-		titleOpenModal(`${name} 공유 성공`, "그룹 커뮤니티를 확인해주세요.");
+		titleOpenModal(`[${name}] 공유 성공 !`, "그룹 커뮤니티를 확인해주세요.");
 	}
 }
 
@@ -382,7 +382,7 @@ function formShareSub() {
 		$("#share-list").val('');
 		$("#share-group").append(`<option value="${gid}">${name}</option>`);
 		$('.layer-sel').niceSelect('update');
-		titleOpenModal(`${name} 공유 해제`, "그룹 커뮤니티를 확인해주세요.");
+		titleOpenModal(`[${name}] 공유 해제 !`, "그룹 커뮤니티를 확인해주세요.");
 	}
 }
 
