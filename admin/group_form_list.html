@@ -85,8 +85,6 @@
 $(document).ready(function() {
     $('.layer-sel').niceSelect();
     const urlParams = new URLSearchParams(window.location.search);
-    // const gidValue = urlParams.get('gid');
-    // const group_session = urlParams.get('group_session');
     const group_name = urlParams.get('group_name');
     $("#group_name").text(group_name);
     groupShareForm();
@@ -122,17 +120,15 @@ function groupShareForm() {
                 if(data.length > 0) {
                     let html = "";
                     for(let i =0; i<data.length; i++) {
-                        if(data[i].role == 0) {
-                            html += `
-                                <tr>
-                                    <th scope="row" class="chkbox"><i class="ico i-circle-o"></i></th>
-                                    <td class="name">${data[i].form_name}</td>
-                                    <td class="form">0</td>
-                                    <td class="date">${String(data[i].reg_dt).replace("T", " ")}</td>
-                                    <td class="detail"><a href="javascript:alert('링크를 연결하세요!');"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
-                                </tr>
-                            `
-                        }
+                        html += `
+                            <tr>
+                                <th scope="row" class="chkbox"><i class="ico i-circle-o"></i></th>
+                                <td class="name">${data[i].form_name}</td>
+                                <td class="form">0</td>
+                                <td class="date">${String(data[i].reg_dt).replace("T", " ")}</td>
+                                <td class="detail"><a href="javascript:alert('링크를 연결하세요!');"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
+                            </tr>
+                        `
                     }
                     if ([null, undefined, ''].includes(html)) {
                         html += `
