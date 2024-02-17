@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>퀴즈 및 설문조사 제목을 넣어주세요.</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no, address=no, email=no">
+<link href="../css/common.css" type="text/css" rel="stylesheet">
+<link href="../css/admin.css" type="text/css" rel="stylesheet">
+<script src="../js/jquery-1.12.4.min.js"></script>
+<script src="../js/nice-select/jquery.nice-select.js"></script>
+</head>
+<body>
+<div id="viewform-wrap">
+	<header id="header">
+        <h1 class="skip"><a href="./"><img src="../image/common/logo_horizontal.png" alt="폼당폼당" class="w4em"></a></h1>
+		<div class="member-logout">
+			<div class="user_login">
+				<figure><img src="../image/common/not_profile.svg" alt="profile"></figure>
+				<span><em id="user_name1"></em> <i class="ico"></i></span>
+			</div>
+            <div class="modal-layer mem_info">
+				<figure><img src="../image/common/not_profile.svg" alt=""> <button type="button" onclick="alert('프로필 이미지 등록 버튼 입니다. 필요 시 사용하세요.');"><i class="ico"></i> <span class="skip">프로필 사진 등록</span></button></figure>
+				<strong id="user_name2"></strong>
+				<a onclick="logout()" class="bt-logout"><i class="ico i-logout"></i> Logout</a>
+                <button type="button" class="bt-close"><span class="skip">닫기</span></button>
+            </div>
+        </div>
+    </header>
+	<div id="container">
+		<h2 class="sub-tit">그룹 이름</h2>
+		<div id="contents">
+			<form action="">
+				<fieldset>
+					<legend>답변 작성하기</legend>
+					<div class="forms-write-wrap">
+						<div class="wr-wrap">
+							<div class="frm-area subject">
+								<div class="inp-group">
+									<i class="ico i-quiz-fill"><span class="skip">퀴즈</span></i>
+                                    <h3>폼 제목</h3>
+                                    <p>폼 설명을 입력하세요.</p>
+								</div>
+								<p class="img-view"><img src="https://via.placeholder.com/160x160" alt=""></p>
+							</div>
+							<div class="container">
+                                <div class="inner">
+                                    <div class="frm-area short-answer">
+                                        <div class="inp-group">
+                                            <i class="number">1</i>
+                                            <h4>질문 제목을 입력해주세요.</h4>
+                                            <p class="img-view"><img src="https://via.placeholder.com/160x160" alt=""></p>
+                                            <textarea name="" id="" cols="" rows="" placeholder="해당 주관식의 정답을 입력해주세요."></textarea>
+                                        </div>
+                                        <!-- <button type="button" class="st-ico"><span>BUTTON</span></button> -->
+                                    </div>
+                                    <div class="frm-area multiple-choice">
+                                        <div class="inp-group">
+                                            <i class="number">2</i>
+                                            <h4>질문 제목을 입력해주세요.</h4>
+                                            <p class="img-view"><img src="https://via.placeholder.com/160x160" alt=""></p>
+                                            <ol class="subject-valid">
+                                                <li>
+                                                    <span class="ctm-chk"><input type="checkbox" name="each" value="1"><label class="skip">객관식 1</label></span>
+                                                    <span class="inp">1. 객관식 내용을 입력하세요.</span>
+                                                </li>
+                                                <li>
+                                                    <span class="ctm-chk"><input type="checkbox" name="each" value="2"> <label class="skip">객관식 2</label></span>
+                                                    <span class="inp">2. 객관식 내용을 입력하세요.</span>
+                                                </li>
+                                                <li>
+                                                    <span class="ctm-chk"><input type="checkbox" name="each" value="3"> <label class="skip">객관식 3</label></span>
+                                                    <span class="inp">3. 객관식 내용을 입력하세요.</span>
+                                                </li>
+                                                <li>
+                                                    <span class="ctm-chk"><input type="checkbox" name="each" value="4"> <label class="skip">객관식 4</label></span>
+                                                    <span class="inp">4. 객관식 내용을 입력하세요.</span>
+                                                </li>
+                                                <li>
+                                                    <span class="ctm-chk"><input type="checkbox" name="each" value="5"> <label class="skip">객관식 5</label></span>
+                                                    <span class="inp">5. 객관식 내용을 입력하세요.</span>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                        <!-- <button type="button" class="st-ico"><span>BUTTON</span></button> -->
+                                    </div>
+                                    <div class="frm-area multiple-choice">
+                                        <div class="inp-group">
+                                            <i class="number">3</i>
+                                            <h4>질문 제목을 입력해주세요.</h4>
+                                            <p class="img-view"><img src="https://via.placeholder.com/160x160" alt=""></p>
+                                            <div class="que-viewitem">
+                                                <p>보기</p>
+                                                <ol>
+                                                    <li>ㄱ. 보기 내용을 입력하세요.</li>
+                                                    <li>ㄴ. 보기 내용을 입력하세요.</li>
+                                                    <li>ㄷ. 보기 내용을 입력하세요.</li>
+                                                    <li>ㄹ. 보기 내용을 입력하세요.</li>
+                                                    <li>ㅁ. 보기 내용을 입력하세요.</li>
+                                                </ol>
+                                            </div>
+                                            <ol class="subject-valid">
+                                                <li>
+                                                    <span class="ctm-chk"><input type="checkbox" name="each" value="1"><label class="skip">객관식 1</label></span>
+                                                    <span class="inp">1. 객관식 내용을 입력하세요.</span>
+                                                </li>
+                                                <li>
+                                                    <span class="ctm-chk"><input type="checkbox" name="each" value="2"> <label class="skip">객관식 2</label></span>
+                                                    <span class="inp">2. 객관식 내용을 입력하세요.</span>
+                                                </li>
+                                                <li>
+                                                    <span class="ctm-chk"><input type="checkbox" name="each" value="3"> <label class="skip">객관식 3</label></span>
+                                                    <span class="inp">3. 객관식 내용을 입력하세요.</span>
+                                                </li>
+                                                <li>
+                                                    <span class="ctm-chk"><input type="checkbox" name="each" value="4"> <label class="skip">객관식 4</label></span>
+                                                    <span class="inp">4. 객관식 내용을 입력하세요.</span>
+                                                </li>
+                                                <li>
+                                                    <span class="ctm-chk"><input type="checkbox" name="each" value="5"> <label class="skip">객관식 5</label></span>
+                                                    <span class="inp">5. 객관식 내용을 입력하세요.</span>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                        <!-- <button type="button" class="st-ico"><span>BUTTON</span></button> -->
+                                    </div>
+                                </div>
+                                <aside class="floating open">
+                                    <a href="javascript:;" class="bt-page bt-top"><i class="ico"></i><span class="skip">TOP</span></a>
+                                    <a href="javascript:;" class="bt-page bt-btm"><i class="ico"></i><span class="skip">BOTTOM</span></a>
+                                    <ul class="floating_item">
+                                        <li><button type="button"><i class="ico"></i> <span class="tooltip">노트</span></button></li>
+                                    </ul>
+                                </aside>
+							</div>
+						</div>
+						<div class="bt-wrap">
+							<button type="button" class="st-ico" onclick=""><span>나가기</span></button>
+							<button type="submit" class="st-fill" onclick=""><span>등록하기</span><i class="ico"></i></button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+    //user modal layer
+    let user = document.querySelector('.user_login');
+    let modal = document.querySelector('.mem_info');
+    let modal_close = document.querySelector('.bt-close');
+
+    user.addEventListener('click', function(){
+        modal.classList.add('open');
+    });
+    modal_close.addEventListener('click', function(){
+        modal.classList.remove('open');
+    });
+
+    let top_button = document.querySelector('.bt-top');
+    top_button.addEventListener('click', function(e){
+        e.preventDefault();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+    let bottom_button = document.querySelector('.bt-btm');
+    bottom_button.addEventListener('click', function(e){
+        e.preventDefault();
+        window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+    });
+</script>
+</body>
+</html>
