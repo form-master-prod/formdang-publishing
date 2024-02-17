@@ -24,6 +24,8 @@ function generateCard(e) { // 카드 생성전 개별 값 세팅
 function ok_popup() {
     if (modal_type == 'C') { // 모달 닫기 버튼
         close_popup();
+    } else if (modal_type == 'M') {
+        forwarding(PAGE.LOGIN.MY);
     }
 }
 

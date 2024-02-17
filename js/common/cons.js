@@ -57,8 +57,7 @@ function logout() { // 로그아웃 공통 로직
 
 function logoutAuto() { // 토큰 삭제 및 토큰 유효성 만료 자동 로그아웃
     removeLoginInfo();
-    alert('로그아웃 되었습니다. 다시 로그인해주세요.')
-    forwarding(PAGE.LOGIN.MY);
+    open_popup('로그 아웃', '유효 시간이 만료되어 로그아웃 됩니다. 다시 로그인을 해주세요.', 'flex', '닫기', false, 'M') // 팝업 오픈
 }
 
 function isLogin() { // 로그인 체크 공통 로직
