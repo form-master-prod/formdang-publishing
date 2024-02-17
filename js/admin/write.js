@@ -239,6 +239,8 @@ function ok_popup() {
         window.location.replace(path)
     } else if (modal_type == 'LO') { // 팝업 로그아웃 처리
         logout();
+    } else if (modal_type == 'M') {
+        forwarding(PAGE.LOGIN.MY);
     }
 }
 

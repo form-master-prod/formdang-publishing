@@ -32,6 +32,8 @@ function ok_popup() {
         close_popup();
     } else if (modal_type == 'CB') { // 모달 닫기 redirect
         redirect_close_popup();
+    } else if (modal_type == 'M') {
+        forwarding(PAGE.LOGIN.MY);
     }
 }
 
