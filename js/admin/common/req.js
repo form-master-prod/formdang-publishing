@@ -12,3 +12,17 @@ class Question {
         this.type = type; this.count = count; this.order = order; this.title = title; this.placeholder = placeholder; this.detail = detail; this.exampleDetail = exampleDetail; this.answer = answer; this.file = file;
     }
 }
+
+class R1 { page; type; status; order; constructor(p, t, s, o) { this.page = p; this.type = t; this.status = s; this.order = o; } }
+
+class Paper {
+    fid;
+    type;
+    key;
+
+    constructor(fid, type, key) {
+        this.fid = fid;
+        this.type = type;
+        this.key = key;
+    }
+}

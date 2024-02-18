@@ -16,19 +16,21 @@
         <h1 class="skip"><a href="./"><img src="../image/common/logo_horizontal.png" alt="폼당폼당" class="w4em"></a></h1>
 		<div class="member-logout">
 			<div class="user_login">
-				<figure><img src="../image/common/not_profile.svg" alt="profile"></figure>
-				<span><em id="user_name1"></em> <i class="ico"></i></span>
+				<figure style="background-color: white"> <!-- 로그인 뱃지 제거 및 화이트 처리 -->
+<!--                    <img src="../image/common/not_profile.svg" alt="profile">-->
+                </figure>
+<!--				<span><em id="user_name1"></em> <i class="ico"></i></span>-->
 			</div>
-            <div class="modal-layer mem_info">
-				<figure><img src="../image/common/not_profile.svg" alt=""> <button type="button" onclick="alert('프로필 이미지 등록 버튼 입니다. 필요 시 사용하세요.');"><i class="ico"></i> <span class="skip">프로필 사진 등록</span></button></figure>
-				<strong id="user_name2"></strong>
-				<a onclick="logout()" class="bt-logout"><i class="ico i-logout"></i> Logout</a>
-                <button type="button" class="bt-close"><span class="skip">닫기</span></button>
-            </div>
+<!--            <div class="modal-layer mem_info">-->
+<!--				<figure><img src="../image/common/not_profile.svg" alt=""> <button type="button" onclick="alert('프로필 이미지 등록 버튼 입니다. 필요 시 사용하세요.');"><i class="ico"></i> <span class="skip">프로필 사진 등록</span></button></figure>-->
+<!--				<strong id="user_name2"></strong>-->
+<!--				<a onclick="logout()" class="bt-logout"><i class="ico i-logout"></i> Logout</a>-->
+<!--                <button type="button" class="bt-close"><span class="skip">닫기</span></button>-->
+<!--            </div>-->
         </div>
     </header>
 	<div id="container">
-		<h2 class="sub-tit">그룹 이름</h2>
+		<h2 class="sub-tit"></h2>
 		<div id="contents">
 			<form action="">
 				<fieldset>
@@ -38,10 +40,10 @@
 							<div class="frm-area subject">
 								<div class="inp-group">
 									<i class="ico i-quiz-fill"><span class="skip">퀴즈</span></i>
-                                    <h3>폼 제목</h3>
+                                    <h3 id>폼 제목</h3>
                                     <p>폼 설명을 입력하세요.</p>
 								</div>
-								<p class="img-view"><img src="https://via.placeholder.com/160x160" alt=""></p>
+								<p class="img-view" ><img alt=""></p> <!-- 160 x 160 -->
 							</div>
 							<div class="container">
                                 <div class="inner">
@@ -135,8 +137,8 @@
 							</div>
 						</div>
 						<div class="bt-wrap">
-							<button type="button" class="st-ico" onclick=""><span>나가기</span></button>
-							<button type="submit" class="st-fill" onclick=""><span>등록하기</span><i class="ico"></i></button>
+<!--							<button type="button" class="st-ico" onclick=""><span>나가기</span></button>-->
+							<button type="button" class="st-fill" onclick=""><span>제출하기</span><i class="ico"></i></button>
 						</div>
 					</div>
 				</fieldset>
@@ -145,7 +147,9 @@
 	</div>
 </div>
 
+<script src="../js/common/cons.js"></script>
 <script src="../js/common/net.js"></script>
+<script src="../js/admin/common/req.js"></script>
 <script src="../js/admin/common/modal.js"></script>
 <script src="../js/paper.js"></script>
 

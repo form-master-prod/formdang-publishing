@@ -14,15 +14,33 @@ const REFUSE_ALREADY_START_FORM = '30007';
 const REFUSE_ALREADY_DELETE_FORM = '30008';
 const REFUSE_ALREADY_END_FORM = '30009';
 
-function ccatPfx(u) { return SP_PFX + u } // 스프링 API prefix 생성 함수
-function gt() { return { 'Authorization': `Bearer ${window.localStorage.getItem(ACCESS_TOKEN)}` } } // 헤더 토큰 적용 함수
+const NOT_START_FORM = '30012';
+const DELETE_FORM = '30013';
+const END_FORM = '30014';
+const NOT_LOGIN_GROUP_FORM = '30015';
+const IS_NOT_GROUP_FORM_USER = '30016';
+const IS_MAX_RESPONSE = '30017';
+const IS_NOT_RIGHT_DATE = '30018';
 
-function fla(d) { // 폼 리스트 조회
+function ccatPfx(u) { return SP_PFX + u } // 스프링 API prefix 생성 함수
+function gt() {
+    if (window.localStorage.key(ACCESS_TOKEN)) {
+        return { 'Authorization': `Bearer ${window.localStorage.getItem(ACCESS_TOKEN)}` }
+    } else {
+        return null;
+    }
+} // 헤더 토큰 적용 함수
+
+function find_form_list_api(d) { // 폼 리스트 조회
     return ajaxForm(getApiURL(ccatPfx('/form/list/find')), d, G, gt(), DF_CT, true , true)
 }
 
-function find_form_api(fid) {
+function find_form_api(fid) { // 폼 상세 조회
     return ajaxForm(getApiURL(ccatPfx(`/form/detail/${fid}/find`)), null, G, gt(), DF_CT, true, true)
+}
+
+function find_paper_api(d) { // 유저 폼 내용 조회
+    return ajaxForm(getApiURL(ccatPfx(`/public/form/paper`)), d, G, gt(), DF_CT, true, true)
 }
 
 function register_form_api(d) { // 폼 제출
@@ -41,11 +59,11 @@ function upload_profile_api(d) { // 프로필 업로드
     return ajaxForm(getApiURL(ccatPfx(`/public/file/upload/profile`)), d, P, gt(), false, false, true);
 }
 
-function uva() { // 토큰 유효성 검사
+function validate_token_api() { // 토큰 유효성 검사
     return ajaxForm(getApiURL(ccatPfx('/admin/validate')), {}, G, gt(), DF_CT, true, true)
 }
 
-function uva2() { // 토큰 유효성 검사
+function validate_token_api2() { // 토큰 유효성 검사
     return ajaxForm(getApiURL(ccatPfx('/admin/validate')), {}, G, gt(), DF_CT, true, false)
 }
 

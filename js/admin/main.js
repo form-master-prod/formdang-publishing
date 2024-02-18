@@ -8,7 +8,7 @@ const ss = 'status-sel'
 const as = 'align-sel'
 let page = 0, type = 99, status = 99, order = 0, totalPage = 0; // 페이지, 타입, 상태 파라미터
 let endFlag = false; // 마지막 페이지 플래그
-class R1 { page; type; status; order; constructor(p, t, s, o) { this.page = p; this.type = t; this.status = s; this.order = o; } }
+// class R1 { page; type; status; order; constructor(p, t, s, o) { this.page = p; this.type = t; this.status = s; this.order = o; } }
 
 function generateCard(e) { // 카드 생성전 개별 값 세팅
     const h = PAGE.ADMIN_DETAIL.concat(`?fid=${e.fid}`); // 상세 페이지 이동 URL세팅
@@ -75,7 +75,7 @@ function emptyHtml() { // 등록 폼이 없는경우 빈 html 처리
 
 
 function ff (e) { // 설문 리스트 조회 함수
-    fla(e).then(r => {
+    find_form_list_api(e).then(r => {
         if (r && r.resultCode == '0') { // 리스트 조회 성공시
             appendCards(r);
             appendAnalyze(r.analyze);

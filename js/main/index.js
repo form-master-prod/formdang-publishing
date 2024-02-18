@@ -36,7 +36,7 @@ function appendUserLogoutHtml() {
 function loginIco() {
     const token = localStorage.getItem(ACCESS_TOKEN);
     if (token) {
-        uva2().then(r => {
+        validate_token_api2().then(r => {
             if (r && r.resultCode == '0') {
                 appendUserLoginHtml()
             } else {

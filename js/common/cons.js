@@ -66,7 +66,7 @@ function isLogin() { // 로그인 체크 공통 로직
 
 function essentialLogin() { // 로그인 필수 체크
     if (isLogin) { // 토큰 존재
-        uva(); // 토큰 유효성 검사
+        validate_token_api(); // 토큰 유효성 검사
     } else { // 토큰 미존재
         logoutAuto()
     }
