@@ -96,7 +96,7 @@
                     </table>
                 </div>
                 <div class="bt-group" id="bt-group-add">
-                    <button type="button" class="st-ico" onclick="shareModal()"><span>그룹원 추가</span> <i class="ico i-add"></i></button>
+                    <button type="button" class="st-ico" id="share_modal"><span>그룹원 추가</span> <i class="ico i-add"></i></button>
                 </div>
             </div>
 		</div>
@@ -210,10 +210,11 @@ const group_layer = document.getElementById("group_layer");
 const remove_layer = document.getElementById("remove_layer");
 const confirm_layer = document.getElementById("confirm_layer");
 
-function shareModal() {
+$("#share_modal").click(function () {
   share_layer.style.display = "flex";
   document.body.style.overflow = "hidden";
-}
+})
+
 function openModal() {
   group_layer.style.display = "flex";
   document.body.style.overflow = "hidden";
