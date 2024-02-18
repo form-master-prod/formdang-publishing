@@ -500,3 +500,108 @@ function user_loop_input(exampleDetail) {
 function user_append_question (html) { // 문한 컨텐츠 추가
     $(".inner").append(html); // 문항 html append
 }
+
+
+/**
+ * 페이지바 append html
+ * @param curPage
+ * @param totalPage
+ */
+function append_page_bar(curPage, totalPage) { // 페이징 바 붙이기
+    let bar = parseInt(curPage / PAGE_BAR_NUM) // 페이지 바 번호
+    let html = '';
+    html = html.concat(`<a class="prev" onclick="move_prev()"><span class="skip">처음</span> <i class="ico"></i></a>`) // 왼쪽 화살표
+    for (let i=0; i <5 ; i++) { // 페이지 붙이기
+        let num = (bar * PAGE_BAR_NUM) + i + 1;
+        if (num == curPage + 1) {
+            html = html.concat(`<a class="current"><strong>${num}</strong></a>`) // 현재 페이지
+        } else if (num <= totalPage) {
+            html = html.concat(`<a onclick="move_page(this)">${num}</a>`) // 페이지
+        }
+    }
+    html = html.concat(`<a class="next" onclick="move_next()"><span class="skip">끝</span> <i class="ico"></i></a>`) // 오른쪽 화살표
+    $('.pagenate .inner').append(html)
+}
+
+/**
+ * 페이지 바 왼쪽 화살표
+ */
+function move_prev() { // 왼쪽 화살표 이동
+    if (!isFirstPageBar(page, PAGE_BAR_NUM)) { // 처음 페이지 바 검사
+        let bar = parseInt(page / PAGE_BAR_NUM) * PAGE_BAR_NUM - 1
+        window.location.href = `${PAGE.ADMIN_MAIN}?${P_PAGE}=${bar}&${P_TYPE}=${type}&${P_STATUS}=${status}`
+    }
+}
+
+/**
+ * 페이지 바 오른쪽 화살표
+ */
+function move_next() { // 오른쪽 화살표 이동
+    if (!isEndPageBar(page, totalPage, PAGE_BAR_NUM)) { // 마지막 페이지바 검사
+        let bar = parseInt(page / PAGE_BAR_NUM) * PAGE_BAR_NUM + PAGE_BAR_NUM
+        window.location.href = `${PAGE.ADMIN_MAIN}?${P_PAGE}=${bar}&${P_TYPE}=${type}&${P_STATUS}=${status}&${P_ORDER}=${order}`
+    }
+}
+
+/**
+ * 페이지 이동
+ * @param e
+ */
+function move_page(e) { // 페이지 이동
+    let page = parseInt($(e).text()) - 1
+    window.location.href = `${PAGE.ADMIN_MAIN}?${P_PAGE}=${page}&${P_TYPE}=${type}&${P_STATUS}=${status}&${P_ORDER}=${order}`
+}
+
+/**
+ * 메인 페이지 빈 html
+ * @returns {string}
+ */
+function main_empty_html() { // 등록 폼이 없는경우 빈 html 처리
+    let html = ''
+    html =
+        html.concat(`<div class="not-result">`)
+            .concat(`<i class="ico"></i>`)
+            .concat(`<p>앗 ! 등록된 폼이 없어요.<br>버튼을 클릭하여 폼을 만들어주세요.</p>`)
+            .concat(`<a href="write.html" class="st-ico"><i class="ico i-form"></i> <span>폼 작성하기</span></a>`)
+            .concat(`</div>`)
+    return html;
+}
+
+/**
+ * 메인 페이지 이미지 html
+ * @param i
+ * @returns {string}
+ */
+function main_img_html (i) { // 로고 이미지 HTML
+    let html = '';
+    if (i) html = html.concat(`<span><img src="${i}" alt=""></span>`) // 로고 이미지가 있는경우
+    else html = html.concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>`) // 로고 이미지가 없는 경우
+    return html;
+}
+
+/**
+ * 메인 페이지 카드 html
+ * @param url
+ * @param ico
+ * @param sub
+ * @param logo
+ * @param title
+ * @param regDt
+ * @param del
+ * @returns {string}
+ */
+function card_html (url, ico, sub, logo, title, regDt, del) { // 설문 카드 HTML
+    let html = '';
+    html =
+        html.concat(`<li class="${del}">`)
+            .concat(`<a href="${url}">`)
+            .concat(`<i class="ico ${ico}">`)
+            .concat(`<span class="skip">${sub}</span></i>`)
+            .concat(`<figure class="thumb">${logo}</figure>`)
+            .concat(`<h3>${title}</h3>`)
+            .concat(`<p>`)
+            .concat(`<i class="ico"></i>${regDt}</p>`)
+            .concat(`</a>`)
+            .concat(`</li>`)
+    return html;
+}

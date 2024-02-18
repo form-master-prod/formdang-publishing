@@ -8,79 +8,34 @@ const ss = 'status-sel'
 const as = 'align-sel'
 let page = 0, type = 99, status = 99, order = 0, totalPage = 0; // 페이지, 타입, 상태 파라미터
 let endFlag = false; // 마지막 페이지 플래그
-// class R1 { page; type; status; order; constructor(p, t, s, o) { this.page = p; this.type = t; this.status = s; this.order = o; } }
 
-function generateCard(e) { // 카드 생성전 개별 값 세팅
-    const h = PAGE.ADMIN_DETAIL.concat(`?fid=${e.fid}`); // 상세 페이지 이동 URL세팅
-    const c = e.type == 0 ? "i-survey-line" : "i-quiz-line"; // 설문, 퀴즈에 따른 아이콘 class 설정
-    const s = e.type == 0 ? "설문" : "퀴즈"; // 설문 퀴즈에 따른 소제목 세팅
-    const i = imgHtml(e.logoUrl) // 로고 이미지 HTML
-    const t = e.title; // 제목
-    const r = e.regDt; // 등록일
-    const ef = e.delFlag == 1 ? 'disalbed-item' : ''; // 삭제 여부 ( 0: 미삭제, 1: 삭제)
-    return cardHtml(h, c, s, i, t, r, ef);
-}
-
-function ok_popup() {
-    if (modal_type == 'C') { // 모달 닫기 버튼
-        close_popup();
-    } else if (modal_type == 'M') {
-        forwarding(PAGE.LOGIN.MY);
-    }
+/**
+ * 카드 개별 html append
+ * @param e
+ * @returns {string}
+ */
+function generate_card(e) { // 카드 생성전 개별 값 세팅
+    const url = PAGE.ADMIN_DETAIL.concat(`?fid=${e.fid}`); // 상세 페이지 이동 URL세팅
+    const ico = e.type == 0 ? "i-survey-line" : "i-quiz-line"; // 설문, 퀴즈에 따른 아이콘 class 설정
+    const sub = e.type == 0 ? "설문" : "퀴즈"; // 설문 퀴즈에 따른 소제목 세팅
+    const logo = main_img_html(e.logoUrl) // 로고 이미지 HTML
+    const title = e.title; // 제목
+    const regDt = e.regDt; // 등록일
+    const del = e.delFlag == 1 ? 'disalbed-item' : ''; // 삭제 여부 ( 0: 미삭제, 1: 삭제)
+    return card_html(url, ico, sub, logo, title, regDt, del);
 }
 
 /**
- * 모달 닫기 처리
+ * 설문 리스트 조회
+ * @param e
  */
-function close_popup() { // 팝업 닫기
-    document.getElementById('modal_layer').style.display = "none";
-    document.body.style.overflow = "auto";
-}
-
-function cardHtml (h, c, s, i, t, r, ef) { // 설문 카드 HTML
-    let html = '';
-    html =
-        html.concat(`<li class="${ef}">`)
-                .concat(`<a href="${h}">`)
-                .concat(`<i class="ico ${c}">`)
-                .concat(`<span class="skip">${s}</span></i>`)
-                .concat(`<figure class="thumb">${i}</figure>`)
-                .concat(`<h3>${t}</h3>`);
-
-    html =
-        html.concat(`<p>`)
-            .concat(`<i class="ico"></i>${r}</p>`)
-            .concat(`</a>`)
-            .concat(`</li>`)
-    return html;
-}
-
-function imgHtml (i) { // 로고 이미지 HTML
-    let html = '';
-    if (i) html = html.concat(`<span><img src="${i}" alt=""></span>`) // 로고 이미지가 있는경우
-    else html = html.concat(`<span class="not-img"><img src="../image/icon/gallery-remove.svg" alt=""></span>`) // 로고 이미지가 없는 경우
-    return html;
-}
-
-function emptyHtml() { // 등록 폼이 없는경우 빈 html 처리
-    let html = ''
-    html =
-        html.concat(`<div class="not-result">`)
-                .concat(`<i class="ico"></i>`)
-                .concat(`<p>앗 ! 등록된 폼이 없어요.<br>버튼을 클릭하여 폼을 만들어주세요.</p>`)
-                .concat(`<a href="write.html" class="st-ico"><i class="ico i-form"></i> <span>폼 작성하기</span></a>`)
-            .concat(`</div>`)
-    return html;
-}
-
-
-function ff (e) { // 설문 리스트 조회 함수
-    find_form_list_api(e).then(r => {
-        if (r && r.resultCode == '0') { // 리스트 조회 성공시
-            appendCards(r);
-            appendAnalyze(r.analyze);
-            appendPage(r.curPage, r.totalPage);
-            totalPage = r.totalPage
+function find_form_list (e) { // 설문 리스트 조회 함수
+    find_form_list_api(e).then(res => {
+        if (res && res.resultCode == '0') { // 리스트 조회 성공시
+            append_cards(res);
+            append_analyze(res.analyze);
+            append_page_bar(res.curPage, res.totalPage);
+            totalPage = res.totalPage
         }
         setTimeout(() => {
             off_spinner()
@@ -89,27 +44,50 @@ function ff (e) { // 설문 리스트 조회 함수
     })
 }
 
-function emptyList(data) { // 리스트가 없는 경우
+/**
+ * 리스트 빈값 검사
+ * @param data
+ * @returns {boolean}
+ */
+function validate_empty_list(data) { // 리스트가 없는 경우
     return !data || !data.list || data.list.length == 0
 }
 
-function isLastPage(data) { // 전체페이지 개수 == 현재페이지 + 1 같은 경우
+/**
+ * 마지막 페이지 공식
+ * @param data
+ * @returns {boolean}
+ */
+function is_last_page(data) { // 전체페이지 개수 == 현재페이지 + 1 같은 경우
     return data.totalPage == data.curPage + 1;
 }
 
-function watchingEndStatus(data) { // 마지막 페이지 감지
-    if (emptyList(data) || isLastPage(data)) endFlag = true; // 마지막 페이지 처리
+/**
+ * 마지막 페이지 검사
+ * @param data
+ */
+function watching_end_page(data) { // 마지막 페이지 감지
+    if (validate_empty_list(data) || is_last_page(data)) endFlag = true; // 마지막 페이지 처리
 }
 
-function appendEmptyHtml() { // 빈값 html append 처리
-    $(".list-wrap ul").empty(); // ul 하위 HTML 정리
-    let notResultElement = document.querySelector('.not-result'); // empty html 조회
-    if (!notResultElement) { // 해당 html 있는지 존재하지 않는경우 추가
-        $(".list-wrap").append(emptyHtml())
+/**
+ * 폼 카드 리스트 append
+ * @param data
+ */
+function append_cards(data) { // 폼 카드 리스트 처리
+    watching_end_page(data); // 마지막 페이지 감지
+    if (validate_empty_list(data)) { // 리스트가 없는경우
+        append_empty_html(); // empty html append 처리
+        return
     }
+    remove_empty_html(); // empty html remove 처리
+    data.list.forEach(e => $("#list-wrap-card").append(generate_card(e))); // 폼 카드 리스트 append
 }
 
-function removeEmptyHtml() { // 빈값 html remove 처리
+/**
+ * 빈 리스트 html remove
+ */
+function remove_empty_html() { // 빈값 html remove 처리
     let listWrapElement = document.querySelector('.list-wrap');
     let notResultElement = listWrapElement.querySelector('.not-result');
     if (notResultElement) { // 있는 경우 제거
@@ -117,61 +95,34 @@ function removeEmptyHtml() { // 빈값 html remove 처리
     }
 }
 
-function appendCards(data) { // 폼 카드 리스트 처리
-    watchingEndStatus(data); // 마지막 페이지 감지
-    if (emptyList(data)) { // 리스트가 없는경우
-        appendEmptyHtml(); // empty html append 처리
-        return
+/**
+ * 빈 리스트 html append
+ */
+function append_empty_html() { // 빈값 html append 처리
+    $(".list-wrap ul").empty(); // ul 하위 HTML 정리
+    let notResultElement = document.querySelector('.not-result'); // empty html 조회
+    if (!notResultElement) { // 해당 html 있는지 존재하지 않는경우 추가
+        $(".list-wrap").append(main_empty_html())
     }
-    removeEmptyHtml(); // empty html remove 처리
-    data.list.forEach(e => $("#list-wrap-card").append(generateCard(e))); // 폼 카드 리스트 append
 }
 
-function appendAnalyze(data) { // 종합 분석 처리
+/**
+ * 종합분석 정보 append
+ * @param data
+ */
+function append_analyze(data) { // 종합 분석 처리
     $("li:nth-child(1) em").text(data.quizCnt + "건"); // 퀴즈 건수
     $("li:nth-child(2) em").text(data.quizRespondentCnt + "건"); // 퀴즈 응답 건수
     $("li:nth-child(3) em").text(data.inspectionCnt + "건"); // 설문 건수
     $("li:nth-child(4) em").text(data.inspectionRespondentCnt + "건"); // 설문 응답 건수
 }
 
-function appendPage(curPage, totalPage) { // 페이징 바 붙이기
-    let bar = parseInt(curPage / PAGE_BAR_NUM) // 페이지 바 번호
-    let html = '';
-    //ToDo 첫페이지 비활성화 처리
-    html = html.concat(`<a class="prev" onclick="movePrev()"><span class="skip">처음</span> <i class="ico"></i></a>`) // 왼쪽 화살표
-    for (let i=0; i <5 ; i++) { // 페이지 붙이기
-        let num = (bar * PAGE_BAR_NUM) + i + 1;
-        if (num == curPage + 1) {
-            html = html.concat(`<a class="current"><strong>${num}</strong></a>`) // 현재 페이지
-        } else if (num <= totalPage) {
-            html = html.concat(`<a onclick="movePage(this)">${num}</a>`) // 페이지
-        }
-    }
-    // ToDo 마지막페이지 비활성화 처리
-    html = html.concat(`<a class="next" onclick="moveNext()"><span class="skip">끝</span> <i class="ico"></i></a>`) // 오른쪽 화살표
-    $('.pagenate .inner').append(html)
-}
-
-function movePrev() { // 왼쪽 화살표 이동
-    if (!isFirstPageBar(page, PAGE_BAR_NUM)) { // 처음 페이지 바 검사
-        let bar = parseInt(page / PAGE_BAR_NUM) * PAGE_BAR_NUM - 1
-        window.location.href = `${PAGE.ADMIN_MAIN}?${P_PAGE}=${bar}&${P_TYPE}=${type}&${P_STATUS}=${status}`
-    }
-}
-
-function moveNext() { // 오른쪽 화살표 이동
-    if (!isEndPageBar(page, totalPage, PAGE_BAR_NUM)) { // 마지막 페이지바 검사
-        let bar = parseInt(page / PAGE_BAR_NUM) * PAGE_BAR_NUM + PAGE_BAR_NUM
-        window.location.href = `${PAGE.ADMIN_MAIN}?${P_PAGE}=${bar}&${P_TYPE}=${type}&${P_STATUS}=${status}&${P_ORDER}=${order}`
-    }
-}
-
-function movePage(e) { // 페이지 이동
-    let page = parseInt($(e).text()) - 1
-    window.location.href = `${PAGE.ADMIN_MAIN}?${P_PAGE}=${page}&${P_TYPE}=${type}&${P_STATUS}=${status}&${P_ORDER}=${order}`
-}
-
-function chi(ei, t) { // 타입 or 상태 변경 감지시 새롭게 리스트 요청
+/**
+ * 상태 변경 리스트 재조회
+ * @param ei
+ * @param t
+ */
+function change_forms(ei, t) { // 타입 or 상태 변경 감지시 새롭게 리스트 요청
     if (t == 0) {
         type = document.getElementById(ei).value; // 타입 변경
     } else if (t == 1) {
@@ -182,7 +133,12 @@ function chi(ei, t) { // 타입 or 상태 변경 감지시 새롭게 리스트 �
     window.location.href = `${PAGE.ADMIN_MAIN}?${P_PAGE}=0&${P_TYPE}=${type}&${P_STATUS}=${status}&${P_ORDER}=${order}`
 }
 
-async function queryStringTokenParse (p) { // 로그인 후 받은 인증 토큰 세팅
+/**
+ * 파라미터 파싱
+ * @param p
+ * @returns {Promise<void>}
+ */
+async function query_parse (p) { // 로그인 후 받은 인증 토큰 세팅
     for (const e of p) {
         if (e[0] == ACCESS_TOKEN) window.localStorage.setItem(e[0], e[1]) // 로그인 JWT 토큰
         else if (e[0] == REFRESH_TOKEN) window.localStorage.setItem(e[0], e[1]) // 로그인 리프레쉬 토큰
@@ -193,7 +149,10 @@ async function queryStringTokenParse (p) { // 로그인 후 받은 인증 토큰
     }
 }
 
-function disableQueryString() {
+/**
+ * 쿼리스트링 제거 (토큰정보)
+ */
+function disable_querystring() {
     let currentUrl = window.location.href;
     let queryStringIndex = currentUrl.indexOf('?');
 
@@ -213,33 +172,57 @@ function disableQueryString() {
     }
 }
 
+/**
+ * 메인 화면 오픈
+ */
 function on_screen() {
     document.getElementsByClassName('list-wrap')[0].style.display = 'block'
     document.getElementsByClassName('pagenate')[0].style.display = 'flex'
 }
 
+/**
+ * 메인 화면 disable
+ */
 function off_screen() {
     document.getElementsByClassName('list-wrap')[0].style.display = 'none'
     document.getElementsByClassName('pagenate')[0].style.display = 'none'
 }
 
+/**
+ * 모달 확인 클릭 처리
+ */
+function ok_popup() {
+    if (modal_type == 'C') { // 모달 닫기 버튼
+        close_popup();
+    } else if (modal_type == 'M') {
+        forwarding(PAGE.LOGIN.MY);
+    }
+}
+
+/**
+ * 모달 닫기 처리
+ */
+function close_popup() { // 팝업 닫기
+    document.getElementById('modal_layer').style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
 $(document).ready(() => {
-    queryStringTokenParse(new URLSearchParams(window.location.search)) // 로그인 인증 토큰 파싱 처리
-        .then(() => {
+    query_parse(new URLSearchParams(window.location.search)).then(() => {
             essentialLogin() // 로그인 필수 체크
-        });
-    disableQueryString();
+            disable_querystring();
+    });
     document.getElementById(ts).value = type;
     document.getElementById(ss).value = status;
     document.getElementById(as).value = order;
+    $(`#${ts}`).change(function() { change_forms(ts, 0) }) // 타입 변경
+    $(`#${ss}`).change(function() { change_forms(ss, 1) }) // 상태 변경
+    $(`#${as}`).change(function() { change_forms(as, 2) }) // 상태 변경
     $('.layer-sel').niceSelect(); // 퍼블 추가 내역
 })
 
 $(window).load(() => {
-    off_screen()
+    off_screen();
     on_spinner();
-    ff(new R1(page, type, status, order)); // 처음 리스트 API 호출
-    $(`#${ts}`).change(function() { chi(ts, 0) }) // 타입 변경
-    $(`#${ss}`).change(function() { chi(ss, 1) }) // 상태 변경
-    $(`#${as}`).change(function() { chi(as, 2) }) // 상태 변경
+    find_form_list(new List(page, type, status, order)); // 처음 리스트 API 호출
 })

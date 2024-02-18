@@ -13,7 +13,7 @@ class Question {
     }
 }
 
-class R1 { page; type; status; order; constructor(p, t, s, o) { this.page = p; this.type = t; this.status = s; this.order = o; } }
+class List { page; type; status; order; constructor(p, t, s, o) { this.page = p; this.type = t; this.status = s; this.order = o; } }
 
 class Paper {
     fid;
