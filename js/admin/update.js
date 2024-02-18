@@ -257,8 +257,14 @@ function find_form (fid) { // 설문 리스트 조회 함수
         } else {
             open_popup("폼 조회 실패", "폼 내용을 불러오는데 실패하였습니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
         }
+        setTimeout(() => {
+            on_screen();
+            off_spinner();
+        }, 100)
     })
     .catch(e => {
+        on_screen();
+        off_screen();
         open_popup("폼 조회 실패", "폼 내용을 불러오는데 실패하였습니다.", "flex", '닫기', false, 'CB') // 팝업 오픈
     })
 }
@@ -454,6 +460,14 @@ function set_checkbox(question, data) { // 공통 객관식 처리
     }
 }
 
+function on_screen() {
+    document.getElementsByClassName('forms-write-wrap')[0].style.display = 'flex'
+}
+
+function off_screen() {
+    document.getElementsByClassName('forms-write-wrap')[0].style.display = 'none'
+}
+
 /**
  * 퍼블리셔 추가 영역
  */
@@ -466,6 +480,8 @@ function purple_script() { // 퍼블 추가 내역
 }
 
 $(document).ready(() => { // 초기 설정
+    off_screen()
+    on_spinner()
     essentialLogin(); // 로그인 여부 검사
     append_empty_html(); // 처음 빈 div 설정
     purple_script(); // 퍼블 추가 내역
