@@ -305,7 +305,7 @@ function group_my_info() {
                                     <td class="name">${list[i].name}</td>
                                     <td class="form">${list[i].form_count}</td>
                                     <td class="date">${String(list[i].reg_dt).replace("T", " ")}</td>
-                                    <td class="detail"><a href="group_form_list.html?gid=${gidValue}&group_session=${group_session}&group_name=${encodeURIComponent(data.group_name)}&role=${data.role}&user_id=${list[i].aid_id}"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
+                                    <td class="detail"><a href="group_form_list.html?gid=${gidValue}&group_session=${group_session}&group_name=${encodeURIComponent(data.group_name)}&role=${data.role}&user_id=${list[i].aid_id}&user_name=${encodeURIComponent(list[i].name)}"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
                                 </tr>
                             `
                         }
