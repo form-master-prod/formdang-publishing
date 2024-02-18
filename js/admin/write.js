@@ -49,6 +49,7 @@ function generate_request_data(beginDt, endDt, status) { // 데이터 세팅
  * @returns {*}
  */
 function get_elements_val(elements) {
+    if (!elements) return null
     for (let e of elements) { if (e.checked) return  e.value; } // 데이터 가져오기
 }
 
