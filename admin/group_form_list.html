@@ -122,10 +122,13 @@ function groupShareForm() {
                     for(let i =0; i<data.length; i++) {
 
                         let row = ""
-                        if(data[i].ok_count == "-") {
+                        let ok_count = ""
+                        if(data[i].ok_count == "-" || [null, undefined, '', 'None', 'null'].includes(data[i].ok_count)) {
                             row = `<td class="">미완료</td>`
+                            ok_count = "-"
                         }else {
                             row = `<th scope="row" class="">완료</th>`
+                            ok_count = data[i].ok_count
                         }
 
                         html += `
@@ -133,7 +136,7 @@ function groupShareForm() {
                                 ${row}
                                 <td class="name">${data[i].title}</td>
                                 <td class="form">${data[i].question_count}</td>
-                                <td class="form">${data[i].ok_count}</td>
+                                <td class="form">${ok_count}</td>
                                 <td class="detail"><a href="javascript:alert('링크를 연결하세요!');"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
                             </tr>
                         `

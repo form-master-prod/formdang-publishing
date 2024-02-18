@@ -96,13 +96,13 @@
                     </table>
                 </div>
                 <div class="bt-group" id="bt-group-add">
-                    <button type="button" class="st-ico open_modal" onclick=""><span>그룹원 추가</span> <i class="ico i-add"></i></button>
+                    <button type="button" class="st-ico" id="share_modal"><span>그룹원 추가</span> <i class="ico i-add"></i></button>
                 </div>
             </div>
 		</div>
 	</div>
 </div>
-<div class="window_alert frm_alert" id="">
+<div class="window_alert frm_alert" id="share_layer">
 	<div class="modal-layer">
 		<div class="inner">
 			<h2>그룹원 추가하기</h2>
@@ -113,7 +113,7 @@
                         <div class="frm-area">
                             <label for="group_join_url">URL</label>
                             <div class="inp-group">
-                                <input type="url" name="" value="" id="group_join_url" class="it" style="pointer-events: none">
+                                <input type="url" name="" value="" id="group_join_url" class="it" disabled readonly>
                                 <button type="button" class="st-fill" data-clipboard-target="#group_join_url" id="url_copy"><span>복사하기</span> <i class="ico i-linkcopy"></i></button>
                             </div>
                         </div>
@@ -129,7 +129,7 @@
             </form>
 		</div>
 		<div class="bt-wrap">
-			<button type="button" class="st-ico bt_close"><span>닫기</span></button>
+			<button type="button" class="st-ico" onclick="closeShareModal()"><span>닫기</span></button>
 		</div>
 	</div>
 </div>
@@ -205,9 +205,15 @@ $(document).ready(function() {
 
 });
 
+const share_layer = document.getElementById("share_layer");
 const group_layer = document.getElementById("group_layer");
 const remove_layer = document.getElementById("remove_layer");
 const confirm_layer = document.getElementById("confirm_layer");
+
+$("#share_modal").click(function () {
+  share_layer.style.display = "flex";
+  document.body.style.overflow = "hidden";
+})
 
 function openModal() {
   group_layer.style.display = "flex";
@@ -219,6 +225,11 @@ function removeModal(title, content) {
   $("#remove_modal_content").text(content)
   remove_layer.style.display = "flex";
   document.body.style.overflow = "hidden";
+}
+
+function closeShareModal() {
+  share_layer.style.display = "none";
+  document.body.style.overflow = "auto";
 }
 
 function closeModal() {
@@ -294,7 +305,7 @@ function group_my_info() {
                                     <td class="name">${list[i].name}</td>
                                     <td class="form">${list[i].form_count}</td>
                                     <td class="date">${String(list[i].reg_dt).replace("T", " ")}</td>
-                                    <td class="detail"><a href="javascript:alert('링크를 연결하세요!');"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
+                                    <td class="detail"><a href="group_form_list.html?gid=${gidValue}&group_session=${group_session}&group_name=${encodeURIComponent(data.group_name)}&role=${data.role}&user_id=${list[i].aid_id}"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
                                 </tr>
                             `
                         }
