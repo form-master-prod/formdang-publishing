@@ -325,3 +325,145 @@ function add_answer(event, maxCnt) {
  * @param event
  */
 function remove_answer(event) { $(event.target).closest('.add_item').remove() }
+
+/**
+ * 유저 화면 서술형 append
+ * @param d
+ * @returns {string}
+ */
+function user_short_html(d) {
+    let html = ''
+    html = html.concat(`<div class="frm-area short-answer q-1">`)
+        .concat(`<div class="inp-group">`)
+        .concat(`<i class="number">${d.order + 1}</i>`)
+        .concat(`<h4>${d.title}</h4>`);
+
+    if (d.imageUrl) {
+        html = html.concat(`<p class="img-view"><img src="${d.imageUrl}" alt=""></p>`)
+    }
+
+    html = html.concat(`<textarea name="" id="" cols="" rows="" placeholder="${d.placeholder ? d.placeholder : '해당 주관식의 정답을 입력해주세요.'}"></textarea>`)
+        .concat(`</div>`)
+        .concat(`</div>`)
+    return html
+}
+
+/**
+ * 유저 화면 단답형 append
+ * @param d
+ * @returns {string}
+ */
+function user_subject_html(d) {
+    let html = ''
+    html = html.concat(`<div class="frm-area short-answer q-1">`)
+        .concat(`<div class="inp-group">`)
+        .concat(`<i class="number">${d.order + 1}</i>`)
+        .concat(`<h4>${d.title}</h4>`);
+
+    if (d.imageUrl) {
+        html = html.concat(`<p class="img-view"><img src="${d.imageUrl}" alt=""></p>`)
+    }
+
+    html = html.concat(`<textarea name="" id="" cols="" rows="" placeholder="해당 주관식의 정답을 입력해주세요."></textarea>`)
+        .concat(`</div>`)
+        .concat(`</div>`)
+    return html
+}
+
+/**
+ * 유저 화면 객관식 append
+ * @param d
+ * @returns {string}
+ */
+function user_multiple_html(d) {
+    let html = ''
+    html = html.concat(`<div class="frm-area multiple-choice">`)
+        .concat(`<div class="inp-group">`)
+        .concat(`<i class="number">${d.order + 1}</i>`)
+        .concat(`<h4>${d.title}</h4>`);
+
+    if (d.imageUrl) {
+        html = html.concat(`<p class="img-view"><img src="${d.imageUrl}" alt=""></p>`)
+    }
+
+    html = html.concat(`<ol class="subject-valid">`)
+        .concat(user_loop_checkbox(d.detail))
+        .concat(`</ol>`)
+        .concat(`</div>`)
+        .concat(`</div>`)
+    return html
+}
+
+/**
+ * 유저 화면 보기 append
+ * @param d
+ * @returns {string}
+ */
+function user_look_html(d) {
+    let html = ''
+    html = html.concat(`<div class="frm-area multiple-choice">`)
+        .concat(`<div class="inp-group">`)
+        .concat(`<i class="number">${d.order + 1}</i>`)
+        .concat(`<h4>${d.title}</h4>`);
+
+    if (d.imageUrl) {
+        html = html.concat(`<p class="img-view"><img src="${d.imageUrl}" alt=""></p>`)
+    }
+
+    html = html.concat(`<div class="que-viewitem">`)
+        .concat(`<p>보기</p>`)
+        .concat(`<ol>`)
+        .concat(user_loop_input(d.exampleDetail))
+        .concat(`</ol>`)
+        .concat(`</div>`)
+        .concat(`<ol class="subject-valid">`).
+        concat(user_loop_checkbox(d.detail))
+        .concat(`</ol>`)
+        .concat(`</div>`)
+        .concat(`</div>`)
+    return html
+}
+
+/**
+ * 유저화면 체크박스 loop append
+ * @param detail
+ * @returns {string}
+ */
+function user_loop_checkbox(detail) {
+    let html = ''
+    if (detail) {
+        for (let i in detail) {
+            html = html.concat(`<li>`)
+                .concat(`<span class="ctm-chk">`)
+                .concat(`<input type="checkbox" name="each" value="${Number(i) + 1}">`)
+                .concat(`<label class="skip">객관식 ${Number(i) + 1}</label>`)
+                .concat(`</span>`)
+                .concat(`<span class="inp">${Number(i) + 1}. ${detail[i]}</span>`)
+                .concat(`</li>`)
+        }
+    }
+    return html;
+}
+
+/**
+ * 유저 화면 보기문항 loop append
+ * @param exampleDetail
+ * @returns {string}
+ */
+function user_loop_input(exampleDetail) {
+    let html = ''
+    if (exampleDetail) {
+        for (let i in exampleDetail) {
+            html = html.concat(`<li>${que_arr[Number(i)+1]} ${exampleDetail[i]}</li>`)
+        }
+    }
+    return html;
+}
+
+/**
+ * 유저 화면 질문 block append
+ * @param html
+ */
+function user_append_question (html) { // 문한 컨텐츠 추가
+    $(".inner").append(html); // 문항 html append
+}
