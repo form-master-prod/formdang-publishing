@@ -52,9 +52,9 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="chkbox">상태</th>
-                                <th scope="col" class="name">이름</th>
+                                <th scope="col" class="name">폼 이름</th>
                                 <th scope="col" class="form">문항 수</th>
-                                <th scope="col" class="date">폼 공유일</th>
+                                <th scope="col" class="date">정답 수</th>
                                 <th scope="col" class="detail">상세보기</th>
                             </tr>
                         </thead>
@@ -120,12 +120,20 @@ function groupShareForm() {
                 if(data.length > 0) {
                     let html = "";
                     for(let i =0; i<data.length; i++) {
+
+                        let row = ""
+                        if(data[i].ok_count == "-") {
+                            row = `<td class="">미완료</td>`
+                        }else {
+                            row = `<th scope="row" class="">완료</th>`
+                        }
+
                         html += `
                             <tr>
-                                <th scope="row" class="chkbox"><i class="ico i-circle-o"></i></th>
+                                ${row}
                                 <td class="name">${data[i].form_name}</td>
-                                <td class="form">0</td>
-                                <td class="date">${String(data[i].reg_dt).replace("T", " ")}</td>
+                                <td class="form">${data[i].question_count}</td>
+                                <td class="form">${data[i].ok_count}</td>
                                 <td class="detail"><a href="javascript:alert('링크를 연결하세요!');"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
                             </tr>
                         `
