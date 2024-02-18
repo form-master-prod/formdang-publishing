@@ -96,13 +96,13 @@
                     </table>
                 </div>
                 <div class="bt-group" id="bt-group-add">
-                    <button type="button" class="st-ico open_modal" onclick=""><span>그룹원 추가</span> <i class="ico i-add"></i></button>
+                    <button type="button" class="st-ico open_modal" onclick="shareModal()"><span>그룹원 추가</span> <i class="ico i-add"></i></button>
                 </div>
             </div>
 		</div>
 	</div>
 </div>
-<div class="window_alert frm_alert" id="">
+<div class="window_alert frm_alert" id="share_layer">
 	<div class="modal-layer">
 		<div class="inner">
 			<h2>그룹원 추가하기</h2>
@@ -205,10 +205,15 @@ $(document).ready(function() {
 
 });
 
+const share_layer = document.getElementById("share_layer");
 const group_layer = document.getElementById("group_layer");
 const remove_layer = document.getElementById("remove_layer");
 const confirm_layer = document.getElementById("confirm_layer");
 
+function shareModal() {
+  share_layer.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
 function openModal() {
   group_layer.style.display = "flex";
   document.body.style.overflow = "hidden";
