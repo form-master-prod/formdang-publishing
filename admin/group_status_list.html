@@ -170,6 +170,20 @@
 		</div>
 	</div>
 </div>
+
+
+<div class="window_alert" id="role_layer">
+	<div class="modal-layer">
+		<div class="inner">
+			<h2>접근 실패</h2>
+			<p>그룹장만 확인할 수 있습니다.</p>
+		</div>
+		<div class="bt-wrap">
+			<button type="button" class="st-fill" id="close_role_modal" onclick="closeRoleModal()"><span>확인</span></button>
+		</div>
+	</div>
+</div>
+
 <script src="../js/common/cons.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/common/util.js"></script>
@@ -209,11 +223,17 @@ const share_layer = document.getElementById("share_layer");
 const group_layer = document.getElementById("group_layer");
 const remove_layer = document.getElementById("remove_layer");
 const confirm_layer = document.getElementById("confirm_layer");
+const role_layer = document.getElementById("role_layer");
 
 $("#share_modal").click(function () {
   share_layer.style.display = "flex";
   document.body.style.overflow = "hidden";
 })
+
+function roleModal() {
+  role_layer.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
 
 function openModal() {
   group_layer.style.display = "flex";
@@ -248,6 +268,10 @@ function closeConfirm() {
   document.body.style.overflow = "auto";
 }
 
+function closeRoleModal() {
+  role_layer.style.display = "none";
+  document.body.style.overflow = "auto";
+}
 
 function removeConfirmModal() {
 
@@ -300,7 +324,7 @@ function group_my_info() {
                     for(let i =0; i<list.length; i++) {
                         if(list[i].role == 0) {
 
-                            let _url = data.role == 1 ? `group_form_list.html?gid=${gidValue}&group_session=${group_session}&group_name=${encodeURIComponent(data.group_name)}&role=${data.role}&user_id=${list[i].aid_id}&user_name=${encodeURIComponent(list[i].name)}`: `javascript:removeModal('접근 실패', '그룹장만 확인할 수 있습니다.')`
+                            let _url = data.role == 1 ? `group_form_list.html?gid=${gidValue}&group_session=${group_session}&group_name=${encodeURIComponent(data.group_name)}&role=${data.role}&user_id=${list[i].aid_id}&user_name=${encodeURIComponent(list[i].name)}`: `javascript:roleModal()`
 
                             html += `
                                 <tr>
