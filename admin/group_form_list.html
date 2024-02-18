@@ -117,10 +117,9 @@ function groupShareForm() {
         $.ajax({
             type: 'GET',
             url: 'https://formdang-api.com/api/dj/group/share-form',
-            data: {gid: gidValue, group_session: group_session, role:role},
+            data: {gid: gidValue, group_session: group_session, user_id: user_id, role:role},
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
-                'user_id': user_id
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
             },
             success: function (response) {
                 const data = response.form_list
