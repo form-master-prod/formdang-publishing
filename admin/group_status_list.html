@@ -299,13 +299,16 @@ function group_my_info() {
                     let html = "";
                     for(let i =0; i<list.length; i++) {
                         if(list[i].role == 0) {
+
+                            let _url = data.role == 1 ? `group_form_list.html?gid=${gidValue}&group_session=${group_session}&group_name=${encodeURIComponent(data.group_name)}&role=${data.role}&user_id=${list[i].aid_id}&user_name=${encodeURIComponent(list[i].name)}`: `javascript:removeModal('접근 실패', '그룹장만 확인할 수 있습니다.')`
+
                             html += `
                                 <tr>
                                     <th scope="row" class="chkbox"><span class="ctm-chk"><input type="checkbox" name="" value="${list[i].gmid}" class="group_remove_chk"><label class="skip">선택</label></span></th>
                                     <td class="name">${list[i].name}</td>
                                     <td class="form">${list[i].form_count}</td>
                                     <td class="date">${String(list[i].reg_dt).replace("T", " ")}</td>
-                                    <td class="detail"><a href="group_form_list.html?gid=${gidValue}&group_session=${group_session}&group_name=${encodeURIComponent(data.group_name)}&role=${data.role}&user_id=${list[i].aid_id}&user_name=${encodeURIComponent(list[i].name)}"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
+                                    <td class="detail"><a href="${_url}"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
                                 </tr>
                             `
                         }

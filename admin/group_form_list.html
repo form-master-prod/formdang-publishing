@@ -69,8 +69,8 @@
 <div class="window_alert" id="group_layer">
 	<div class="modal-layer">
 		<div class="inner">
-			<h2>복사 완료</h2>
-			<p id="group_comment">그룹에 초대해보세요 !</p>
+			<h2>접근 실패</h2>
+			<p id="group_comment">잘못된 접근입니다.</p>
 		</div>
 		<div class="bt-wrap">
 			<button type="button" class="st-fill" id="close_modal" onclick="closeModal()"><span>확인</span></button>
@@ -157,13 +157,13 @@ function groupShareForm() {
                 }
             },
             error: function (error) {
-                alert("유효하지 않은 그룹입니다.");
+                alert("잘못된 접근입니다.");
                 location.replace("index.html");
                 console.error('AJAX 요청 실패:', error);
             }
         });
     }else {
-        alert("유효하지 않은 그룹입니다.");
+        alert("잘못된 접근입니다.");
         location.replace("index.html");
     }
 }
