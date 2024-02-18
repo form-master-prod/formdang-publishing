@@ -19,14 +19,19 @@ function start_find_paper(d) {
         open_popup("조회 실패", "폼을 조회 할 수 없습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
         return
     }
-    findPaper(d);
+    findPaper(d).then(() => {
+        setTimeout(() => {
+            off_spinner();
+            on_screen();
+        }, 150)
+    });
 }
 
 /**
  * 유저 폼 데이터 요청 처리
  * @param d
  */
-function findPaper(d) {
+async function findPaper(d) {
     find_paper_api(d).then(res => {
         if (res && res.resultCode == '0') {
             set_data(res)
@@ -100,6 +105,18 @@ function close_popup() { // 팝업 닫기
     document.body.style.overflow = "auto";
 }
 
+function move_home() {
+    window.location.href = PAGE.MAIN;
+}
+
+function on_screen() {
+    document.getElementById('container').style.display = 'block'
+}
+
+function off_screen() {
+    document.getElementById('container').style.display = 'none'
+}
+
 /**
  * 퍼블 작업 내역
  */
@@ -130,6 +147,8 @@ function purple_script() {
 }
 
 $(document).ready(() => { // 초기 설정
+    off_screen()
+    on_spinner()
     const params = new URLSearchParams(window.location.search);
     let modalElement = document.getElementById('modal_layer')
     if (!modalElement)  $("#viewform-wrap").after(modal_html()); // 모달 붙이기

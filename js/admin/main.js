@@ -82,6 +82,10 @@ function ff (e) { // 설문 리스트 조회 함수
             appendPage(r.curPage, r.totalPage);
             totalPage = r.totalPage
         }
+        setTimeout(() => {
+            off_spinner()
+            on_screen()
+        }, 150)
     })
 }
 
@@ -209,6 +213,16 @@ function disableQueryString() {
     }
 }
 
+function on_screen() {
+    document.getElementsByClassName('list-wrap')[0].style.display = 'block'
+    document.getElementsByClassName('pagenate')[0].style.display = 'flex'
+}
+
+function off_screen() {
+    document.getElementsByClassName('list-wrap')[0].style.display = 'none'
+    document.getElementsByClassName('pagenate')[0].style.display = 'none'
+}
+
 $(document).ready(() => {
     queryStringTokenParse(new URLSearchParams(window.location.search)) // 로그인 인증 토큰 파싱 처리
         .then(() => {
@@ -222,6 +236,8 @@ $(document).ready(() => {
 })
 
 $(window).load(() => {
+    off_screen()
+    on_spinner();
     ff(new R1(page, type, status, order)); // 처음 리스트 API 호출
     $(`#${ts}`).change(function() { chi(ts, 0) }) // 타입 변경
     $(`#${ss}`).change(function() { chi(ss, 1) }) // 상태 변경

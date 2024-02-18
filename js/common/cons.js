@@ -76,3 +76,11 @@ function isUnAuthorized(e) { // 401 토큰 유효성 실패 상태
     if (e && e.status == 401) logoutAuto() // 토큰 유효성 오류
     else return null;
 }
+
+function on_spinner() {
+    document.getElementsByClassName('spinner')[0].style.display = 'block';
+}
+
+function off_spinner() {
+    document.getElementsByClassName('spinner')[0].style.display = 'none';
+}
