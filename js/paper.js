@@ -5,6 +5,7 @@
  */
 function validate(d) {
     if (!d.fid || !d.type || !d.key) {
+        off_spinner(); $('.forms-write-wrap').prepend(fail_paper("<p>폼을 조회 할 수 없습니다.</p>"));
         return false
     }
     return true;
@@ -16,14 +17,32 @@ function validate(d) {
  */
 function start_find_paper(d) {
     if (!validate(d)) {
-        open_popup("조회 실패", "폼을 조회 할 수 없습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+        off_spinner(); $('.forms-write-wrap').prepend(fail_paper("<p>폼을 조회 할 수 없습니다.</p>"));
         return
     }
-    findPaper(d).then(() => {
-        setTimeout(() => {
-            off_spinner();
-            on_screen();
-        }, 150)
+    findPaper(d).then((res) => {
+        let open, time
+        time = 150;
+        if (res && res.resultCode == '0') {
+            open = () => { off_spinner(); on_screen() };
+        } else if (res && res.resultCode == NOT_START_FORM) {
+            open = () => { off_spinner(); $('.forms-write-wrap').prepend(fail_paper("<p>아직 설문이 시작되지않은 폼입니다.</p>")) }
+        } else if (res && res.resultCode == DELETE_FORM) {
+            open = () => { off_spinner(); $('.forms-write-wrap').prepend(fail_paper("<p>삭제 된 폼입니다.</p>"))}
+        } else if (res && res.resultCode == END_FORM) {
+            open = () => { off_spinner(); $('.forms-write-wrap').prepend(fail_paper("<p>종료 된 폼입니다.</p>"))}
+        } else if (res && res.resultCode == NOT_LOGIN_GROUP_FORM) {
+            open = () => { off_spinner(); $('.forms-write-wrap').prepend(fail_paper_login("<p>로그인이 필요한 폼입니다.</p>"))}
+        } else if (res && res.resultCode == IS_NOT_GROUP_FORM_USER) {
+            open = () => { off_spinner(); $('.forms-write-wrap').prepend(fail_paper("<p>해당 폼 그룹원이 아닙니다.</p>"))}
+        } else if (res && res.resultCode == IS_MAX_RESPONSE) {
+            open = () => { off_spinner(); $('.forms-write-wrap').prepend(fail_paper("<p>이용자가 초과된 폼입니다.</p>"))}
+        } else if (res && res.resultCode == IS_NOT_RIGHT_DATE) {
+            open = () => { off_spinner(); $('.forms-write-wrap').prepend(fail_paper("<p>폼 이용 가능한 날짜가 아닙니다.</p>"))}
+        } else {
+            open = () => { off_spinner(); $('.forms-write-wrap').prepend(fail_paper("<p>폼을 조회 할 수 없습니다.</p>"))}
+        }
+        setTimeout(open, time)
     });
 }
 
@@ -32,30 +51,14 @@ function start_find_paper(d) {
  * @param d
  */
 async function findPaper(d) {
-    find_paper_api(d).then(res => {
+    return find_paper_api(d).then(res => {
         if (res && res.resultCode == '0') {
             set_data(res)
-        } else if (res && res.resultCode == NOT_START_FORM) {
-            open_popup("조회 실패", "아직 설문이 시작되지않은 폼입니다.", "flex", '닫기', false, 'C') // 팝업 오픈
-        } else if (res && res.resultCode == DELETE_FORM) {
-            open_popup("조회 실패", "삭제된 폼은 조회 할 수 없습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
-        } else if (res && res.resultCode == END_FORM) {
-            open_popup("조회 실패", "이미 종료된 폼 입니다.", "flex", '닫기', false, 'C') // 팝업 오픈
-        } else if (res && res.resultCode == NOT_LOGIN_GROUP_FORM) {
-            open_popup("조회 실패", "로그인이 필요합니다.", "flex", '닫기', false, 'L') // 팝업 오픈
-        } else if (res && res.resultCode == IS_NOT_GROUP_FORM_USER) {
-            open_popup("조회 실패", "해당 폼 그룹 가입자가 아닙니다.", "flex", '닫기', false, 'C') // 팝업 오픈
-        } else if (res && res.resultCode == IS_MAX_RESPONSE) {
-            open_popup("조회 실패", "이용자가 초과된 폼입니다.", "flex", '닫기', false, 'C') // 팝업 오픈
-        } else if (res && res.resultCode == IS_NOT_RIGHT_DATE) {
-            open_popup("조회 실패", "폼 이용 가능한 날짜가 아닙니다.", "flex", '닫기', false, 'C') // 팝업 오픈
-        } else {
-            open_popup("조회 실패", "폼을 조회 할 수 없습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
         }
+        return res;
     })
     .catch(e => {
-        console.log(e)
-        open_popup("조회 실패", "폼을 조회 할 수 없습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+        return null
     })
 }
 
@@ -105,16 +108,14 @@ function close_popup() { // 팝업 닫기
     document.body.style.overflow = "auto";
 }
 
-function move_home() {
-    window.location.href = PAGE.MAIN;
-}
-
 function on_screen() {
-    document.getElementById('container').style.display = 'block'
+    document.getElementsByClassName('wr-wrap')[0].style.display = 'block'
+    document.getElementsByClassName('bt-wrap')[0].style.display = 'flex'
 }
 
 function off_screen() {
-    document.getElementById('container').style.display = 'none'
+    document.getElementsByClassName('wr-wrap')[0].style.display = 'none'
+    document.getElementsByClassName('bt-wrap')[0].style.display = 'none'
 }
 
 /**
