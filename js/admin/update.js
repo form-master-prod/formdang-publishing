@@ -13,7 +13,7 @@ function startPopup() {
  * 임시 저장 모달 처리
  */
 function updatePopup() {
-    status = 0
+    // status = 0
     open_popup('수정 하기', '폼을 수정 하시겠습니까?', 'none', '예', true, 'R') // 팝업 오픈
 }
 
@@ -281,6 +281,7 @@ function set_form_data(data) { // 데이터 세팅
     set_logo_url_to_img(data?.logoUrl || ri); // 로고 설정
     set_question(data.question.sort((a, b) => a.order - b.order)); // 질문 리스트 붙이기
     set_update_btn(data.answerCount, data.delFlag, data.endFlag);
+    status = data.status;
 }
 
 /**
