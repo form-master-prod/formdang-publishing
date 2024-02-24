@@ -1,4 +1,4 @@
-const results = {};
+const results = [];
 var empty = [];
 
 function submitPaper() {
@@ -36,7 +36,8 @@ function getMultipleChoiceValue(element) {
 }
 
 function processQuestion(element) {
-    const number = element.querySelector('.number').innerText;
+    const numberElement = element.querySelector('.number');
+    const number = numberElement.innerText;
     const isMultiple = isMultipleChoice(element);
     const isShort = isShortAnswer(element);
 
@@ -54,5 +55,9 @@ function processQuestion(element) {
         }
     }
 
-    results[number] = value;
+    results[number] = {
+        type: numberElement.getAttribute('data-question'),
+        answer: value
+    };
 }
+
