@@ -77,6 +77,17 @@
 		</div>
 	</div>
 </div>
+
+<div class="window_alert" id="answer_layer">
+	<div class="modal-layer">
+		<div class="inner">
+			<p id="answer_comment">아직 제출되지 않은 폼입니다.</p>
+		</div>
+		<div class="bt-wrap">
+			<button type="button" class="st-fill" id="" onclick="answerCloseModal()"><span>확인</span></button>
+		</div>
+	</div>
+</div>
 <script src="../js/common/cons.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/common/util.js"></script>
@@ -96,6 +107,7 @@ $(document).ready(function() {
 });
 
 const group_layer = document.getElementById("group_layer");
+const answer_layer = document.getElementById("answer_layer");
 
 function openModal() {
   group_layer.style.display = "flex";
@@ -105,6 +117,17 @@ function closeModal() {
   group_layer.style.display = "none";
   document.body.style.overflow = "auto";
 }
+
+function answerModal() {
+  answer_layer.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+function answerCloseModal() {
+  answer_layer.style.display = "none";
+  document.body.style.overflow = "auto";
+}
+
 
 function groupShareForm() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -134,12 +157,18 @@ function groupShareForm() {
                         if(data[i].ok_count == "-" || [null, undefined, '', 'None', 'null'].includes(data[i].ok_count)) {
                             row = `<td class="">미완료</td>`
                             ok_count = "-"
-                            url = `${data[i].form_url}`
+                            if(String(role) != "1") {
+                                url = `${data[i].form_url}`
+                            }else {
+                                url = 'javascript:answerModal()'
+                            }
+
                         }else {
                             row = `<th scope="row" class="">완료</th>`
                             ok_count = data[i].ok_count
                             url = `answer_form.html?fid=${data[i].fid}&aid=${user_id}&gid=${gidValue}`
                         }
+
 
                         html += `
                             <tr>
