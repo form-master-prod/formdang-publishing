@@ -130,12 +130,15 @@ function groupShareForm() {
 
                         let row = ""
                         let ok_count = ""
+                        let url = ""
                         if(data[i].ok_count == "-" || [null, undefined, '', 'None', 'null'].includes(data[i].ok_count)) {
                             row = `<td class="">미완료</td>`
                             ok_count = "-"
+                            url = `${data[i].form_url}`
                         }else {
                             row = `<th scope="row" class="">완료</th>`
                             ok_count = data[i].ok_count
+                            url = `answer_form.html?fid=${data[i].fid}&aid=${user_id}&gid=${gidValue}`
                         }
 
                         html += `
@@ -144,7 +147,7 @@ function groupShareForm() {
                                 <td class="name">${data[i].title}</td>
                                 <td class="form">${data[i].question_count}</td>
                                 <td class="form">${ok_count}</td>
-                                <td class="detail"><a href="${data[i].form_url}"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
+                                <td class="detail"><a href="${url}"><span class="skip">상세보기</span> <i class="ico i-answer-view"></i></a></td>
                             </tr>
                         `
                     }
