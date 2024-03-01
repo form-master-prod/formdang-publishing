@@ -1,6 +1,11 @@
 const results = [];
 var empty = [];
 
+function submitAnswer() {
+    console.log(results);
+    console.log("답변 제출");
+}
+
 function submitPaper() {
     empty = []
     const innerDiv = document.querySelector('.inner');
@@ -8,10 +13,9 @@ function submitPaper() {
     questions.forEach(processQuestion);
 
     if(empty.length > 0) {
-        alert("작성하지 않은 문제가 있습니다.\n제출하시겠습니까 ?");
+        answerModal("e");
     }else {
-        console.log(results);
-        alert("제출완료");
+        answerModal("f");
     }
 }
 
@@ -61,3 +65,26 @@ function processQuestion(element) {
     };
 }
 
+const paper_answer = document.getElementById("paper_answer");
+function answerModal(type) {
+      let html = "";
+      if(type == "e") {
+          html = `
+                <p>작성하지 않은 문항이 있습니다.</p>
+                <p>제출하시겠습니까?</p>
+          `
+      }else if(type == "a") {
+          html = `
+                <p>제출하시겠습니까?</p>
+          `
+      }
+      $("#modal_content").empty();
+      $("#modal_content").append(html);
+      paper_answer.style.display = "flex";
+      document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+      paper_answer.style.display = "none";
+      document.body.style.overflow = "auto";
+}
