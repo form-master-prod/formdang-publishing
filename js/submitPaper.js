@@ -116,13 +116,13 @@ function answerModal(type) {
                 <p>제출하시겠습니까?</p>
           `
       }
-      $("#modal_content").empty();
       $("#modal_content").append(html);
       paper_answer.style.display = "flex";
       document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
+      $("#modal_content").empty();
       paper_answer.style.display = "none";
       document.body.style.overflow = "auto";
 }
