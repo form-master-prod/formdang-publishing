@@ -9,42 +9,36 @@ function submitAnswer() {
     const type = urlParams.get('type');
     const key = urlParams.get('key');
     const gidValue = urlParams ? urlParams.get('gid') || '' : '';
-    console.log(fidValue)
-    console.log(type)
-    console.log(key)
-    console.log(gidValue)
 
-    // if(fidValue && type && key) {
-    //       $.ajax({
-    //           type: 'POST',
-    //           url: 'https://formdang-api.com/api/dj/answers/flag',
-    //           contentType: 'application/json',
-    //           data: JSON.stringify({type: type,
-    //                                 key: key,
-    //                                 fid: fidValue,
-    //                                 gid: gidValue,
-    //                                 results: results
-    //           }),
-    //           headers: {
-    //               'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-    //           },
-    //           success: function (response) {
-    //               if(response.proc == "success") {
-    //
-    //               }else {
-    //                    alert("처리 중 문제가 발생했습니다.");
-    //                    return false;
-    //               }
-    //           },
-    //           error: function (error) {
-    //               console.error('AJAX 요청 실패:', error);
-    //           }
-    //       });
-    // }
-
-    console.log(results);
-    console.log("답변 제출");
-    closeModal()
+    if(fidValue && type && key) {
+          $.ajax({
+              type: 'POST',
+              url: 'https://formdang-api.com/api/dj/answers/flag',
+              contentType: 'application/json',
+              data: JSON.stringify({
+                                    type: type,
+                                    key: key,
+                                    fid: fidValue,
+                                    gid: gidValue,
+                                    results: results
+              }),
+              headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+              },
+              success: function (response) {
+                  if(response.proc == "success") {
+                        closeModal();
+                        successModal();
+                  }else {
+                       alert("처리 중 문제가 발생했습니다.");
+                       return false;
+                  }
+              },
+              error: function (error) {
+                  console.error('AJAX 요청 실패:', error);
+              }
+          });
+    }
 }
 
 function submitPaper() {
@@ -108,6 +102,8 @@ function processQuestion(element) {
 }
 
 const paper_answer = document.getElementById("paper_answer");
+const answer_success = document.getElementById("answer_success");
+
 function answerModal(type) {
       let html = "";
       if(type == "e") {
@@ -129,4 +125,10 @@ function answerModal(type) {
 function closeModal() {
       paper_answer.style.display = "none";
       document.body.style.overflow = "auto";
+}
+
+
+function successModal() {
+    answer_success.style.display = "flex";
+    document.body.style.overflow = "hidden";
 }
