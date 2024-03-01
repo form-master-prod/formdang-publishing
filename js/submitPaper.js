@@ -4,6 +4,7 @@ var empty = [];
 function submitAnswer() {
     console.log(results);
     console.log("답변 제출");
+    closeModal()
 }
 
 function submitPaper() {
