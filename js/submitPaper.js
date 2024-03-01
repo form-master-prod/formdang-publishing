@@ -94,7 +94,7 @@ function processQuestion(element) {
         }
     }
 
-    results[number] = {
+    results[number-1] = {
         type: numberElement.getAttribute('data-question'),
         qid: numberElement.getAttribute('data-qid'),
         answer: value
