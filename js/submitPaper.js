@@ -105,6 +105,7 @@ const answer_success = document.getElementById("answer_success");
 
 function answerModal(type) {
       let modal_html = "";
+      $("#modal_content").empty();
       if(type == "e") {
           modal_html += `
                 <p>작성하지 않은 문항이 있습니다.</p>
@@ -122,13 +123,18 @@ function answerModal(type) {
 }
 
 function closeModal() {
-      $("#modal_content").empty();
       paper_answer.style.display = "none";
       document.body.style.overflow = "auto";
 }
 
 
 function successModal() {
+    $("#success_content").empty();
+    let modal_html = `
+        <h2>제출완료!</h2>
+        <p>성공적으로 처리되었습니다.</p>
+    `
+    $("#success_content").append(modal_html)
     answer_success.style.display = "flex";
     document.body.style.overflow = "hidden";
 }
