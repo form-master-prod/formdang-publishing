@@ -2,6 +2,46 @@ const results = [];
 var empty = [];
 
 function submitAnswer() {
+
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const fidValue = urlParams.get('fid');
+    const type = urlParams.get('type');
+    const key = urlParams.get('key');
+    const gidValue = urlParams ? urlParams.get('gid') || '' : '';
+    console.log(fidValue)
+    console.log(type)
+    console.log(key)
+    console.log(gidValue)
+
+    // if(fidValue && type && key) {
+    //       $.ajax({
+    //           type: 'POST',
+    //           url: 'https://formdang-api.com/api/dj/answers/flag',
+    //           contentType: 'application/json',
+    //           data: JSON.stringify({type: type,
+    //                                 key: key,
+    //                                 fid: fidValue,
+    //                                 gid: gidValue,
+    //                                 results: results
+    //           }),
+    //           headers: {
+    //               'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    //           },
+    //           success: function (response) {
+    //               if(response.proc == "success") {
+    //
+    //               }else {
+    //                    alert("처리 중 문제가 발생했습니다.");
+    //                    return false;
+    //               }
+    //           },
+    //           error: function (error) {
+    //               console.error('AJAX 요청 실패:', error);
+    //           }
+    //       });
+    // }
+
     console.log(results);
     console.log("답변 제출");
     closeModal()
@@ -62,6 +102,7 @@ function processQuestion(element) {
 
     results[number] = {
         type: numberElement.getAttribute('data-question'),
+        qid: numberElement.getAttribute('data-qid'),
         answer: value
     };
 }
