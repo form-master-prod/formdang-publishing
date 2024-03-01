@@ -106,15 +106,16 @@ const answer_success = document.getElementById("answer_success");
 function answerModal(type) {
       let modal_html = "";
       if(type == "e") {
-          modal_html = `
+          modal_html += `
                 <p>작성하지 않은 문항이 있습니다.</p>
                 <p>제출하시겠습니까?</p>
           `
       }else if(type == "a") {
-          modal_html = `
+          modal_html += `
                 <p>제출하시겠습니까?</p>
           `
       }
+      console.log(modal_html)
       $("#modal_content").append(modal_html);
       paper_answer.style.display = "flex";
       document.body.style.overflow = "hidden";
