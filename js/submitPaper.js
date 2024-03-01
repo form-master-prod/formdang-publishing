@@ -3,7 +3,6 @@ var empty = [];
 
 function submitAnswer() {
 
-
     const urlParams = new URLSearchParams(window.location.search);
     const fidValue = urlParams.get('fid');
     const type = urlParams.get('type');
@@ -105,18 +104,18 @@ const paper_answer = document.getElementById("paper_answer");
 const answer_success = document.getElementById("answer_success");
 
 function answerModal(type) {
-      let html = "";
+      let modal_html = "";
       if(type == "e") {
-          html = `
+          modal_html = `
                 <p>작성하지 않은 문항이 있습니다.</p>
                 <p>제출하시겠습니까?</p>
           `
       }else if(type == "a") {
-          html = `
+          modal_html = `
                 <p>제출하시겠습니까?</p>
           `
       }
-      $("#modal_content").append(html);
+      $("#modal_content").append(modal_html);
       paper_answer.style.display = "flex";
       document.body.style.overflow = "hidden";
 }
