@@ -390,7 +390,7 @@ function user_subject_html(d) {
     let html = ''
     html = html.concat(`<div class="frm-area short-answer q-1">`)
         .concat(`<div class="inp-group">`)
-        .concat(`<i class="number" data-question="${d.type}">${d.order + 1}</i>`)
+        .concat(`<i class="number" data-question="${d.type}" data-qid="${d.qid}">${d.order + 1}</i>`)
         .concat(`<h4>${d.title}</h4>`);
 
     if (d.imageUrl) {
@@ -412,7 +412,7 @@ function user_multiple_html(d) {
     let html = ''
     html = html.concat(`<div class="frm-area multiple-choice">`)
         .concat(`<div class="inp-group">`)
-        .concat(`<i class="number" data-question="${d.type}">${d.order + 1}</i>`)
+        .concat(`<i class="number" data-question="${d.type}" data-qid="${d.qid}">${d.order + 1}</i>`)
         .concat(`<h4>${d.title}</h4>`);
 
     if (d.imageUrl) {
@@ -436,7 +436,7 @@ function user_look_html(d) {
     let html = ''
     html = html.concat(`<div class="frm-area multiple-choice">`)
         .concat(`<div class="inp-group">`)
-        .concat(`<i class="number" data-question="${d.type}">${d.order + 1}</i>`)
+        .concat(`<i class="number" data-question="${d.type}" data-qid="${d.qid}">${d.order + 1}</i>`)
         .concat(`<h4>${d.title}</h4>`);
 
     if (d.imageUrl) {
