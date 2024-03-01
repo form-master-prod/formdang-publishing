@@ -50,7 +50,7 @@ function submitPaper() {
     if(empty.length > 0) {
         answerModal("e");
     }else {
-        answerModal("f");
+        answerModal("a");
     }
 }
 
