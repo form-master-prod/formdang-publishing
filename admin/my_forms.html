@@ -105,7 +105,9 @@
 						<li>
 							<em>URL</em>
 							<div class="frm-area">
-								<label for="url" class="skip">URL</label><input type="url" name="" value="" id="url" class="it" readonly disabled>
+								<label for="url" class="skip">URL</label>
+								<input type="url" name="" value="" id="url" class="it" readonly>
+								<p id="copy_url"></p>
 							</div>
 						</li>
 						<li>
@@ -229,6 +231,19 @@
    $(document).ready(function() {
 	  FormDetail();
   });
+
+var clipboard = new ClipboardJS('#url');
+
+clipboard.on('success', function(e) {
+	$("#copy_url").text("URL이 복사되었습니다.");
+	$("#url").css("pointer-events", "none");
+
+	setTimeout(function() {
+		$("#copy_url").text("");
+		$("#url").css("pointer-events", "auto");
+	}, 3000);
+
+});
 
  const group_layer = document.getElementById("group_layer");
  const group_share_layer = document.getElementById("group_share_layer");
