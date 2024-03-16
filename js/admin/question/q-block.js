@@ -250,7 +250,7 @@ function move_home() {
 }
 
 function move_login() {
-    window.location.href = PAGE.LOGIN.MY;
+    window.location.href = PAGE.LOGIN.PAPER_MY;
 }
 
 

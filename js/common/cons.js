@@ -28,8 +28,11 @@ const PAGE  = { // 환경에 따른 페이지 URL
     ADMIN_DETAIL: getWebURL("/admin/my_forms.html"),
     LOGIN: {
         MY: getWebURL("/admin/login.html"),
+        PAPER_MY: getWebURL("/web/login.html"),
         KKO: getApiURL("/api/sp/public/kakao/login"),
+        PAPER_KKO: getApiURL("/api/sp/public/kakao/paper/login"),
         GOOGLE: getApiURL("/api/sp/public/google/login"),
+        PAPER_GOOGLE: getApiURL("/api/sp/public/google/paper/login"),
     },
 }
 
@@ -43,6 +46,11 @@ function forwarding(u) { return window.location.replace(u); }; // 페이지 포�
 function login(t) { // 로그인
     if (t == KKO) forwarding(PAGE.LOGIN.KKO);
     else if (t == GOOGLE) forwarding(PAGE.LOGIN.GOOGLE);
+}
+
+function paper_login(t) { // 로그인
+    if (t == KKO) forwarding(PAGE.LOGIN.PAPER_KKO);
+    else if (t == GOOGLE) forwarding(PAGE.LOGIN.PAPER_GOOGLE);
 }
 
 function removeLoginInfo() { // 로그인 토큰 삭제
