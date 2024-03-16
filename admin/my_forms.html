@@ -390,12 +390,7 @@ function formShareAdd() {
 		openModal("공유할 그룹을 선택해주세요.", "");
 		return false;
     }else {
-		formShare(gid, 'ADD')
-		$("#share-group option:selected").remove();
-		$("#share-group").val('');
-		$("#share-list").append(`<option value="${gid}">${name}</option>`);
-		$('.layer-sel').niceSelect('update');
-		titleOpenModal(`[${name}] 공유 성공 !`, "그룹 커뮤니티를 확인해주세요.");
+		formShare(gid, 'ADD', name)
 	}
 }
 
@@ -406,16 +401,11 @@ function formShareSub() {
 		openModal("공유할 그룹을 선택해주세요.", "");
 		return false;
     }else {
-		formShare(gid, 'SUB')
-		$("#share-list option:selected").remove();
-		$("#share-list").val('');
-		$("#share-group").append(`<option value="${gid}">${name}</option>`);
-		$('.layer-sel').niceSelect('update');
-		titleOpenModal(`[${name}] 공유 해제 !`, "그룹 커뮤니티를 확인해주세요.");
+		formShare(gid, 'SUB', name)
 	}
 }
 
-function formShare(gid, action) {
+function formShare(gid, action, name) {
       const urlParams = new URLSearchParams(window.location.search);
       const fidValue = urlParams.get('fid');
       if (fidValue) {
@@ -433,6 +423,20 @@ function formShare(gid, action) {
 				  }else if(response.proc == "fail_001") {
 					  titleOpenModal("해제 실패 !", "폼을 작성한 그룹원이 존재합니다.");
 					  return false;
+				  }else if(response.proc == "success") {
+					  if(action == "ADD") {
+							$("#share-group option:selected").remove();
+							$("#share-group").val('');
+							$("#share-list").append(`<option value="${gid}">${name}</option>`);
+							$('.layer-sel').niceSelect('update');
+							titleOpenModal(`[${name}] 공유 성공 !`, "그룹 커뮤니티를 확인해주세요.");
+					  }else if(action == "SUB"){
+							$("#share-list option:selected").remove();
+							$("#share-list").val('');
+							$("#share-group").append(`<option value="${gid}">${name}</option>`);
+							$('.layer-sel').niceSelect('update');
+							titleOpenModal(`[${name}] 공유 해제 !`, "그룹 커뮤니티를 확인해주세요.");
+					  }
 				  }
               },
               error: function (error) {
