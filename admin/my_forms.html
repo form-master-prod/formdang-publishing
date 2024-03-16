@@ -236,7 +236,7 @@ var clipboard = new ClipboardJS('#url');
 
 clipboard.on('success', function(e) {
 	$("#copy_url").text("URL이 복사되었습니다.");
-	openModal("복사 완료", "폼을 공유해보세요.");
+	titleOpenModal("복사 완료", "폼을 공유해보세요.");
 	$("#url").css("pointer-events", "none");
 
 	setTimeout(function() {
