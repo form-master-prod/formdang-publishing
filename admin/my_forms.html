@@ -430,6 +430,9 @@ function formShare(gid, action) {
 				  if(response.proc == "fail") {
 					  openModal("문제가 발생했습니다.", "");
 					  return false;
+				  }else if(response.proc == "fail_001") {
+					  titleOpenModal("해제 실패 !", "폼을 작성한 그룹원이 존재합니다.");
+					  return false;
 				  }
               },
               error: function (error) {
