@@ -69,7 +69,7 @@ function start_find_paper(d) {
         } else if (res && (res.resultCode == NOT_LOGIN_FORM || res.resultCode == NOT_EXIST_TOKEN)) {
             open = () => { off_spinner(); appendNotice('로그인이 필요한 폼입니다.', 1)}
         } else if (res && res.resultCode == IS_SUBMIT) {
-            open = () => { off_spinner(); appendNotice('이미 설문을 제출하셨습니다.', 0)}
+            open = () => { off_spinner(); appendNotice('이미 제출한 폼입니다.', 0)}
         } else if (res && res.resultCode == IS_NOT_GROUP_FORM_USER) {
             open = () => { off_spinner(); appendNotice('해당 폼 그룹원이 아닙니다.', 0)}
         } else if (res && res.resultCode == IS_MAX_RESPONSE) {

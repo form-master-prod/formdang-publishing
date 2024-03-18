@@ -9,9 +9,9 @@ function submitAnswer() {
     let key = urlParams ? urlParams.get('key') || '' : '';
 
     if(fidValue == '' && type == '' && key == '') {
-        fidValue = localStorage.getItem("fid")
-        type = localStorage.getItem("fid")
-        key = localStorage.getItem("fid")
+        fidValue = sessionStorage.getItem("fid")
+        type = sessionStorage.getItem("fid")
+        key = sessionStorage.getItem("fid")
     }
 
     if(![null, undefined, '', 'None', 'null'].includes(fidValue) && ![null, undefined, '', 'None', 'null'].includes(type) && ![null, undefined, '', 'None', 'null'].includes(key)) {
