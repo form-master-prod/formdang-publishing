@@ -4,12 +4,17 @@ var empty = [];
 function submitAnswer() {
 
     const urlParams = new URLSearchParams(window.location.search);
-    const fidValue = urlParams.get('fid');
-    const type = urlParams.get('type');
-    const key = urlParams.get('key');
-    const gidValue = urlParams ? urlParams.get('gid') || '' : '';
+    let fidValue = urlParams ? urlParams.get('fid') || '' : '';
+    let type = urlParams ? urlParams.get('type') || '' : '';
+    let key = urlParams ? urlParams.get('key') || '' : '';
 
-    if(fidValue && type && key) {
+    if(fidValue == '' && type == '' && key == '') {
+        fidValue = localStorage.getItem("fid")
+        type = localStorage.getItem("fid")
+        key = localStorage.getItem("fid")
+    }
+
+    if(![null, undefined, '', 'None', 'null'].includes(fidValue) && ![null, undefined, '', 'None', 'null'].includes(type) && ![null, undefined, '', 'None', 'null'].includes(key)) {
           $.ajax({
               type: 'POST',
               url: 'https://formdang-api.com/api/dj/answers/flag',
@@ -18,7 +23,6 @@ function submitAnswer() {
                                     type: type,
                                     key: key,
                                     fid: fidValue,
-                                    gid: gidValue,
                                     results: results
               }),
               headers: {

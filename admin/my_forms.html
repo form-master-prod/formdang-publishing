@@ -87,7 +87,7 @@
 						<li>
 							<em>미리보기</em>
 							<div class="frm-area">
-								<a href="javascript:void(0)" onclick="" class="st-fill" id="form_update"><span>수정하기</span> <i class="ico i-preview"></i></a>
+								<a href="javascript:void(0)" onclick="" class="st-fill" id="form_update"><span id="form_btn_span"></span> <i class="ico i-preview"></i></a>
 								<p>종료되지 않은 폼과 답변 인원이 없는 경우 수정이 가능합니다.</p>
 							</div>
 						</li>
@@ -236,6 +236,7 @@ var clipboard = new ClipboardJS('#url');
 
 clipboard.on('success', function(e) {
 	$("#copy_url").text("URL이 복사되었습니다.");
+	titleOpenModal("복사 완료", "폼을 공유해보세요.");
 	$("#url").css("pointer-events", "none");
 
 	setTimeout(function() {
@@ -302,10 +303,11 @@ clipboard.on('success', function(e) {
 					  $("#url").val(`${response.url == null ? "" : response.url}`);
 					  $("#end_flag").val(`${response.end_flag}`);
 					  if(String(response.end_flag) == "1" || response.answer_count > 0) {
-						  $("#form_update").css("opacity", "0.6");
-						  $("#form_update").attr("onclick", `openModal('수정이 불가능한 폼입니다.')`);
+						  $("#form_update").attr("onclick", "goPreview()");
+						  $("#form_btn_span").text("미리보기");
 					  }else {
 						  $("#form_update").attr("onclick", "goUpdate()");
+						  $("#form_btn_span").text("수정하기");
 					  }
 					  GroupFormDetail(fidValue);
 				  }
@@ -388,12 +390,7 @@ function formShareAdd() {
 		openModal("공유할 그룹을 선택해주세요.", "");
 		return false;
     }else {
-		formShare(gid, 'ADD')
-		$("#share-group option:selected").remove();
-		$("#share-group").val('');
-		$("#share-list").append(`<option value="${gid}">${name}</option>`);
-		$('.layer-sel').niceSelect('update');
-		titleOpenModal(`[${name}] 공유 성공 !`, "그룹 커뮤니티를 확인해주세요.");
+		formShare(gid, 'ADD', name)
 	}
 }
 
@@ -404,16 +401,11 @@ function formShareSub() {
 		openModal("공유할 그룹을 선택해주세요.", "");
 		return false;
     }else {
-		formShare(gid, 'SUB')
-		$("#share-list option:selected").remove();
-		$("#share-list").val('');
-		$("#share-group").append(`<option value="${gid}">${name}</option>`);
-		$('.layer-sel').niceSelect('update');
-		titleOpenModal(`[${name}] 공유 해제 !`, "그룹 커뮤니티를 확인해주세요.");
+		formShare(gid, 'SUB', name)
 	}
 }
 
-function formShare(gid, action) {
+function formShare(gid, action, name) {
       const urlParams = new URLSearchParams(window.location.search);
       const fidValue = urlParams.get('fid');
       if (fidValue) {
@@ -428,6 +420,23 @@ function formShare(gid, action) {
 				  if(response.proc == "fail") {
 					  openModal("문제가 발생했습니다.", "");
 					  return false;
+				  }else if(response.proc == "fail_001") {
+					  titleOpenModal("해제 실패 !", "폼을 작성한 그룹원이 존재합니다.");
+					  return false;
+				  }else if(response.proc == "success") {
+					  if(action == "ADD") {
+							$("#share-group option:selected").remove();
+							$("#share-group").val('');
+							$("#share-list").append(`<option value="${gid}">${name}</option>`);
+							$('.layer-sel').niceSelect('update');
+							titleOpenModal(`[${name}] 공유 성공 !`, "그룹 커뮤니티를 확인해주세요.");
+					  }else if(action == "SUB"){
+							$("#share-list option:selected").remove();
+							$("#share-list").val('');
+							$("#share-group").append(`<option value="${gid}">${name}</option>`);
+							$('.layer-sel').niceSelect('update');
+							titleOpenModal(`[${name}] 공유 해제 !`, "그룹 커뮤니티를 확인해주세요.");
+					  }
 				  }
               },
               error: function (error) {
@@ -443,6 +452,10 @@ function goUpdate() {
 	const urlParams = new URLSearchParams(window.location.search);
 	const fidValue = urlParams.get('fid');
   	window.location.href = `update.html?fid=${fidValue}`
+}
+
+function goPreview() {
+  window.open($("#url").val(), '_blank');
 }
 
 
