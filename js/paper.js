@@ -18,9 +18,9 @@ async function query_parse (p) {
     for (const e of p) {
         if (e[0] == ACCESS_TOKEN) window.localStorage.setItem(e[0], e[1]) // 로그인 JWT 토큰
         else if (e[0] == REFRESH_TOKEN) window.localStorage.setItem(e[0], e[1]) // 로그인 리프레쉬 토큰
-        else if (e[0] == FID) window.localStorage.setItem(e[0], e[1]) // 설문 아이디
-        else if (e[0] == TYPE) window.localStorage.setItem(e[0], e[1]) // 설문 타입
-        else if (e[0] == KEY) window.localStorage.setItem(e[0], e[1]) // 설문 키
+        else if (e[0] == FID) window.sessionStorage.setItem(e[0], e[1]) // 설문 아이디
+        else if (e[0] == TYPE) window.sessionStorage.setItem(e[0], e[1]) // 설문 타입
+        else if (e[0] == KEY) window.sessionStorage.setItem(e[0], e[1]) // 설문 키
     }
 }
 /**
@@ -198,7 +198,7 @@ $(document).ready(() => { // 초기 설정
     const params = new URLSearchParams(window.location.search);
     query_parse(params).then(() => {
         disable_querystring();
-        start_find_paper(new Paper(localStorage.getItem(FID), localStorage.getItem(TYPE), localStorage.getItem(KEY)))
+        start_find_paper(new Paper(sessionStorage.getItem(FID), sessionStorage.getItem(TYPE), sessionStorage.getItem(KEY)))
     });
 })
 
