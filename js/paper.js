@@ -61,7 +61,7 @@ function start_find_paper(d) {
         if (res && res.resultCode == '0') {
             open = () => { off_spinner(); on_screen() };
         } else if (res && res.resultCode == NOT_START_FORM) {
-            open = () => { off_spinner(); appendNotice('아직 설문이 시작되지않은 폼입니다.', 0) }
+            open = () => { off_spinner(); appendNotice('아직 설문이 시작되지 않은 폼입니다.', 0) }
         } else if (res && res.resultCode == DELETE_FORM) {
             open = () => { off_spinner(); appendNotice('삭제 된 폼입니다.', 0)}
         } else if (res && res.resultCode == END_FORM) {
