@@ -31,7 +31,10 @@ function submitAnswer() {
               success: function (response) {
                   if(response.proc == "success") {
                         closeModal();
-                        successModal();
+                        successModal(response.proc);
+                  }else if(response.proc == "master") {
+                        closeModal();
+                        successModal(response.proc);
                   }else {
                        alert("처리 중 문제가 발생했습니다.");
                        return false;
@@ -132,12 +135,21 @@ function closeModal() {
 }
 
 
-function successModal() {
+function successModal(type) {
     $("#success_content").empty();
-    let modal_html = `
-        <h2>제출완료!</h2>
-        <p>성공적으로 처리되었습니다.</p>
-    `
+    let modal_html = ""
+    if(type == "success") {
+        modal_html = `
+            <h2>제출완료!</h2>
+            <p>성공적으로 처리되었습니다.</p>
+        `
+    }else {
+        modal_html = `
+            <h2>제출실패!</h2>
+            <p>폼 소유자는 제출할 수 없습니다.</p>
+        `
+    }
+
     $("#success_content").append(modal_html)
     answer_success.style.display = "flex";
     document.body.style.overflow = "hidden";
