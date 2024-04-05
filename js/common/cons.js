@@ -8,6 +8,8 @@ const PROD_WEB_URL = "https://formdang.com"; // 운영 WEB 서버 URL
 const DEV_WEB_URL = "http://localhost:63342"; // 개발 WEB 서버 URL
 const PROD_API_URL = "https://formdang-api.com"; // 운영 API 서버 URL
 const DEV_API_URL = "http://localhost:12001"; // 개발 API 서버 URL
+const PROD_SOCKET_URL = "https://formdang-api.com"; // 운영 API 서버 URL
+const DEV_SOCKET_URL = "http://localhost:8724"; // 개발 API 서버 URL
 const DEV_PREFIX_URI = "/formdang-publishing"; // 개발 WEB 서버 prefix uri
 const PROD = "prod"; // 운영 상수
 const DEV = "dev"; // 개발 상수
@@ -22,6 +24,7 @@ const GOOGLE = "GOOGLE"; // 구글 로그인 타입 상수
 
 const WEB_SERVER_URL = getURL(PROD_WEB_URL, DEV_WEB_URL); // 환경에 따른 WEB 서버 URL
 const API_SERVER_URL = getURL(PROD_API_URL, DEV_API_URL); // 환경에 따른 API 서버 URL
+const SOCKET_SERVER_URL = getURL(PROD_SOCKET_URL, DEV_SOCKET_URL) // 환경에 따른 SOCKET 서버 URL
 const PAGE  = { // 환경에 따른 페이지 URL
     MAIN: getWebURL(""),
     ADMIN_MAIN: getWebURL("/admin/index.html"),
@@ -34,12 +37,19 @@ const PAGE  = { // 환경에 따른 페이지 URL
         GOOGLE: getApiURL("/api/sp/public/google/login"),
         PAPER_GOOGLE: getApiURL("/api/sp/public/google/paper/login"),
     },
+    CHAT: {
+        SOCKET: getSocketURL('/ws/chat'),
+        CREATE: getSocketURL('/socket/create/room'),
+        FIND: getSocketURL('/socket/find/room'),
+        ROOM: getWebURL("/chat/chat.html"),
+    }
 }
 
 function isProduction() { return window.location.host == PROD_DOMAIN_NAME; }; // 운영 여부 함수
 function getURL(p, d) { return isProduction() ? p : d; }; // 환경에 따른 URL 생성 함수
 function getWebURL(u) { return WEB_SERVER_URL + getURL(u, DEV_PREFIX_URI + u); }; // 환경에 따른 WEB URL 생성 함수
 function getApiURL(u) { return API_SERVER_URL + u; }; // 환경에 따른 API URL 생성 함수
+function getSocketURL(u) { return SOCKET_SERVER_URL + u; }; // 환경에 따른 API URL 생성 함수
 function getActiveLevel(p, d) { return isProduction() ? p : d; }; // 환경에 따른 액티브 환경 레벨 생성 함수
 function forwarding(u) { return window.location.replace(u); }; // 페이지 포워딩 함수
 
