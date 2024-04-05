@@ -155,12 +155,8 @@ function close_popup() { // 팝업 닫기
 
 function on_screen(worker) {
     document.getElementsByClassName('wr-wrap')[0].style.display = 'block'
-    document.getElementsByClassName('bt-wrap')[0].style.display = 'flex'
-    if (worker) { // 작성자인경우
-        document.getElementsByClassName('worker')[1].style.display = 'none'
-        document.getElementsByClassName('worker')[2].style.display = 'none'
-    } else {
-        document.getElementsByClassName('worker')[0].style.display = 'none'
+    if (!worker) { // 작성자인경우
+        document.getElementsByClassName('bt-wrap')[0].style.display = 'flex'
     }
 }
 
