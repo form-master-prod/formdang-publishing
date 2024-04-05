@@ -253,6 +253,10 @@ function move_login() {
     window.location.href = PAGE.LOGIN.PAPER_MY;
 }
 
+function move_back() {
+    window.history.back();
+}
+
 
 /**
  * 질문 추가 html

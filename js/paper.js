@@ -59,7 +59,7 @@ function start_find_paper(d) {
         let open, time
         time = 150;
         if (res && res.resultCode == '0') {
-            open = () => { off_spinner(); on_screen() };
+            open = () => { off_spinner(); on_screen(res.worker) };
         } else if (res && res.resultCode == NOT_START_FORM) {
             open = () => { off_spinner(); appendNotice('아직 설문이 시작되지 않은 폼입니다.', 0) }
         } else if (res && res.resultCode == DELETE_FORM) {
@@ -153,9 +153,15 @@ function close_popup() { // 팝업 닫기
     document.body.style.overflow = "auto";
 }
 
-function on_screen() {
+function on_screen(worker) {
     document.getElementsByClassName('wr-wrap')[0].style.display = 'block'
     document.getElementsByClassName('bt-wrap')[0].style.display = 'flex'
+    if (worker) { // 작성자인경우
+        document.getElementsByClassName('worker')[1].style.display = 'none'
+        document.getElementsByClassName('worker')[2].style.display = 'none'
+    } else {
+        document.getElementsByClassName('worker')[0].style.display = 'none'
+    }
 }
 
 function off_screen() {
