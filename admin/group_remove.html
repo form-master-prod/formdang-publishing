@@ -139,6 +139,8 @@ function groupRemove() {
                         location.replace(`/admin/group_list.html`)
                     }else {
                         alert('그룹 삭제 실패');
+                        console.log(response)
+                        console.log(response.proc)
                         return false;
                     }
               },
