@@ -62,13 +62,13 @@
                             </div>
                             <div class="frm-area">
                                 <div class="inp-group">
-                                    <label for="grp_remove"><em>필수</em> 삭제확인</label><input type="text" name="" class="it" id="grp_remove">
+                                    <label for="grp_remove"><em>필수</em> 삭제확인</label><input type="text" name="" placeholder="삭제할 그룹 이름을 입력해주세요." class="it" id="grp_remove">
                                 </div>
-                                <p>"삭제"를 위해 그룹 이름을 작성해주세요.</p>
+                                <p>"삭제"를 위해 그룹 이름을 입력해주세요.</p>
                             </div>
                         </div>
                         <div class="bt-group">
-                            <button id="create-btn" onclick="groupRemove()" class="st-fill" style="opacity: 0.65;" disabled><span>그룹 삭제</span> <i class="ico"></i></button>
+                            <button id="create-btn" onclick="groupRemove()" class="st-fill" style="opacity: 0.65; pointer-events: none" disabled><span>그룹 삭제</span> <i class="ico"></i></button>
                         </div>
                     </fieldset>
             </div>
@@ -167,7 +167,6 @@ function groupDetail() {
                       $('.layer-sel').niceSelect('update');
               },
               error: function (error) {
-                  doubleSubmit("#create-btn")
                   console.error('AJAX 요청 실패:', error);
               }
           });
