@@ -338,7 +338,14 @@ function group_my_info() {
                     }
                     if ([null, undefined, ''].includes(html)) {
                         html += `
-                            <th scope="row" colspan="5">그룹에 초대된 인원이 없습니다.</th>
+                            <tr>
+                                <th scope="row" colspan="5" style="height: 50px;">그룹에 초대된 인원이 없습니다.</th>
+                            </tr>
+                            <tr>
+                                <th scope="row" colspan="5">
+                                    <button type="button" class="st-ico" onclick="alert("삭제")><span>그룹 삭제하기</span></button>
+                                </th>
+                            </tr>
                         `
                     }
                     $("#group_list").append(html);
