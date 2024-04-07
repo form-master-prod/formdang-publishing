@@ -95,10 +95,12 @@ document.getElementById('grp_remove').addEventListener('input', function() {
     if(grpNameValue === grpRemoveValue) {
         button.style.opacity = '1.0';
         button.disabled = false;
+        button.style.pointerEvents = 'auto';
     } else {
         if(!button.disabled) {
             button.style.opacity = '0.65';
             button.disabled = true;
+            button.style.pointerEvents = 'none';
         }
     }
 });
@@ -126,7 +128,7 @@ function groupRemove() {
       if(gidValue && groupSession) {
           $.ajax({
               type: 'POST',
-              url: 'https://formdang-api.com/api/dj/group/remove',
+              url: 'https://formdang-api.com/api/dj/group/delete',
               data: {pw:pw, gid:gidValue, group_session:groupSession, group_name:remove},
               headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
