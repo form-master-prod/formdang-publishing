@@ -472,8 +472,8 @@ function formExpireDetail() {
      const urlParams = new URLSearchParams(window.location.search);
      const fidValue = urlParams.get('fid');
      if (fidValue) {
-	 const date_value = $("#expire-detai").val();
-	 if ([null, undefined, '0', 0].includes(date_value)) {
+	 const date_value = $("#expire-detail").val();
+	 if ([null, undefined, '0', 0, ''].includes(date_value)) {
 		openModal(`연장 일수를 선택해주세요.`, "");
 		return false;
          }else {
