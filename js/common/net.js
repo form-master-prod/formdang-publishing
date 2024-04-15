@@ -54,11 +54,11 @@ function update_form_api(d, fid) { // 폼 업데이트
 }
 
 function upload_file_list_api(d, fid) { // 파일 업로드
-    return ajaxForm(getApiURL(ccatPfx(`/file/list/upload/${fid}`)), d, P, gt(), false, false, true);
+    return ajaxForm(getApiURL(ccatPfx(`/public/file/list/upload/${fid}`)), d, P, gt(), false, false, true);
 }
 
 function upload_profile_api(d) { // 프로필 업로드
-    return ajaxForm(getApiURL(ccatPfx(`/file/upload/profile`)), d, P, gt(), false, false, true);
+    return ajaxForm(getApiURL(ccatPfx(`/public/file/upload/profile`)), d, P, gt(), false, false, true);
 }
 
 function validate_token_api() { // 토큰 유효성 검사
