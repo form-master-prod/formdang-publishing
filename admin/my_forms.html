@@ -10,6 +10,11 @@
 <script src="../js/jquery-1.12.4.min.js"></script>
 <script src="../js/nice-select/jquery.nice-select.js"></script>
 </head>
+<style>
+.my-forms .view-wrap #tab4 ul li .frm-area .nice-select {
+    width: calc(100% - 10em);
+}
+</style>
 <body>
 <div id="wrap">
 	<header id="header"  class="admin_header">
@@ -174,9 +179,9 @@
 							</div>
 						</li>
 						<li>
-							<em>마감기한 연장</em>
+							<em>답변마감 연장</em>
 							<div class="frm-area">
-								<select name="" id="expire-detail" class="layer-sel" style="width: calc(100% - 10em)";>
+								<select name="" id="expire-detail" class="layer-sel">
 									<option value="">선택해주세요.</option>
 									<option value="">+1일</option>
 									<option value="">+3일/option>
