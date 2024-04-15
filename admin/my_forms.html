@@ -468,6 +468,20 @@ function formShare(gid, action, name) {
       }
 }
 
+function formExpireDetail() {
+     const urlParams = new URLSearchParams(window.location.search);
+     const fidValue = urlParams.get('fid');
+     if (fidValue) {
+	 const date_value = $("#expire-detai").val();
+	 if ([null, undefined, '0', 0].includes(date_value)) {
+		openModal(`연장 일수를 선택해주세요.`, "");
+		return false;
+         }else {
+		openModal(`마감 기한이 ${date_value}일 연장되었습니다.`, "");
+	}
+    }
+}
+
 function goUpdate() {
 	const urlParams = new URLSearchParams(window.location.search);
 	const fidValue = urlParams.get('fid');
