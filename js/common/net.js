@@ -42,7 +42,7 @@ function find_form_api(fid) { // 폼 상세 조회
 }
 
 function find_paper_api(d) { // 유저 폼 내용 조회
-    return ajaxForm(getApiURL(ccatPfx(`/public/form/paper`)), d, G, gt(), DF_CT, true, true)
+    return ajaxForm(getApiURL(ccatPfx(`/form/paper`)), d, G, gt(), DF_CT, true, true)
 }
 
 function register_form_api(d) { // 폼 제출
@@ -54,11 +54,11 @@ function update_form_api(d, fid) { // 폼 업데이트
 }
 
 function upload_file_list_api(d, fid) { // 파일 업로드
-    return ajaxForm(getApiURL(ccatPfx(`/public/file/list/upload/${fid}`)), d, P, gt(), false, false, true);
+    return ajaxForm(getApiURL(ccatPfx(`/file/list/upload/${fid}`)), d, P, gt(), false, false, true);
 }
 
 function upload_profile_api(d) { // 프로필 업로드
-    return ajaxForm(getApiURL(ccatPfx(`/public/file/upload/profile`)), d, P, gt(), false, false, true);
+    return ajaxForm(getApiURL(ccatPfx(`/file/upload/profile`)), d, P, gt(), false, false, true);
 }
 
 function validate_token_api() { // 토큰 유효성 검사
