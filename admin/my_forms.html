@@ -477,7 +477,30 @@ function formExpireDetail() {
 		openModal(`연장 일수를 선택해주세요.`, "");
 		return false;
          }else {
-		openModal(`마감 기한이 ${date_value}일 연장되었습니다.`, "");
+	          $.ajax({
+	              type: 'POST',
+	              url: 'https://formdang-api.com/api/dj/form/expire-update',
+	              data: {fid: fidValue, date_value:date_value},
+	              headers: {
+	                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+	              },
+	              success: function (response) {
+			  if(response.proc == "fail") {
+				  openModal("존재하지 않는 폼 정보입니다.", "");
+				  return false;
+			  }else if(response.proc == "error") {
+				  openModal("에러가 발생했습니다.", "");
+				  return false;
+			  }else if(response.proc == "success") {
+				$("#form_date").val(response.date);
+				openModal(`마감 기한이 ${date_value}일 연장되었습니다.`, "");
+			  }
+	              },
+	              error: function (error) {
+			  openModal("에러가 발생했습니다.", "");
+	                  console.error('AJAX 요청 실패:', error);
+	              }
+	          });
 	}
     }
 }
