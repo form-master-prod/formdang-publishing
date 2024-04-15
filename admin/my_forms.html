@@ -173,13 +173,23 @@
 								<label for="form_date" class="skip">답변기간</label><input type="text" name="" value="" placeholder="답변기간" id="form_date" class="it" disabled>
 							</div>
 						</li>
-<!--						<li>-->
-<!--							<em>내보내기</em>-->
-<!--							<div class="frm-area">-->
-<!--								<a href="javascript:alert('링크를 연결하세요!');" class="st-ico"><span>내보내기</span></a>-->
-<!--								<p>설문 및 퀴즈 데이터를 엑셀로 다운로드 받을 수 있습니다.</p>-->
-<!--							</div>-->
-<!--						</li>-->
+						<li>
+							<em>마감기한 연장</em>
+							<div class="frm-area">
+								<select name="" id="expire-detail" class="layer-sel">
+									<option value="">선택해주세요.</option>
+									<option value="">+1일</option>
+									<option value="">+3일/option>
+									<option value="">+5일</option>
+									<option value="">+7일/option>
+                                                                        <option value="">+10일/option>
+									<option value="">+14일/option>
+									<option value="">+21일/option>
+									<option value="">+30일/option>
+								</select>
+								<button type="button" class="st-fill" onclick="formExpireDetail()"><span>연장하기</span> <i class="ico i-send"></i></button>
+							</div>
+						</li>
 						<li>
 							<em>폼 종료</em>
 							<div class="frm-area">
