@@ -66,8 +66,6 @@ function start_find_paper(d) {
             open = () => { off_spinner(); appendNotice('삭제 된 폼입니다.', 0)}
         } else if (res && res.resultCode == END_FORM) {
             open = () => { off_spinner(); appendNotice('종료 된 폼입니다.', 0)}
-        } else if (res && (res.resultCode == FAIL_VALIDATE_TOKEN || res.resultCode == NOT_EXIST_TOKEN)) {
-            open = () => { off_spinner(); appendNotice('로그인이 필요한 폼입니다.', 1)}
         } else if (res && res.resultCode == IS_SUBMIT) {
             open = () => { off_spinner(); appendNotice('이미 제출한 폼입니다.', 0)}
         } else if (res && res.resultCode == IS_NOT_GROUP_FORM_USER) {
@@ -77,7 +75,7 @@ function start_find_paper(d) {
         } else if (res && res.resultCode == IS_NOT_RIGHT_DATE) {
             open = () => { off_spinner(); appendNotice('폼 이용 가능한 날짜가 아닙니다.', 0)}
         } else {
-            open = () => { off_spinner(); appendNotice('폼을 조회 할 수 없습니다.', 0)}
+            open = () => { off_spinner(); appendNotice('로그인이 필요한 폼입니다.', 1)}
         }
         setTimeout(open, time)
     });

@@ -17,12 +17,10 @@ const REFUSE_ALREADY_END_FORM = '30009';
 const NOT_START_FORM = '30012';
 const DELETE_FORM = '30013';
 const END_FORM = '30014';
-const FAIL_VALIDATE_TOKEN = '17002';
 const IS_NOT_GROUP_FORM_USER = '30016';
 const IS_MAX_RESPONSE = '30017';
 const IS_NOT_RIGHT_DATE = '30018';
 const IS_SUBMIT = '30019';
-const NOT_EXIST_TOKEN = '9993';
 
 function ccatPfx(u) { return SP_PFX + u } // 스프링 API prefix 생성 함수
 function gt() {
