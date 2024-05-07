@@ -1,49 +1,54 @@
 const results = [];
+var isSubmitting = false;
 var empty = [];
 
 function submitAnswer() {
 
     const urlParams = new URLSearchParams(window.location.search);
-    let fidValue = urlParams ? urlParams.get('fid') || '' : '';
-    let type = urlParams ? urlParams.get('type') || '' : '';
-    let key = urlParams ? urlParams.get('key') || '' : '';
+    let fidValue = urlParams.get('fid') || sessionStorage.getItem('fid');
+    let type = urlParams.get('type') || sessionStorage.getItem('type');
+    let key = urlParams.get('key') || sessionStorage.getItem('key');
 
-    if(fidValue == '' && type == '' && key == '') {
-        fidValue = sessionStorage.getItem("fid")
-        type = sessionStorage.getItem("fid")
-        key = sessionStorage.getItem("fid")
+    if(isSubmitting) {
+        console.log("Already submitting, please wait...");
+        return;
     }
 
-    if(![null, undefined, '', 'None', 'null'].includes(fidValue) && ![null, undefined, '', 'None', 'null'].includes(type) && ![null, undefined, '', 'None', 'null'].includes(key)) {
-          $.ajax({
-              type: 'POST',
-              url: 'https://formdang-api.com/api/dj/answers/flag',
-              contentType: 'application/json',
-              data: JSON.stringify({
-                                    type: type,
-                                    key: key,
-                                    fid: fidValue,
-                                    results: results
-              }),
-              headers: {
-                  'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-              },
-              success: function (response) {
-                  if(response.proc == "success") {
-                        closeModal();
-                        successModal(response.proc);
-                  }else if(response.proc == "master") {
-                        closeModal();
-                        successModal(response.proc);
-                  }else {
-                       alert("처리 중 문제가 발생했습니다.");
-                       return false;
-                  }
-              },
-              error: function (error) {
-                  console.error('AJAX 요청 실패:', error);
-              }
-          });
+    if(![null, undefined, '', 'None', 'null'].includes(fidValue) &&
+       ![null, undefined, '', 'None', 'null'].includes(type) &&
+       ![null, undefined, '', 'None', 'null'].includes(key)) {
+
+        isSubmitting = true;  // Start submitting
+
+        $.ajax({
+            type: 'POST',
+            url: 'https://formdang-api.com/api/dj/answers/flag',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                                  type: type,
+                                  key: key,
+                                  fid: fidValue,
+                                  results: results
+            }),
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+            },
+            success: function (response) {
+                if(response.proc == "success" || response.proc == "master") {
+                    closeModal();
+                    successModal(response.proc);
+                } else {
+                    alert("처리 중 문제가 발생했습니다.");
+                }
+                isSubmitting = false;  // Reset submitting status after success or failure
+            },
+            error: function (error) {
+                console.error('AJAX 요청 실패:', error);
+                isSubmitting = false;  // Reset submitting status on error
+            }
+        });
+    } else {
+        console.log("Required parameters are missing");
     }
 }
 
