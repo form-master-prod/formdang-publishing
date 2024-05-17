@@ -146,7 +146,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { display: block; backgrou
 
 /* not result */
 .not-result {width: 100%; height: auto; padding: 6em 1.5em; background-color: #fff; border: 1px solid var(--line-color); border-radius: 1em; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;}
-.not-result > .ico {width: 3.5em; height: 3.5em; background-image: url("../image/icon/emoji_sad.svg"); background-size: 2.5em; background-color: var(--text-color1); border-radius: 100%;}
+.not-result > .ico {width: 3.5em; height: 3.5em; background-image: url("../image/icon/outline_sms_tracking_white.svg"); background-size: 2.5em; background-color: var(--text-color1); border-radius: 100%;}
 .not-result p {margin: 2em 0; line-height: 1.4;}
 .not-result ul {}
 .not-result ul li {display: inline-block; margin: .25em;}

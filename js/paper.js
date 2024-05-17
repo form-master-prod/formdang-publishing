@@ -58,8 +58,12 @@ function start_find_paper(d) {
     findPaper(d).then((res) => {
         let open, time
         time = 150;
-        if (res && res.resultCode == '0') {
+        if (res && res.resultCode == '0' && !res.answers) {
             open = () => { off_spinner(); on_screen(res.worker) };
+        } else if (res && res.resultCode == '0' && res.answers && res.answers.length > 0) {
+            const ok = res.answers.filter(it => it.okFlag == 1).length
+            const content = `퀴즈 제출을 완료하셨습니다.</br> 총 ${res.answers.length} 문제 중 <strong style="color: red">${ok}개</strong> 맞췄습니다. </br> 작성자의 재채점에 따라 정답여부가 변경 될 수 있습니다.`;
+            open = () => { off_spinner(); appendNotice(content, 2) };
         } else if (res && res.resultCode == NOT_START_FORM) {
             open = () => { off_spinner(); appendNotice('아직 설문이 시작되지 않은 폼입니다.', 0) }
         } else if (res && res.resultCode == DELETE_FORM) {
@@ -86,6 +90,7 @@ function appendNotice(title, type) {
     if (!noticeElement) {
         if (type == 0) $('.forms-write-wrap').prepend(fail_paper(`<p>${title}</p>`))
         else if (type == 1) $('.forms-write-wrap').prepend(fail_paper_login(`<p>${title}</p>`))
+        else if (type == 2) $('.forms-write-wrap').prepend(submit_paper(`<p>${title}</p>`))
     }
 }
 
