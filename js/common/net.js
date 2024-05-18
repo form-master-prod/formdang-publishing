@@ -42,7 +42,7 @@ function find_form_api(fid) { // 폼 상세 조회
 }
 
 function find_paper_api(d) { // 유저 폼 내용 조회
-    return ajaxForm(getApiURL(ccatPfx(`/form/paper`)), d, G, gt(), DF_CT, true, false)
+    return ajaxForm(getApiURL(ccatPfx(`/public/form/paper`)), d, G, gt(), DF_CT, true, false)
 }
 
 function register_form_api(d) { // 폼 제출
