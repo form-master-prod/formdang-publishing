@@ -52,88 +52,75 @@ function disable_querystring() {
  */
 function start_find_paper(d) {
     if (!validate(d)) {
-        off_spinner(); appendNotice('폼을 조회 할 수 없습니다.', 0);
+        setTimeout(noticePage('폼을 조회 할 수 없습니다.', 1), 0)
         return
     }
-    findPaper(d).then((res) => {
-        let open, time
-        time = 150;
-        if (res && res.resultCode == '0' && !res.answers) {
-            open = () => { off_spinner(); on_screen(res.worker) };
-        } else if (res && res.resultCode == '0' && res.answers && res.answers.length > 0) {
-            const ok = res.answers.filter(it => it.okFlag == 1).length
-            const content = `퀴즈 제출을 완료하셨습니다.</br> 총 ${res.answers.length} 문제 중 <strong style="color: red">${ok}개</strong> 맞췄습니다. </br> 작성자의 재채점에 따라 정답여부가 변경 될 수 있습니다.`;
-            open = () => { off_spinner(); appendNotice(content, 2) };
-        } else if (res && res.resultCode == NOT_START_FORM) {
-            open = () => { off_spinner(); appendNotice('아직 설문이 시작되지 않은 폼입니다.', 0) }
-        } else if (res && res.resultCode == DELETE_FORM) {
-            open = () => { off_spinner(); appendNotice('삭제 된 폼입니다.', 0)}
-        } else if (res && res.resultCode == END_FORM) {
-            open = () => { off_spinner(); appendNotice('종료 된 폼입니다.', 0)}
-        } else if (res && res.resultCode == IS_SUBMIT) {
-            open = () => { off_spinner(); appendNotice('이미 제출한 폼입니다.', 0)}
-        } else if (res && res.resultCode == IS_NOT_GROUP_FORM_USER) {
-            open = () => { off_spinner(); appendNotice('해당 폼 그룹원이 아닙니다.', 0)}
-        } else if (res && res.resultCode == IS_MAX_RESPONSE) {
-            open = () => { off_spinner(); appendNotice('이용자가 초과된 폼입니다.', 0)}
-        } else if (res && res.resultCode == IS_NOT_RIGHT_DATE) {
-            open = () => { off_spinner(); appendNotice('폼 이용 가능한 날짜가 아닙니다.', 0)}
+    find_paper_api(d).then((res) => {
+        const code = res.resultCode;
+        if (code === SUCCESS) {
+            set_data(res);
+            setTimeout(() => {off_spinner(); on_screen(res.worker === false)}, 150)
+        } else if (code === IS_NOT_LOGIN) {
+            set_data(res);
+            setTimeout(() => {off_spinner(); on_screen(false)}, 150)
+        } else if (code === NOT_START_FORM) {
+            setTimeout(noticePage('아직 설문이 시작되지 않은 폼입니다.', 0), 150)
+        } else if (code === DELETE_FORM) {
+            setTimeout(noticePage('삭제 된 폼입니다.', 0), 150)
+        } else if (code === END_FORM) {
+            setTimeout(noticePage('종료 된 폼입니다.', 0), 150)
+        } else if (code === IS_SUBMIT) {
+            setTimeout(noticePage('이미 제출한 폼입니다.', 0), 150)
+        } else if (code === IS_NOT_GROUP_FORM_USER) {
+            setTimeout(noticePage('해당 폼 그룹원이 아닙니다.', 0), 150)
+        } else if (code === IS_MAX_RESPONSE) {
+            setTimeout(noticePage('이용자가 초과된 폼입니다.', 0), 150)
+        } else if (code === IS_NOT_RIGHT_DATE) {
+            setTimeout(noticePage('폼 이용 가능한 날짜가 아닙니다.', 0), 150)
         } else {
-            open = () => { off_spinner(); appendNotice('로그인이 필요한 폼입니다.', 1)}
+            setTimeout(noticePage('폼을 불러오는데 문제가 발생되었습니다.', 0), 150)
         }
-        setTimeout(open, time)
+    })
+    .catch(e => {
+        console.log(e)
+        setTimeout(noticePage('폼을 불러오는데 문제가 발생되었습니다.', 0), 150)
     });
 }
 
-function appendNotice(title, type) {
-    let noticeElement = document.getElementById('not-result')
-    if (!noticeElement) {
-        if (type == 0) $('.forms-write-wrap').prepend(fail_paper(`<p>${title}</p>`))
-        else if (type == 1) $('.forms-write-wrap').prepend(fail_paper_login(`<p>${title}</p>`))
-        else if (type == 2) $('.forms-write-wrap').prepend(submit_paper(`<p>${title}</p>`))
-    }
-}
-
-/**
- * 유저 폼 데이터 요청 처리
- * @param d
- */
-async function findPaper(d) {
-    return find_paper_api(d).then(res => {
-        if (res && res.resultCode == '0') {
-            set_data(res)
+function noticePage(title, type) {
+    return () => {
+        if (!document.getElementById('not-result')) {
+            if (type === 0) $('.forms-write-wrap').prepend(fail_paper(`<p>${title}</p>`))
+            else if (type === 1) $('.forms-write-wrap').prepend(fail_paper_login(`<p>${title}</p>`))
         }
-        return res;
-    })
-    .catch(e => {
-        return null
-    })
+        off_spinner();
+    }
 }
 
 /**
  * 데이터 처리
- * @param d
+ * @param res
  */
-function set_data(d) {
+function set_data(res) {
     const el = document.getElementsByClassName('frm-area subject')[0]
-    el.querySelector('h3').innerText = d.title
-    el.querySelector('p').innerText = d.detail
-    if (d.logoUrl) el.querySelector('.img-view img').src = d.logoUrl
+    el.querySelector('h3').innerText = res.title
+    el.querySelector('p').innerText = res.detail
+    if (res.logoUrl) el.querySelector('.img-view img').src = res.logoUrl
     else el.querySelector('.img-view img').src = '../image/icon/gallery-remove.svg'
-    document.getElementsByClassName('sub-tit')[0].innerHTML = `${d.type == 0 ? 'Survey' : 'Quiz'}`
-    set_question(d.question.sort((a, b) => a.order - b.order))
+    document.getElementsByClassName('sub-tit')[0].innerHTML = `${res.type === 0 ? 'Survey' : 'Quiz'}`
+    set_question(res.question.sort((a, b) => a.order - b.order))
 }
 
 /**
  * 질문 리스트 append
- * @param q
+ * @param questions
  */
-function set_question(q) {
-    q.forEach(e => {
-        if (e.type == 0) user_append_question(user_short_html(e))
-        else if (e.type == 1) user_append_question(user_subject_html(e))
-        else if (e.type == 2) user_append_question(user_multiple_html(e))
-        else if (e.type == 3) user_append_question(user_look_html(e))
+function set_question(questions) {
+    questions.forEach(e => {
+        if (e.type === 0) user_append_question(user_short_html(e))
+        else if (e.type === 1) user_append_question(user_subject_html(e))
+        else if (e.type === 2) user_append_question(user_multiple_html(e))
+        else if (e.type === 3) user_append_question(user_look_html(e))
     })
 }
 
@@ -156,9 +143,9 @@ function close_popup() { // 팝업 닫기
     document.body.style.overflow = "auto";
 }
 
-function on_screen(worker) {
+function on_screen(button) {
     document.getElementsByClassName('wr-wrap')[0].style.display = 'block'
-    if (!worker) { // 작성자인경우
+    if (button) {
         document.getElementsByClassName('bt-wrap')[0].style.display = 'flex'
     }
 }

@@ -245,19 +245,6 @@ function fail_paper_login(text) {
     return html;
 }
 
-function submit_paper(text) {
-    let html = ''
-    html =
-        html
-            .concat(`<div class="not-result" id="not-result">`)
-            .concat(`<i class="ico"></i>${text}`)
-            .concat(`<ul>`)
-            .concat(`<li><a onclick="move_home()" class="st-ico"><i class="ico i-key"></i> <span>나의 설문 만들기</span></a></li>`)
-            .concat(`</ul>`)
-            .concat(`</div>`)
-    return html;
-}
-
 function move_home() {
     window.location.replace(PAGE.MAIN)
 }
