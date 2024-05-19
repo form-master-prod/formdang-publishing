@@ -47,7 +47,7 @@ function set_preview_img(event) { // 이미지 미리보기 처리
     const div = $(root).find('div')[0]
     const context = canvas.getContext('2d');
     const file = input.files[0];
-    if (file.size > 20000000) {
+    if (file.size > 20000000) { // 20MB
         open_popup("등록 실패", "20MB 이상 이미지는 등록 할 수 없습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
         return
     }
@@ -216,7 +216,11 @@ function uploadImg(data, fid) {
     upload_file_list_api(data, fid).then(r => console.log('이미지 업로드'))
         .catch((e) => {
             console.log(e)
-            open_popup("등록 실패", "이미지 등록을 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+            if (e.status == 413) {
+                open_popup("이미지 등록 실패", "이미지 크기가 초과해서 등록에 실패하였습니다. 이미지를 분할로 업로드 진행해주세요.", "none", '확인', false, 'S') // 팝업 오픈
+            } else {
+                open_popup("이미지 등록 실패", "이미지 등록을 실패하였습니다.", "none", '확인', false, 'S') // 팝업 오픈
+            }
         })
 }
 
