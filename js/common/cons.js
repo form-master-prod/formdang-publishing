@@ -27,6 +27,7 @@ const API_SERVER_URL = getURL(PROD_API_URL, DEV_API_URL); // 환경에 따른 AP
 const SOCKET_SERVER_URL = getURL(PROD_SOCKET_URL, DEV_SOCKET_URL) // 환경에 따른 SOCKET 서버 URL
 const PAGE  = { // 환경에 따른 페이지 URL
     MAIN: getWebURL(""),
+    WRITE: getWebURL('/admin/write.html'),
     ADMIN_MAIN: getWebURL("/admin/index.html"),
     ADMIN_DETAIL: getWebURL("/admin/my_forms.html"),
     LOGIN: {

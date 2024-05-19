@@ -2,47 +2,13 @@ const FID = 'fid';
 const TYPE= 'type';
 const KEY = 'key';
 
-/**
- * 파라미터 누락 검증
- * @param d
- * @returns {boolean}
- */
-function validate(d) {
-    if (!d.fid || !d.type || !d.key) {
-        return false
-    }
-    return true;
-}
-
 async function query_parse (p) {
     for (const e of p) {
-        if (e[0] == ACCESS_TOKEN) window.localStorage.setItem(e[0], e[1]) // 로그인 JWT 토큰
-        else if (e[0] == REFRESH_TOKEN) window.localStorage.setItem(e[0], e[1]) // 로그인 리프레쉬 토큰
-        else if (e[0] == FID) window.sessionStorage.setItem(e[0], e[1]) // 설문 아이디
-        else if (e[0] == TYPE) window.sessionStorage.setItem(e[0], e[1]) // 설문 타입
-        else if (e[0] == KEY) window.sessionStorage.setItem(e[0], e[1]) // 설문 키
-    }
-}
-/**
- * 쿼리스트링 제거 (토큰정보)
- */
-function disable_querystring() {
-    let currentUrl = window.location.href;
-    let queryStringIndex = currentUrl.indexOf('?');
-
-    if (queryStringIndex !== -1) {
-        let queryString = currentUrl.substring(queryStringIndex + 1);
-        let paramsArray = queryString.split('&');
-        let updatedParams = [];
-        for (let i = 0; i < paramsArray.length; i++) {
-            let param = paramsArray[i];
-            let paramName = param.split('=')[0];
-            if (paramName !== ACCESS_TOKEN && paramName !== REFRESH_TOKEN) {
-                updatedParams.push(param);
-            }
-        }
-        let updatedUrl = currentUrl.substring(0, queryStringIndex) + '?' + updatedParams.join('&');
-        history.replaceState({}, document.title, updatedUrl);
+        if (e[0] === ACCESS_TOKEN) window.localStorage.setItem(e[0], e[1]) // 로그인 JWT 토큰
+        else if (e[0] === REFRESH_TOKEN) window.localStorage.setItem(e[0], e[1]) // 로그인 리프레쉬 토큰
+        else if (e[0] === FID) window.sessionStorage.setItem(e[0], e[1]) // 설문 아이디
+        else if (e[0] === TYPE) window.sessionStorage.setItem(e[0], e[1]) // 설문 타입
+        else if (e[0] === KEY) window.sessionStorage.setItem(e[0], e[1]) // 설문 키
     }
 }
 
@@ -51,32 +17,30 @@ function disable_querystring() {
  * @param d
  */
 function start_find_paper(d) {
-    if (!validate(d)) {
-        setTimeout(noticePage('폼을 조회 할 수 없습니다.', 1), 0)
+    if (!d.fid || !d.type || !d.key) {
+        setTimeout(noticePage('폼을 조회 할 수 없습니다.', 0), 0)
         return
     }
     find_paper_api(d).then((res) => {
         const code = res.resultCode;
         if (code === SUCCESS) {
             set_data(res);
-            setTimeout(() => {off_spinner(); on_screen(res.worker === false)}, 150)
+            setTimeout(onPage(0, res.worker, res.submit), 150)
         } else if (code === IS_NOT_LOGIN) {
             set_data(res);
-            setTimeout(() => {off_spinner(); on_screen(false)}, 150)
+            setTimeout(onPage(1,false, res.submit), 150)
         } else if (code === NOT_START_FORM) {
-            setTimeout(noticePage('아직 설문이 시작되지 않은 폼입니다.', 0), 150)
+            setTimeout(noticePage(`작성자가 아직 폼을 등록하지 않았습니다. </br> 폼 등록이 완료된 이후 이용해주세요.`, 0), 150)
         } else if (code === DELETE_FORM) {
-            setTimeout(noticePage('삭제 된 폼입니다.', 0), 150)
+            setTimeout(noticePage('폼이 삭제되어 이용이 불가합니다.', 0), 150)
         } else if (code === END_FORM) {
-            setTimeout(noticePage('종료 된 폼입니다.', 0), 150)
-        } else if (code === IS_SUBMIT) {
-            setTimeout(noticePage('이미 제출한 폼입니다.', 0), 150)
+            setTimeout(noticePage('해당 폼은 종료 되었습니다. </br> 많은 이용 감사합니다.', 0), 150)
+        } else if (code === IS_NOT_RIGHT_DATE) {
+            setTimeout(noticePage('폼 이용기간이 아닙니다.', 0), 150)
         } else if (code === IS_NOT_GROUP_FORM_USER) {
             setTimeout(noticePage('해당 폼 그룹원이 아닙니다.', 0), 150)
         } else if (code === IS_MAX_RESPONSE) {
             setTimeout(noticePage('이용자가 초과된 폼입니다.', 0), 150)
-        } else if (code === IS_NOT_RIGHT_DATE) {
-            setTimeout(noticePage('폼 이용 가능한 날짜가 아닙니다.', 0), 150)
         } else {
             setTimeout(noticePage('폼을 불러오는데 문제가 발생되었습니다.', 0), 150)
         }
@@ -90,8 +54,7 @@ function start_find_paper(d) {
 function noticePage(title, type) {
     return () => {
         if (!document.getElementById('not-result')) {
-            if (type === 0) $('.forms-write-wrap').prepend(fail_paper(`<p>${title}</p>`))
-            else if (type === 1) $('.forms-write-wrap').prepend(fail_paper_login(`<p>${title}</p>`))
+            $('.forms-write-wrap').prepend(fail_paper(`<p>${title}</p>`))
         }
         off_spinner();
     }
@@ -128,9 +91,9 @@ function set_question(questions) {
  * 모달 확인 처리
  */
 function ok_popup() {
-    if (modal_type == 'C') { // 모달 닫기 버튼
+    if (modal_type === 'C') { // 모달 닫기 버튼
         close_popup();
-    } else if (modal_type == 'L') {
+    } else if (modal_type === 'L') {
         window.location.href = PAGE.LOGIN.MY
     }
 }
@@ -143,14 +106,31 @@ function close_popup() { // 팝업 닫기
     document.body.style.overflow = "auto";
 }
 
-function on_screen(button) {
-    document.getElementsByClassName('wr-wrap')[0].style.display = 'block'
-    if (button) {
+function onPage(type, worker, submit) {
+    return () => {
+        off_spinner()
+        document.getElementsByClassName('wr-wrap')[0].style.display = 'block'
         document.getElementsByClassName('bt-wrap')[0].style.display = 'flex'
+
+        if (type === 0) {
+            if (worker) {
+                $("#submit").append(`<button type="button" class="st-ico" ><span>작성자 확인중(제출 불가)</span></button>`)
+            } else if (submit) {
+                $("#submit").append(`<button type="button" class="st-ico" onclick="move_home()"><span>나의 폼 만들기</span></button>`)
+                $("#submit").append(`<button type="button" class="st-fill" ><span>제출완료</span><i class="ico"></i></button>`)
+            } else {
+                $("#submit").append(`<button type="button" class="st-ico" onclick="move_home()"><span>나의 폼 만들기</span></button>`)
+                $("#submit").append(`<button type="button" class="st-fill" onclick="submitPaper()"><span>제출하기</span><i class="ico"></i></button>`)
+            }
+        } else  if (type === 1) {
+            $("#submit").append(`<button type="button" class="st-ico" onclick="move_login()"><span>로그인하고 참여하기</span></button>`)
+        }
+
     }
 }
 
-function off_screen() {
+function offPage() {
+    on_spinner()
     document.getElementsByClassName('wr-wrap')[0].style.display = 'none'
     document.getElementsByClassName('bt-wrap')[0].style.display = 'none'
 }
@@ -185,17 +165,16 @@ function purple_script() {
 }
 
 $(document).ready(() => { // 초기 설정
-    off_screen()
-    on_spinner()
-    const params = new URLSearchParams(window.location.search);
-    query_parse(params).then(() => {
-        disable_querystring();
-        start_find_paper(new Paper(sessionStorage.getItem(FID), sessionStorage.getItem(TYPE), sessionStorage.getItem(KEY)))
+    offPage()
+    query_parse(new URLSearchParams(window.location.search)).then(() => {
+        const request = new Paper(sessionStorage.getItem(FID), sessionStorage.getItem(TYPE), sessionStorage.getItem(KEY));
+        start_find_paper(request)
     });
 })
 
 $(window).load(() => {
     purple_script();
-    let modalElement = document.getElementById('modal_layer')
-    if (!modalElement)  $("#viewform-wrap").after(modal_html()); // 모달 붙이기
+    if (!document.getElementById('modal_layer')) { // 모달 붙이기
+        $("#viewform-wrap").after(modal_html());
+    }
 })

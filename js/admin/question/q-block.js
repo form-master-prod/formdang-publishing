@@ -233,20 +233,8 @@ function fail_paper(text) {
     return html;
 }
 
-function fail_paper_login(text) {
-    let html = ''
-    html =
-        html.concat(`<div class="not-result" id="not-result">`)
-            .concat(`<i class="ico"></i>${text}`)
-            .concat(`<ul>`)
-                .concat(`<li><a onclick="move_login()" class="st-ico"><i class="ico i-key"></i> <span>로그인 페이지</span></a></li>`)
-            .concat(`</ul>`)
-            .concat(`</div>`)
-    return html;
-}
-
 function move_home() {
-    window.location.replace(PAGE.MAIN)
+    window.location.href = PAGE.WRITE
 }
 
 function move_login() {
