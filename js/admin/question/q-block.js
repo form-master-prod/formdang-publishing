@@ -370,6 +370,7 @@ function user_short_html(question) {
     if (question.submit) {
         html = html.concat(`<textarea name="" id="" cols="" rows="" disabled>${!question.sanswer ? '미제출' : question.sanswer}</textarea>`)
             .concat(`</div>`)
+            .concat(`<h4>정답 (<span style="color: darkgreen">${question.answer.join(', ')}</span>)</h4>`)
             .concat(`</div>`)
     } else {
         html = html.concat(`<textarea name="" id="" cols="" rows="" placeholder="${question.placeholder ? question.placeholder : '해당 주관식의 정답을 입력해주세요.'}"></textarea>`)
@@ -399,6 +400,7 @@ function user_subject_html(question) {
     if (question.submit) {
         html = html.concat(`<textarea name="" id="" cols="" rows="" disabled>${!question.sanswer ? '미제출' : question.sanswer}</textarea>`)
             .concat(`</div>`)
+            .concat(`<h4>정답 (<span style="color: darkgreen">서술형 개별 채점</span>)</h4>`)
             .concat(`</div>`)
     } else {
         html = html.concat(`<textarea name="" id="" cols="" rows="" placeholder="해당 주관식의 정답을 입력해주세요."></textarea>`)
@@ -429,6 +431,7 @@ function user_multiple_html(question) {
             .concat(user_submit_loop_checkbox(question.detail, question.manswer))
             .concat(`</ol>`)
             .concat(`</div>`)
+            .concat(`<h4>정답 (<span style="color: darkgreen">${getTrueIndices(question.answer)} 번</span>)</h4>`)
             .concat(`</div>`)
     } else {
         html = html.concat(`<ol class="subject-valid">`)
@@ -463,10 +466,11 @@ function user_look_html(question) {
             .concat(user_loop_input(question.exampleDetail))
             .concat(`</ol>`)
             .concat(`</div>`)
-            .concat(`<ol class="subject-valid">`).
-            concat(user_submit_loop_checkbox(question.detail, question.manswer))
+            .concat(`<ol class="subject-valid">`)
+            .concat(user_submit_loop_checkbox(question.detail, question.manswer))
             .concat(`</ol>`)
             .concat(`</div>`)
+            .concat(`<h4>정답 (<span style="color: darkgreen">${getTrueIndices(question.answer)} 번</span>)</h4>`)
             .concat(`</div>`)
     } else {
         html = html.concat(`<div class="que-viewitem">`)
@@ -521,6 +525,21 @@ function user_submit_loop_checkbox(detail, manswer) {
         }
     }
     return html;
+}
+
+function getTrueIndices(arr) {
+    // true인 인덱스 + 1 값을 저장할 배열
+    const indices = [];
+
+    // 배열을 순회하며 true인 경우 인덱스 + 1 값을 배열에 추가
+    arr.forEach((value, index) => {
+        if (value === 'true') {
+            indices.push(index + 1);
+        }
+    });
+
+    // 배열을 문자열로 join
+    return indices.join(',');
 }
 
 
