@@ -114,7 +114,7 @@ function onPage(type, worker, submit) {
 
         if (type === 0) {
             if (worker) {
-                $("#submit").append(`<button type="button" class="st-ico" ><span>작성자 확인중(제출 불가)</span></button>`)
+                $("#submit").append(`<button type="button" class="st-ico" ><span>작성자 확인중</span></button>`)
             } else if (submit) {
                 $("#submit").append(`<button type="button" class="st-ico" onclick="move_home()"><span>나의 폼 만들기</span></button>`)
                 $("#submit").append(`<button type="button" class="st-fill" ><span>제출완료</span><i class="ico"></i></button>`)
