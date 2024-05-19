@@ -47,6 +47,10 @@ function set_preview_img(event) { // 이미지 미리보기 처리
     const div = $(root).find('div')[0]
     const context = canvas.getContext('2d');
     const file = input.files[0];
+    if (file.size > 20000000) {
+        open_popup("등록 실패", "20MB 이상 이미지는 등록 할 수 없습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+        return
+    }
     $(root).find('img')[0].src = '' // 이미지 src 세팅 제거
     readFile(file, canvas, div, context) // 파일 읽기 후 미리보기 설정
 }
@@ -210,6 +214,10 @@ function set_default_log() {
  */
 function uploadImg(data, fid) {
     upload_file_list_api(data, fid).then(r => console.log('이미지 업로드'))
+        .catch((e) => {
+            console.log(e)
+            open_popup("등록 실패", "이미지 등록을 실패하였습니다.", "flex", '닫기', false, 'C') // 팝업 오픈
+        })
 }
 
 /**
