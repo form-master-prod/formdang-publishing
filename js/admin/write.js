@@ -38,9 +38,10 @@ function generate_request_data(beginDt, endDt, status) { // 데이터 세팅
     let maxRespondent = document.getElementById("num-answer-sel").value; // 최대 답변 인원
     let formType = get_elements_val(document.getElementsByName('formType')); // 폼 타입 가져오기
     let themeType = get_elements_val(document.getElementsByName('themeType')); // 테마 타입 가져오기
+    let loginFlag = get_elements_val(document.getElementsByName('loginFlag')); // 폼 타입 가져오기
     let logo = get_file_or_url_logo(); // 로고 정보 가져오기
     document.querySelectorAll('.inner#first_content .form-div').forEach((question, idx) => { questions.push(extract_question_data(question, idx)); }); // 질문 리스트 추출
-    return new Form(formType, title, detail, beginDt, endDt, logo, themeType, questions, status, maxRespondent);
+    return new Form(formType, title, detail, beginDt, endDt, logo, themeType, questions, status, maxRespondent, loginFlag);
 }
 
 /**

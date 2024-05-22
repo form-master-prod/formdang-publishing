@@ -1,8 +1,8 @@
 class Form {
-    type; title; detail; beginDt; endDt; questionCount; status; maxRespondent; logoUrl; themeUrl; question;
-    constructor(type, title, detail, beginDt, endDt, logUrl, themeUrl, question, status, maxRespondent) {
+    type; title; detail; beginDt; endDt; questionCount; status; maxRespondent; logoUrl; themeUrl; question; loginFlag;
+    constructor(type, title, detail, beginDt, endDt, logUrl, themeUrl, question, status, maxRespondent, loginFlag) {
         this.type = type; this.title= title; this.detail = detail; this.beginDt = beginDt; this.endDt = endDt; this.logoUrl = logUrl; this.themeUrl = themeUrl; this.question = question;
-        this.questionCount = question ? question.length : 0; this.maxRespondent = maxRespondent; this.status = status
+        this.questionCount = question ? question.length : 0; this.maxRespondent = maxRespondent; this.status = status; this.loginFlag = loginFlag;
     }
 }
 

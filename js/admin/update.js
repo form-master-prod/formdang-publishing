@@ -119,9 +119,10 @@ function generate_request_data(beginDt, endDt, status) { // 데이터 세팅
     let maxRespondent = document.getElementById("num-answer-sel").value; // 최대 답변 인원
     let formType = get_elements_val(document.getElementsByName('formType')); // 폼 타입 가져오기
     let themeType = get_elements_val(document.getElementsByName('themeType')); // 테마 타입 가져오기
+    let loginFlag = get_elements_val(document.getElementsByName('loginFlag')); // 로그인 타입 가져오기
     let logo = get_file_or_url_logo(); // 로고 정보 가져오기
     document.querySelectorAll('.inner#first_content .form-div').forEach((question, idx) => { questions.push(extract_question_data(question, idx)); }); // 질문 리스트 추출
-    return new Form(formType, title, detail, beginDt, endDt, logo, themeType, questions, status, maxRespondent);
+    return new Form(formType, title, detail, beginDt, endDt, logo, themeType, questions, status, maxRespondent, loginFlag);
 }
 
 /**
@@ -275,6 +276,7 @@ function find_form (fid) { // 설문 리스트 조회 함수
  */
 function set_form_data(data) { // 데이터 세팅
     set_type_data(document.getElementsByName('formType'), data.type); // 폼타입 설정
+    set_type_data(document.getElementsByName('loginFlag'), data.loginFlag); // 폼타입 설정
     set_type_data(document.getElementsByName('themeType'), data?.themeUrl || ''); // 테마 설정
     set_max_respondent(data.maxRespondent); // 답변 인원 설정
     set_header_data(data.title, data.detail, data.beginDt, data.endDt); // 헤더 데이터 설정
