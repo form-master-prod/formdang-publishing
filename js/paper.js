@@ -27,8 +27,13 @@ function start_find_paper(d) {
             set_data(res);
             setTimeout(onPage(0, res.worker, res.submit), 150)
         } else if (code === IS_NOT_LOGIN) {
-            set_data(res);
-            setTimeout(onPage(1,false, res.submit), 150)
+            if (res.loginFlag === 1) { // 비로그인 문항
+                set_data(res);
+                setTimeout(onPage(0,false, false), 150)
+            } else {
+                set_data(res);
+                setTimeout(onPage(1,false, res.submit), 150)
+            }
         } else if (code === NOT_START_FORM) {
             setTimeout(noticePage(`작성자가 아직 폼을 등록하지 않았습니다. </br> 폼 등록이 완료된 이후 이용해주세요.`, 0), 150)
         } else if (code === DELETE_FORM) {
