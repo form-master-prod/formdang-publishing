@@ -109,6 +109,7 @@ function ok_popup() {
 }
 
 function finishSubmit() {
+    answer_success.style.display = "none";
     offPage()
     setTimeout(noticePage(`제출 완료하였습니다.<br> 나만의 폼을 작성해보세요.`, 0), 150)
 }
