@@ -20,7 +20,7 @@ function short_html() {
                     .concat(`<label class="skip">질문 제목</label><input type="text" maxlength="256" name="" class="sub_subject readOnly-item" placeholder="질문 제목을 입력해주세요.">`)
                     .concat(`<label class="skip">질문 내용</label><input type="text" maxlength="64" name="" class="sub_explain readOnly-item" placeholder="주관식 질문 창에 보일 문구를 입력해주세요.">`)
                     .concat(`<ol id="answer_wrap" class="frm-answer">`)
-                        .concat(`<li class="add_item"><label for="answer" class="skip">질문 1의 정답</label><input type="text" maxlength="64" name="answer" id="answer" class="readOnly-item" placeholder="해당 주관식의 정답을 입력해주세요.">`)
+                        .concat(`<li class="add_item"><label for="answer" class="skip">질문 1의 정답</label><input type="text" maxlength="64" name="answer" id="answer" class="readOnly-item" placeholder="내용을 입력해주세요.">`)
                         .concat(`<button type="button" class="bt-add disabled-item"  onclick="add_answer(event, 4)">`)
                         .concat(`<span class="skip">추가</span></button></li>`)
                     .concat(`</ol>`)
@@ -338,7 +338,7 @@ function add_answer(event, maxCnt) {
         let html = ''
         html =
             html.concat(`<li class="add_item"><label class="skip"></label>`)
-                .concat(`<input type="text"  maxlength="64" name="answer" class="readOnly-item" placeholder="해당 주관식의 정답을 입력해주세요.">`)
+                .concat(`<input type="text"  maxlength="64" name="answer" class="readOnly-item" placeholder="내용을 입력해주세요.">`)
                 .concat(`<button type="button" class="bt-remove disabled-item" onclick="remove_answer(event)">`)
                 .concat(`<span class="skip">삭제</span></button></li>`)
         $(answerHtml).append(html)
@@ -403,7 +403,7 @@ function user_subject_html(question) {
             .concat(`<h4>정답 (<span style="color: darkgreen">서술형 개별 채점</span>)</h4>`)
             .concat(`</div>`)
     } else {
-        html = html.concat(`<textarea name="" id="" cols="" rows="" placeholder="해당 주관식의 정답을 입력해주세요."></textarea>`)
+        html = html.concat(`<textarea name="" id="" cols="" rows="" placeholder="내용을 입력해주세요."></textarea>`)
             .concat(`</div>`)
             .concat(`</div>`)
     }
