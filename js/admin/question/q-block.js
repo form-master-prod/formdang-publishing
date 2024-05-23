@@ -234,7 +234,11 @@ function fail_paper(text) {
 }
 
 function move_home() {
-    window.location.href = PAGE.WRITE
+    if (isLogin()) {
+        window.location.href = PAGE.WRITE
+    } else {
+        window.location.href = PAGE.LOGIN.MY
+    }
 }
 
 function move_login() {
