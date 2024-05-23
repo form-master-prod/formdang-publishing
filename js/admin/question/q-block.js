@@ -373,7 +373,7 @@ function user_short_html(question) {
             .concat(`<h4>정답 (<span style="color: darkgreen">${question.answer.join(', ')}</span>)</h4>`)
             .concat(`</div>`)
     } else {
-        html = html.concat(`<textarea name="" id="" cols="" rows="" placeholder="${question.placeholder ? question.placeholder : '해당 주관식의 정답을 입력해주세요.'}"></textarea>`)
+        html = html.concat(`<textarea name="" id="" cols="" rows="" placeholder="${question.placeholder ? question.placeholder : '내용을 입력해주세요.'}"></textarea>`)
             .concat(`</div>`)
             .concat(`</div>`)
     }
