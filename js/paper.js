@@ -24,8 +24,13 @@ function start_find_paper(d) {
     find_paper_api(d).then((res) => {
         const code = res.resultCode;
         if (code === SUCCESS) {
-            set_data(res);
-            setTimeout(onPage(0, res.worker, res.submit), 150)
+            if (res.submit) {
+                setTimeout(noticePage(`제출 완료하였습니다.<br> 나만의 폼을 작성해보세요.`, 0), 150)
+            } else {
+                set_data(res);
+                setTimeout(onPage(0, res.worker, res.submit), 150)
+            }
+
         } else if (code === IS_NOT_LOGIN) {
             if (res.loginFlag === 1) { // 비로그인 문항
                 set_data(res);
@@ -101,6 +106,11 @@ function ok_popup() {
     } else if (modal_type === 'L') {
         window.location.href = PAGE.LOGIN.MY
     }
+}
+
+function finishSubmit() {
+    offPage()
+    setTimeout(noticePage(`제출 완료하였습니다.<br> 나만의 폼을 작성해보세요.`, 0), 150)
 }
 
 /**
