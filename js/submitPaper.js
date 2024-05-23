@@ -20,33 +20,60 @@ function submitAnswer() {
 
         isSubmitting = true;  // Start submitting
 
-        $.ajax({
-            type: 'POST',
-            url: 'https://formdang-api.com/api/dj/answers/flag',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                                  type: type,
-                                  key: key,
-                                  fid: fidValue,
-                                  results: results
-            }),
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-            },
-            success: function (response) {
-                if(response.proc == "success" || response.proc == "master") {
-                    closeModal();
-                    successModal(response.proc);
-                } else {
-                    alert("처리 중 문제가 발생했습니다.");
+        if(![null, undefined, '', 'None', 'null'].includes(localStorage.getItem('accessToken'))) {
+            $.ajax({
+                type: 'POST',
+                url: 'https://formdang-api.com/api/dj/answers/flag',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                                      type: type,
+                                      key: key,
+                                      fid: fidValue,
+                                      results: results
+                }),
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+                },
+                success: function (response) {
+                    if(response.proc == "success" || response.proc == "master") {
+                        closeModal();
+                        successModal(response.proc);
+                    } else {
+                        isSubmitting = false;
+                        alert("처리 중 문제가 발생했습니다.");
+                    }
+                },
+                error: function (error) {
+                    console.error('AJAX 요청 실패:', error);
+                    isSubmitting = false;  // Reset submitting status on error
                 }
-                isSubmitting = false;  // Reset submitting status after success or failure
-            },
-            error: function (error) {
-                console.error('AJAX 요청 실패:', error);
-                isSubmitting = false;  // Reset submitting status on error
-            }
-        });
+            });
+        }else {
+            $.ajax({
+                type: 'POST',
+                url: 'https://formdang-api.com/api/dj/public/answers/flag',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                                      type: type,
+                                      key: key,
+                                      fid: fidValue,
+                                      results: results
+                }),
+                success: function (response) {
+                    if(response.proc == "success" || response.proc == "master") {
+                        closeModal();
+                        successModal(response.proc);
+                    } else {
+                        alert("처리 중 문제가 발생했습니다.");
+                        isSubmitting = false;
+                    }
+                },
+                error: function (error) {
+                    console.error('AJAX 요청 실패:', error);
+                    isSubmitting = false;  // Reset submitting status on error
+                }
+            });
+        }
     } else {
         console.log("Required parameters are missing");
     }
