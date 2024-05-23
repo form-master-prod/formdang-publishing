@@ -391,7 +391,7 @@ function user_subject_html(question) {
     html = html.concat(`<div class="frm-area short-answer q-1">`)
         .concat(`<div class="inp-group">`)
         .concat(`<i class="number" data-question="${question.type}" data-qid="${question.qid}">${question.order + 1}</i>`)
-        .concat(`<h4>${question.title}</h4>`);
+        .concat(`<h4>${question.title.replace(/\n/g, '<br>')}</h4>`);
 
     if (question.imageUrl) {
         html = html.concat(`<p class="img-view"><img src="${question.imageUrl}" alt=""></p>`)
