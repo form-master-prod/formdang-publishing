@@ -33,6 +33,7 @@ function start_find_paper(d) {
             }
 
         } else if (code === IS_NOT_LOGIN) {
+            removeLoginInfo()
             if (res.loginFlag === 1) { // 비로그인 문항
                 set_data(res);
                 setTimeout(onPage(0,false, false), 150)
