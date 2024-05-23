@@ -25,6 +25,7 @@ function start_find_paper(d) {
         const code = res.resultCode;
         if (code === SUCCESS) {
             if (res.submit) {
+                set_data(res);
                 setTimeout(noticePage(`제출 완료하였습니다.<br> 나만의 폼을 작성해보세요.`, 0), 150)
             } else {
                 set_data(res);
