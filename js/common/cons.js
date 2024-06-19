@@ -30,10 +30,10 @@ const PAGE  = { // 환경에 따른 페이지 URL
     LOGIN: {
         MY: getWebURL("/admin/login.html"),
         PAPER_MY: getWebURL("/web/login.html"),
-        KKO: getApiURL("/api/sp/public/kakao/login"),
-        PAPER_KKO: getApiURL("/api/sp/public/kakao/paper/login"),
-        GOOGLE: getApiURL("/api/sp/public/google/login"),
-        PAPER_GOOGLE: getApiURL("/api/sp/public/google/paper/login"),
+        KKO: getApiURL("/formdang-spring/public/kakao/login"),
+        PAPER_KKO: getApiURL("/formdang-spring/public/kakao/paper/login"),
+        GOOGLE: getApiURL("/formdang-spring/public/google/login"),
+        PAPER_GOOGLE: getApiURL("/formdang-spring/public/google/paper/login"),
     }
 }
 

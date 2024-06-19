@@ -5,7 +5,7 @@
 // REST 상수
 const G = "GET" // GET 상수
 const P = "POST"; // POST 상수
-const SP_PFX = "/api/sp"; // 스프링 API prefix (해당 prefix에 따라 nginx에서 revers proxy 처리)
+const SP_PFX = "/formdang-spring"; // 스프링 API prefix (해당 prefix에 따라 nginx에서 revers proxy 처리)
 const J_CT = "application/json; charset=utf-8";
 const DF_CT = "application/x-www-form-urlencoded; charset=utf-8";
 
